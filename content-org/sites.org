@@ -1,0 +1,410 @@
+#+HUGO_BASE_DIR: ../
+
+* Home
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: /
+  :EXPORT_HUGO_MENU: :menu main :weight 1
+  :END:
+
+  Hi, I'm Marcel Kapfer, also known as mmk2410. When I have time I
+  compose music (have a look at [[https://marcel-kapfer.de][marcel-kapfer.de]] for that) or write
+  stuff. Stuff, you know. Like blog posts, manuscripts, quotes, or
+  software.
+
+  I've bin a Linux user since about 2012, write software since around
+  2014 and live in Emacs and Org-Mode since around 2016/17. Currently
+  I study computer science at the University of Ulm. Due the lack of
+  time I'm not really active in doing the things listed above but from
+  time to time I happens anyway and then you may read about it here.
+
+  Besides these pages you can also find me at a few other places
+  across the web.
+
+* About me
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: about
+  :EXPORT_HUGO_MENU: :menu main :weight 2
+  :END:
+
+  #+begin_export html
+  <div style="text-align: center; margin: 20px 0;">
+    <img src="/profile.png" style="width: 300px"/>
+    <div style="font-size: 40px">
+	<strong>Hi!</strong>
+    </div>
+    <div style="font-size: 25px">
+	My name is Marcel Kapfer. I compose music and write stuff.
+    </div>
+  </div>
+  #+end_export
+
+** Coding
+
+   I learned Java back in 2014 and started a first project, the
+   writtenMorse project. It provided tools to convert writtenMorse
+   code to latin letters and the other way around. (Btw.: The
+   writtenMorse code itself is an “invention” of mine). Later in 2014
+   I started to learn coding for Android, since I wanted to develop a
+   writtenMorse app to this mobile OS. This app was published on the
+   Google Play Store in mid December, just three weeks after my first
+   contact with Android development. Additionally to that I learned in
+   2014 was JavaScript.
+
+   In 2015 I expanded my knowledge by learning Bash, PHP, Python and a
+   little bit of C. I also released a few font apps for the
+   Cyanogenmod Theme Engine and some bash scripts to make my (and
+   maybe also your) life easier. Rangitaki is another project that I
+   started in February 2015. It was a blogging engine without any
+   database dependencies, written in PHP, which tries to be
+   lightweight and extremely fast to start with and easy to use.
+
+   In October 2015 I started studying computer science at Ulm
+   University to improve my knowledge in this area further.
+
+   I started learning more and more things about free (as in freedom,
+   not as in free beer) software in February 2016. I strongly support
+   the idea of freedom in software and try to move away from non-free
+   software. One part of that is my decision to move all my project
+   from GitHub to [[https://gitlab.com/u/mmk2410/projects][GitLab]].
+
+   Due to other activities in the recent years (and also the coming
+   ones) I don't have much time (and also not much interested) in
+   developing software. I try to further maintain some relevant
+   projects, but most of them have been archived.
+
+** Graphic Design
+
+   Next to coding I'm also in designing things. I started designing a
+   few years ago but I hadn't jet time to do any major public work. As
+   of now my experience narrows down to web design and print design,
+   but maybe I find more time in the future to invest in this area.
+
+** Composing
+
+   During my school time I had a lot to do with music and learned to
+   play the piano. Last year I started to focus more on finding my own
+   style, which is is combination of Minimal Music and Impressionism
+   and I also wrote down some scores. A first piece is written and
+   more or less professionally set and also recorded. You can download
+   both on the [[https://marcel-kapfer.de][composing page]].
+
+   Due a lack of time in the last years I didn't have time to compose
+   anything new. But one piece is nearly done.
+
+** Writing
+
+   To write about coding, politics, happenings in my life and also
+   philosophy questions is something I'm interested in for years.
+   Sadly due to many  other tasks I wasn't able to write much things.
+   Next to the blog entries I have also published a few longer
+* Blog
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: blog
+  :EXPORT_HUGO_MENU: :menu main :weight 3
+  :END:
+
+  From time to time I have something I want to write about. Seldom I
+  also have the time to do so. In these rare occasions you will find a
+  blog post at this place.
+
+  If you're asking, about what I write: I really can't tell. The most
+  things you can find here in the moment are about Linux, coding, and
+  similar stuff. But I won't promise that this wont change. We'll
+  see...
+
+* Projects
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: projects
+  :EXPORT_HUGO_MENU: :menu main :weight 4
+  :END:
+
+  During the last years I started a few small software projects. Sadly
+  over the last two years I had nearly no time to maintain any of them
+  (except features and bugfixes I needed). However, I try to further
+  maintain and develop them. You can find all of them at [[https://gitlab.com/mmk2410][GitLab]].
+
+** Debian packages and Ubuntu PPAs
+
+   My (unofficial) Debian packages and the corresponding Ubuntu PPAs
+   are probably the most famous thing I have created. Actually I
+   maintain four packages. One for the writtenMorse project (see
+   below), one of the Eclipse Java IDE and the community and ultimate
+   versions of IntelliJ IDEA by JetBrains. If one of those is out of
+   date, don't hesitate to file a bug report at or make a pull request
+   at GitLab.
+
+*** IntelliJ IDEA Community & Ultimate
+
+    The community edition and the ultimate edition as well can be
+    received from the Launchpad repository [[https://launchpad.net/~mmk2410/+archive/ubuntu/intellij-idea][ppa:mmk2410/intellij-idea]]
+    which you can add on Ubuntu with
+
+    #+begin_src shell
+      sudo apt-add-repository ppa:mmk2410/intellij-idea # Add the repository
+      sudo apt-get update # Update the package lists
+      sudo apt-get install intellij-idea-community # Install IntelliJ IDEA Community
+      sudo apt-get install intellij-idea-ultimate # and/or install IntelliJ IDEA Ultimate
+    #+end_src
+
+    The source code and the =.deb= packages are available at their
+    repositories on GitLab:
+
+    - [[https://gitlab.com/mmk2410/intellij-idea-community/][IntelliJ IDEA Community repository]]
+    - [[https://gitlab.com/mmk2410/intellij-idea-ultimate/][Intellij IDEA Ultimate repository]]
+
+*** Eclipse Java IDE (inactive)
+
+    Corresponding to the IntelliJ IDEA packages I also provide a
+    repository to install the Eclipse Java IDE with
+
+    #+BEGIN_SRC shell
+      sudo apt-add-repository ppa:mmk2410/eclipse-ide-java # Add the repository
+      sudo apt-get update # Update the package list
+      sudo apt-get install eclipse-ide-java # Install Eclipse Java
+    #+END_SRC
+
+    The repository is hosted at [[https://launchpad.net/~mmk2410/+archive/ubuntu/eclipse-ide-java][Launchpad]] and the code at [[https://gitlab.com/mmk2410/eclipse-ide-java/][GitLab]].
+
+** Scorelib (inactive)
+
+   Scorelib is a smaller project I started in 2015 for managing my
+   collection music scores (the sheetpapers) with a database. Scorelib
+   is a CLI program written in Python and using SQlite as a database.
+   I assume that it only runs on Linux, but I never tested it on other
+   platforms. Scorelib is, as of now, quite small with only the basic
+   features implemented (like I wrote on the beginning, I had no time
+   to code much the last years). It is available at [[https://gitlab.com/mmk2410/scorelib][GitLab]].
+
+** Other
+
+   Smaller scripts that aren't worth their own Git repository can be
+   found at the [[https://gitlab.com/mmk2410/scirpts][scripts repo]].
+
+** Archived
+*** CyanogenMod Fonts (archived)
+
+    In early 2015 I created three font packages for the CyanogenMod
+    Theme Chooser (Comfortaa, Fira Sans and Raleway) which were all
+    quite a success at Google Play. But since end of 2015 I no longer
+    own an device for which a CyanogenMode / LineageOS build is
+    available and so I sadly cannot further develop or maintain those
+    packages. I /you/ are interested in helping with these projects,
+    feel free to contact me at me(at)mmk2410(dot)org!
+
+*** Rangitaki (archived)
+
+    The biggest project I've started is the Rangitaki blogging engine.
+    A blogging engine (with a few CMS features) written in PHP and
+    without database dependencies. I used it prior to this WordPress
+    installation and still use it on [[https://marcel-kapfer.de][marcel-kapfer.de]].
+
+    Read more about it at [[https://gitlab.com/mmk2410/rangitaki/wikis/home][GitLab]].
+
+*** writtenMorse (archived)
+
+    writtenMorse was the first project I've started back in 2014. Its
+    goal is it to provide a Morse code system for writing and reading
+    (with signs like =#= for a letter space and =+= for a word space)
+    -- especially at computer system, as well as software to work with
+    it. The project started with a simple Java program which grow fast
+    to a full-features software for converting writtenMorse and also
+    Morse code. The project also created an Android app an a
+    responsive web app.
+
+    More information can still be found at the corresponding [[https://gitlab.com/mmk2410/writtenmorse-specs/wikis/home][wiki
+    page]].
+
+*** Other archived projects
+
+    Beneath those projects there were also a few other ones worth
+    mentioning like [[https://gitlab.com/mmk2410/filespread][Filespread]], an web app for sending a file to a
+    group of people via mail, and [[https://gitlab.com/mmk2410/titama][TiTaMa]], a simple time table manager
+    web app written in PHP (a rewrite in Dart was started and the
+    backend is complete since mid-2016 but the frontend was never
+    started). There is also the usual bunch of dead experiments like
+    an Rangitaki SSH Sync library, written in C with libssh. As of now
+    all these are no longer developed and archived.
+* Manuscripts
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: manuscripts
+  :EXPORT_HUGO_MENU: :menu main :weight 6
+  :END:
+
+  Here you can find some articles, concepts, manuscripts and similar
+  documents. Most of them are written in German.
+
+** Philosophy
+
+   - [[/2019/04/handlungsfreiheit-privatautonomie-mensch-autonome-systeme.pdf][Handlungsfreiheit und Privatautonomie des Menschen bei autonomen Systemen]] (Deutsch, 12. Februar 2019)
+   - [[/2018/07/arbeit.pdf][Suizid aus den Augen Viktor E. Frankls]] (Deutsch, 30. März 2018)
+   - [[/2018/03/mathematik-antike.pdf][Mathematik in der Antike]] (Deutsch, 12. März 2018)
+
+** Computer Science
+
+   - [[/2018/08/overview-of-finding-the-most-probable-explanation-in-bayesian-networks.pdf][Overview of finding the most probable explanation in Bayesian networks]] (English, 09. July 2018)
+   - [[/2018/03/vergleich-bdsg-dsgvo.pdf][Das Bundesdatenschutzgesetz im Vergleich mit der Datenschutz-Grundverordnung]] (Deutsch, 24. Januar 2018)
+
+** Misc
+
+   - [[/2018/03/konzept-gespraech-konfliktbewaeltigung.pdf][Konzept für Gespräche zur Konfliktbewältigung]] (Deutsch, 27. März 2018)
+
+* Quotes
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: quotes
+  :EXPORT_HUGO_MENU: :menu main :weight 7
+  :END:
+
+  /These pages are only in German./
+
+  Auf diesen Seiten sammeln sich zahlreiche (zumeist unkommentierte)
+  Zitate. Der Großteil (zur Zeit sogar noch alle) stammen von einem
+  Projekt 365 (wem das nicht bekannt ist, ein Projekt 365 ist ein
+  Projekt, bei welchem man sich täglich eine Aufgabe vornimmt), zu
+  welchem ich 2015 ermuntert wurde. Ich habe mich damals dazu
+  entschieden, ein Jahr lange jeden Tag ein Zitat (unkommentiert) zu
+  posten. Diese Sammlung findet sich hier.
+
+  Das hießt aber nicht, dass nie etwas Neues hinzukommt. Es ist gut
+  möglich, dass ich hier in Zukunft von Zeit zu Zeit ein Zitat poste
+  und eventuell dieses auch sogar etwas kommentiere. Mal schauen... :D
+
+  Falls das mal der Fall sein sollte und sich jemand bewusst nur für
+  die Posts im Rahmen des damaligen Projekt 365 interessiert, kann er
+  explizit diese unter der [[/categories/project365-2015][dazugehörigen Kategorieseite]] lesen.
+
+* Contact
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: contact
+  :EXPORT_HUGO_MENU: :menu main :weight 99
+  :END:
+
+  If you want to contact me, feel free to write me a mail at
+  me(at)mmk2410(dot)org or a direct message on [[https:twitter.com/mmk2410][Twitter]] or
+  [[https://fosstodon/@mmk2410][Mastodon/Fosstodon]].
+* Impressum und Datenschutz
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: _index
+  :EXPORT_HUGO_SECTION: imprint
+  :END:
+  Marcel Kapfer<br>
+  Buchenlandweg 99<br>
+  89075 Ulm
+
+  E-Mail: me(at)mmk2410(dot)org
+
+  Verantwortlich für den Inhalt (gem. § 55 Abs. 2 RStV):<br>
+  Marcel Kapfer<br>
+  Buchenlandweg 99<br>
+  89075 Ulm
+
+** Disclaimer – rechtliche Hinweise
+***  § 1 Warnhinweis zu Inhalten
+
+  Die kostenlosen und frei zugänglichen Inhalte dieser Webseite wurden
+  mit größtmöglicher Sorgfalt erstellt. Der Anbieter dieser Webseite
+  übernimmt jedoch keine Gewähr für die Richtigkeit und Aktualität der
+  bereitgestellten kostenlosen und frei zugänglichen journalistischen
+  Ratgeber und Nachrichten. Namentlich gekennzeichnete Beiträge geben
+  die Meinung des jeweiligen Autors und nicht immer die Meinung des
+  Anbieters wieder. Allein durch den Aufruf der kostenlosen und frei
+  zugänglichen Inhalte kommt keinerlei Vertragsverhältnis zwischen dem
+  Nutzer und dem Anbieter zustande, insoweit fehlt es am
+  Rechtsbindungswillen des Anbieters.
+
+*** § 2 Externe Links
+
+  Diese Website enthält Verknüpfungen zu Websites Dritter (“externe
+  Links”). Diese Websites unterliegen der Haftung der jeweiligen
+  Betreiber. Der Anbieter hat bei der erstmaligen Verknüpfung der
+  externen Links die fremden Inhalte daraufhin überprüft, ob etwaige
+  Rechtsverstöße bestehen. Zu dem Zeitpunkt waren keine Rechtsverstöße
+  ersichtlich. Der Anbieter hat keinerlei Einfluss auf die aktuelle
+  und zukünftige Gestaltung und auf die Inhalte der verknüpften
+  Seiten. Das Setzen von externen Links bedeutet nicht, dass sich der
+  Anbieter die hinter dem Verweis oder Link liegenden Inhalte zu Eigen
+  macht. Eine ständige Kontrolle der externen Links ist für den
+  Anbieter ohne konkrete Hinweise auf Rechtsverstöße nicht zumutbar.
+  Bei Kenntnis von Rechtsverstößen werden jedoch derartige externe
+  Links unverzüglich gelöscht.
+
+***  § 3 Urheber- und Leistungsschutzrechte
+
+  Eigene Inhalte werden unter Creative Commons Attribution Share-Alike
+  4.0 veröffentlicht, davon ausgenommen sind als Zitat gekennzeichnete
+  Stellen oder Beiträge in denen ausdrücklich auf eine andere Lizenz
+  hingewiesen wird.
+
+  Die Darstellung dieser Website in fremden Frames ist nur mit
+  schriftlicher Erlaubnis zulässig.
+
+*** § 4 Besondere Nutzungsbedingungen
+
+  Soweit besondere Bedingungen für einzelne Nutzungen dieser Website
+  von den vorgenannten Paragraphen abweichen, wird an entsprechender
+  Stelle ausdrücklich darauf hingewiesen. In diesem Falle gelten im
+  jeweiligen Einzelfall die besonderen Nutzungsbedingungen.
+
+  Quelle: Impressum-Generator.
+
+**  Datenschutz
+
+  Nachfolgend möchten wir Sie über unsere Datenschutzerklärung
+  informieren. Sie finden hier Informationen über die Erhebung und
+  Verwendung persönlicher Daten bei der Nutzung unserer Webseite. Wir
+  beachten dabei das für Deutschland geltende Datenschutzrecht. Sie
+  können diese Erklärung jederzeit auf unserer Webseite abrufen.
+
+  Wir weisen ausdrücklich darauf hin, dass die Datenübertragung im
+  Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken
+  aufweisen und nicht lückenlos vor dem Zugriff durch Dritte geschützt
+  werden kann.
+
+  Die Verwendung der Kontaktdaten unseres Impressums zur gewerblichen
+  Werbung ist ausdrücklich nicht erwünscht, es sei denn wir hatten
+  zuvor unsere schriftliche Einwilligung erteilt oder es besteht
+  bereits eine Geschäftsbeziehung. Der Anbieter und alle auf dieser
+  Website genannten Personen widersprechen hiermit jeder kommerziellen
+  Verwendung und Weitergabe ihrer Daten.
+
+*** Personenbezogene Daten
+
+  Sie können unsere Webseite ohne Angabe personenbezogener Daten
+  besuchen. Soweit auf unseren Seiten personenbezogene Daten (wie
+  Name, Anschrift oder E-Mail Adresse) erhoben werden, erfolgt dies,
+  soweit möglich, auf freiwilliger Basis. Diese Daten werden ohne Ihre
+  ausdrückliche Zustimmung nicht an Dritte weitergegeben. Sofern
+  zwischen Ihnen und uns ein Vertragsverhältnis begründet, inhaltlich
+  ausgestaltet oder geändert werden soll oder Sie an uns eine Anfrage
+  stellen, erheben und verwenden wir personenbezogene Daten von Ihnen,
+  soweit dies zu diesen Zwecken erforderlich ist (Bestandsdaten). Wir
+  erheben, verarbeiten und nutzen personenbezogene Daten soweit dies
+  erforderlich ist, um Ihnen die Inanspruchnahme des Webangebots zu
+  ermöglichen (Nutzungsdaten). Sämtliche personenbezogenen Daten
+  werden nur solange gespeichert wie dies für den genannten Zweck
+  (Bearbeitung Ihrer Anfrage oder Abwicklung eines Vertrags)
+  erforderlich ist. Hierbei werden steuer- und handelsrechtliche
+  Aufbewahrungsfristen berücksichtigt. Auf Anordnung der zuständigen
+  Stellen dürfen wir im Einzelfall Auskunft über diese Daten
+  (Bestandsdaten) erteilen, soweit dies für Zwecke der
+  Strafverfolgung, zur Gefahrenabwehr, zur Erfüllung der gesetzlichen
+  Aufgaben der Verfassungsschutzbehörden oder des Militärischen
+  Abschirmdienstes oder zur Durchsetzung der Rechte am geistigen
+  Eigentum erforderlich ist.
+
+***  Auskunftsrecht
+
+  Sie haben das jederzeitige Recht, sich unentgeltlich und
+  unverzüglich über die zu Ihrer Person erhobenen Daten zu erkundigen.
+  Sie haben das jederzeitige Recht, Ihre Zustimmung zur Verwendung
+  Ihrer angegeben persönlichen Daten mit Wirkung für die Zukunft zu
+  widerrufen. Zur Auskunftserteilung wenden Sie sich bitte an den
+  Anbieter unter den Kontaktdaten im Impressum.
+
+  Quelle: [[https://www.juraforum.de][www.juraforum.de]]

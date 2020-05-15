@@ -1,0 +1,2444 @@
+#+HUGO_SECTION: blog
+#+HUGO_BASE_DIR: ../
+
+* DONE Switching my Website to Hugo using ox-hugo   :emacs:orgmode:hugo:@web:
+  CLOSED: [2020-05-15 Fri 18:50]
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: switching-my-website-to-huto-using-ox-hugo.md
+  :END:
+
+  To be honest: my website was always more or less just a large
+  playground for me. It started around 2013 when I created my second
+  website (I had a website before, ~2006/2008, I don't know
+  correctly). Back then I put very much time in designing the thing.
+  In 2014 I taught myself to code and in early 2015 I even wrote a PHP
+  blogging engine called [[https://github.com/mmk2410/rangitaki][Rangitaki]] (i have archived it some time ago).
+  Additionally I wrote a script for generating the non-blog websites
+  from markdown files. But I never looked at a static site generator
+  for this purpose.
+
+  So it might be a shocker to you that I switched to a self-hosted
+  Wordpress instance in July 2015. The reason was, that I wanted to
+  focus on writing content instead of designing my site. So I also did
+  not create an own theme but just used the 'twentyfifteen' one
+  provided by Wordpress (well actually I created a child theme for
+  ripping out the Google Fonts connection and serving the fonts
+  myself).
+
+  Well, focusing on content worked... a little bit...
+
+  I actually wrote more posts in 2018 than in the years before. But
+  that changed again in 2019 where I did not even publish one post.
+
+  Prior to the switch today I had some experiences [[https://gohugo.io][Hugo]] as a static
+  side generator. I already wrote a small blog for myself (I think
+  this was around 2016), a complete design for a friend of mine (I
+  think that was around 2016/17) and for a long time my
+  [[https://marcel-kapfer.de][music/composition website]] was created using Hugo.
+
+  I started thinking about migrating a few weeks ago and read about
+  some possible solutions which included [[https://www.gnu.org/software/emacs][Emacs]] and [[https://org-mode.org][Org-Mode]]. What
+  finally convinced my was the combination of the extensibility of
+  Hugo combined with Org-Mode using [[https://ox-hugo.scripter.co][ox-hugo]]. ox-hugo is a Emacs
+  package that provides an exporter for Org. That means: once
+  installed you only press a few keys to create a Hugo entry from a
+  text written in Org. ox-hugo provides to options for working with
+  posts: one post per Org file and one post per org subtree (a section
+  in an Org file). Since org handles many subtrees in one file
+  extremely well I decided to use the later (and preferred) mode.
+
+  After the technical decisions where made I started creating and
+  designing my own Hugo theme (in case your interested: it is
+  available at [[https://gitlab.com/mmk2410/nextDESIGN][Gitlab: mmk2410/nextDESIGN]], although I created it with
+  only my own page in mind, you are free to use it yourself if you
+  want to). My goal for the theme was to be quite light weight (btw. I
+  does not use a single line of JavaScript).
+
+  Although I have to say that if there were no ox-hugo I probably
+  would not use Hugo. While it is really extremely powerful it also
+  gave my quite some headaches. Debugging the thing should really be
+  much more easier. Some times I got myself reminded of debugging
+  LaTeX code without an helping environment which translates the
+  errors to human-understandable English.
+
+  Next to that I had to somehow migrate my posts from Wordpress to
+  Hugo. While there are quite a few scripts for doing that, I wanted
+  (although it is not necessary) not only to store the new content in
+  Org files but also the existing. And I didn't find an already
+  available solution for that (tbh: I also didn't search that much).
+  So I had to create one myself.
+
+  Wordpress has the ability to export a modified RSS XML file called
+  WXR (WordPress eXtended RSS). Well, I never thought (not even in my
+  deepest/darkest dreams) that I every need to use XSLT. But for
+  parsing the WXR file it was actually the best tool. Before looking,
+  what ox-hugo needed (this was a mistake, I should have looked first
+  or change my XSL file after looking...) I created the following XSL
+  file (called =orgmode.xsl=)which helped my transform the WXR files
+  to Org files without loosing any relevant information.
+
+  #+begin_src xml
+    <?xml version="1.0"?>
+    <xsl:stylesheet version="1.0"
+		    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		    xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+		    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+		    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+		    xmlns:dc="http://purl.org/dc/elements/1.1/"
+		    xmlns:wp="http://wordpress.org/export/1.2/">
+
+      <xsl:output method="text" />
+      <xsl:template match="/rss">
+	<xsl:for-each select="channel/item">
+	  <xsl:sort select="wp:post_date_gmt" order="descending" />
+    ,* <xsl:value-of select="title" />
+      :PROPERTIES:
+      :PUBDATE: <xsl:value-of select="pubDate" />
+      :POST_DATE: <xsl:value-of  select="wp:post_date" />
+      :POST_DATE_GMT: <xsl:value-of  select="wp:post_date_gmt" />
+      :POST_NAME: <xsl:value-of select="wp:post_name" />
+      :CUSTOM_ID: <xsl:value-of select="wp:post_id" />
+      :CREATOR: <xsl:value-of select="dc:creator" />
+      :STATUS: <xsl:value-of select="wp:status" />
+      <xsl:if test="string-length(category[@domain='category']) > 0"><xsl:text>&#xa;  :CATEGORY: </xsl:text><xsl:value-of select="category[@domain='category']/@nicename" /></xsl:if>
+      <xsl:if test="string-length(category[@domain='post_tag']) > 0">
+	<xsl:text>&#xa;  :TAGS: </xsl:text>
+	<xsl:for-each select="category[@domain='post_tag']">
+	  <xsl:value-of select="@nicename"/>
+	  <xsl:if test="position() != last()">
+	    <xsl:text>, </xsl:text>
+	  </xsl:if>
+	</xsl:for-each>
+      </xsl:if>
+      :POST_TYPE: <xsl:value-of select="wp:post_type" />
+      <xsl:if test="string-length(description) > 0"><xsl:text>&#xa;  </xsl:text>:DESCRIPTION: <xsl:value-of select="description" /></xsl:if>
+      <xsl:if test="wp:postmeta/wp:meta_key = '_wp_attached_file'"><xsl:text>&#xa;  </xsl:text>:ATTACHMENT: <xsl:value-of select="wp:postmeta[wp:meta_key='_wp_attached_file']/wp:meta_value" /></xsl:if>
+      :END:
+
+      <xsl:if test="string-length(excerpt:encoded) > 0">
+	<xsl:text>*</xsl:text>
+	<xsl:value-of select="excerpt:encoded" />
+	<xsl:text>*</xsl:text>
+	<xsl:text>&#xa;</xsl:text>
+	<xsl:text>&#xa;</xsl:text>
+	<xsl:text>  </xsl:text>
+      </xsl:if>
+
+      <xsl:value-of select="content:encoded" />
+      <xsl:text>&#xa;</xsl:text>
+	</xsl:for-each>
+      </xsl:template>
+    </xsl:stylesheet>
+  #+end_src
+
+  (I know that this is not really professional style or in any sense
+  well done but I don't have any experience in this field and it
+  worked for the task.)
+
+  The output generated with =xsltproc orgmode.xsl posts.xml >
+  posts.org= was one file which contained all my files with a
+  structure like the following:
+
+  #+begin_src org
+    ,* Quick Deploy Solution
+      :PROPERTIES:
+      :PUBDATE: Tue, 14 Apr 2020 08:31:37 +0000
+      :POST_DATE: 2020-04-14 10:31:37
+      :POST_DATE_GMT: 2020-04-14 08:31:37
+      :POST_NAME: quick-deploy-initial-release
+      :CUSTOM_ID: 940
+      :CREATOR: marcel_kapfer
+      :STATUS: publish
+      :CATEGORY: code
+      :TAGS: cicd, deploy, git, php, programming, typo3
+      :POST_TYPE: post
+      :END:
+
+      RAW HTML Code of the content.
+  #+end_src
+
+  As I said I looked afterwards, what ox-hugo actually needs (and
+  didn't think of adjusting the XSLT...):
+
+  #+begin_src org
+    ,* Quick Deploy Solution         :@code:cicd:deploy:git:php:programming:typo3:
+      :PROPERTIES:
+      :EXPORT_DATE: 2020-04-14 10:31:37
+      :EXPORT_FILE_NAME: quick-deploy-initial-release.md
+      :END:
+
+      Content in Org syntax
+  #+end_src
+
+  As you may see I could have saved some precious time. However the
+  output that ms XSLT created was not that bad and with a few (~20-30)
+  search-and-replace calls (I used the [[https://github.com/benma/visual-regexp.el][visual-regexp]] Emacs package) I
+  got what ox-hugo needed. Due to a wrong search-replace at the end I
+  needed to fix some things by hand but otherwise the approach was
+  still faster than writing an own script for that purpose.
+
+  So finally I have three org files which reside in a =content-org=
+  folder in my [[https://gitlab.com/mmk2410.org][website repository]]:
+
+  - =blog.org=: [[/blog][my blog posts]]
+  - =quotes.org=: [[/quotes][my quotes posts]] (I wanted to have them separately)
+  - =sites.org=: the content for all pages which are not posts
+
+  This post is the first one I write in Emacs Org-Mode and I have to
+  say, that it feels quite good doing that in a familiar environment.
+  There is just one thing left to say: how do I publish my site. I
+  earlier mentioned that I have already written a few Hugo sites and
+  so I already had some scripts lying around for doing the job. For
+  now the following bash script does exactly what I want.
+
+  #+begin_src shell
+    #!/bin/bash
+
+    # Clean aka remove public/ if it exists
+    if [[ -d ./public/ ]]; then
+	rm -rf ./public/
+    fi
+
+    # Build the site using hugo
+    hugo
+
+    # Deploy using rsync
+    rsync \
+	--archive \
+	--verbose \
+	--compress \
+	--chown=marcel:www-data \
+	--delete \
+	--progress \
+	public/ \
+	mmk2410.org:/var/www/mmk2410.org/
+  #+end_src
+
+  So this is it. I switched from Wordpress to Hugo using my Emacs,
+  Org-Mode and ox-hugo. Let's see how this will work out in the
+  future.
+
+* Quick Deploy Solution         :@code:cicd:deploy:git:php:programming:typo3:
+  :PROPERTIES:
+  :EXPORT_DATE: 2020-04-14 10:31:37
+  :EXPORT_FILE_NAME: quick-deploy-initial-release.md
+   :END:
+
+  [[/2020/04/quick-deploy-feature-graphic.png]]
+
+  *Quick Deploy - a possibly hacky way to deploy a Git repository without much overload and fast setup.*
+
+** Motivation
+
+   From time to time I work on some TYPO3 Site Packages (mostly design work) where seeing the changes is quite important to me. Since TYPO3 needs a web server and a Database server running (well yes, it can be [[https://www.hdnet.de/blog/setting-up-typo3-9-locally/][set up locally]], but I had some database errors last time I tried). I prefer running it on a virtual private server (VPS) over trashing my computer. So I need to somehow deliver locally made changes to this development server.
+
+   In the past I had different approaches for solving this problem. Once I think I had a quite similar (but more dirty) approach for this problem (I don't remember exactly what it was since this was some time ago). The last few times I had a script running locally which mirrored the changes using rsync to the development server. If your interested you can find it in the [[https://gitlab.com/mmk2410/uulm_hackathon/-/blob/v1.0.0/watch.sh][uulm_hackathon Site Package repository]].
+
+   For now and future projects (not necessary limited to TYPO3) I wanted another solution which works with the git repository. A few words about my setup: I have a Gitea server (a simple but powerful self-hosted Git server) running on one server and a TYPO3 Development instance running on another one. But this solution should also work on just a bare Git repository and separate server also are not necessary.
+
+** The basic idea
+
+   The basic idea is that we have some kind of a Git server (GitLab, Gitea, Phabricator, Gitolite, just a bare Git repo on a server) on the one hand which is capable of setting a [[https://git-scm.com/docs/githooks#post-receive][post-receive Git hook]]. On the other hand we have a web server with PHP capabilities, e.g. for developing a TYPO3 Site Package in my case. On the web server we have a PHP script (see below) running which gets called by the post-receive Git hook. If the script gets called, it pulls the latest changes from out Git server.
+
+   OK, so what I want is some kind of continuous delivering tool. Of course there are already many different solutions available that perfectly fit my purpose. But after some search what I did not find was a tool that is quick and easy to setup. Most of them require docker, which I don't want to setup for various reasons. I simply want something that can be setup and working in a few minutes.
+
+** Technical details and setup
+
+   As already mentioned in the above section, we have a Git repository or server where we can define a Git post-receive hook and a web server with PHP capabilities. On the Git server / repository we define the post-receive Git hook like in following example.
+
+   #+BEGIN_SRC shell
+     #!/bin/bash
+     curl https://dev.your-server.rocks/quick-deploy.php?secret=YOUR-SECRET
+   #+END_SRC
+
+   As you can see it is just a one line bash script which executes =curl= running a GET request to the given URL. The URL is your domain name (of course) and the =quick-deploy.php= script as path. We also give the script a =secret= parameter. The secret (in the example =YOUR-SECRET=) should only be known to you, the Git hook and the development server. You can create such a secret for example with =openssl rand -base64 42=. This is all we need to do in our Git repository  / server.
+
+   On the development server we now need to setup the =quick-deploy.php= script. The source code for the script with a README and short setup instructions is available in my corresponding [[//stuve.mmk2410.org/quick-deploy.php?secret=E4raIBk9GucWRgBwSwEcV8781E2AqxMSTQ5X0nne2lIkJrjmW0SoP+PO]["scripts" GitLab repository]]. We download the script and the example config file on our server and move it to the correct location. Finally we need to adjust the configuration. For that we rename the example config =config.example.json= to =config.json= and adjust the values. If not otherwise noted, the variables are required.
+
+   - =remote-path=: The path or URL where the Git repository is hosted. You have to make sure, that the development server with the user running the script can access the repository. Gitea for example offers to add a "deploy key" which can pull but not push to the repository. The script currently offers no option to define which SSH key it should use.
+   - =branch=: This is the only optional variable. With it you can choose with branch the script should track. If it is not set, it will default to =master=.
+   - =local-path=: The path where the script can find the local repository on the development server. Make sure that this directory  (and if a initial =git clone= should work also the parent directory) is writable by the user which the script runs (presumably =www-data=).
+   - =secret=: This is the secret that we created and set earlier in the post-receive Git hook.
+
+   Since we enter the secret as plain text in the configuration we have to make sure, that the configuration file is not accessible from outside the server. So we set the correct permission. A =chmod 600 config.example= should do the job, but make sure that the script is now owned by the user running the config script. You can check if the permissions are correct by trying to access =https://dev.your-server.rocks/config.json=. This is of course no high-end security, but it should be sufficient. An attacker knowing the secret key cannot gain any sensible information but just trigger a pull.
+
+   That is it. Now the system should work as intended.
+
+** Future work
+
+   Writing the script was for me a one-day-task (it would have been much faster, but I didn't write and PHP code in the last time). So there is still much room for improvement. If I find the time, I may improve the script.
+
+   For me the most wanted feature is a ability to define in the configuration which SSH key should be used. This could be quite particularly interesting if you have a specific key just for one repository and/or multiple repositories you want to track.
+
+   The tracking of multiple repositories cloud be another very interesting feature. So the configuration could contain multiple blocks (one for each repository) with the values as described above. Then the pull for a specific repository cloud be triggered with another URL parameter.
+
+   It cloud also be possible to write an administration frontend for managing the configuration file over the web, but this is not planned because of its complexity.
+
+   Nevertheless how much features will be added in the future, the main goal is, to keep a simple and quick setup. This includes that this script will always be in one file and will not require any software that can not be easily installed (this is the reason, why I use JSON and not YAML).
+
+** Contributing
+
+   If you are interested in the project and would like to contribute, feel free to do so. I appreciate any help. Bug reports and code contributions are both very welcome.
+
+   *[[https://gitlab.com/mmk2410/scripts/-/tree/master/quick-deploy][GIT REPOSITORY]]*
+
+* Updated: Linux Programs I Use                       :@linux:programs:linux:
+  :PROPERTIES:
+  :EXPORT_DATE: 2018-03-25 17:18:19
+  :EXPORT_FILE_NAME: updated-linux-programs-i-use.md
+  :END:
+
+  In early 2016 I wrote a post about some software that I use. Since the last update in March 2016 quite some things changed and I just updated the list. If you are interested, click on the link below.
+
+  https://mmk2410.org/2016/01/26/linux-programs-i-use/
+
+* Firefox tab bar on mouse over                :@linux:css:firefox:web:linux:
+  :PROPERTIES:
+  :EXPORT_DATE: 2018-03-01 16:15:06
+  :EXPORT_FILE_NAME: firefox-tab-bar-on-mouse-over.md
+  :END:
+
+  Since Firefox 57 I'm using [[https://github.com/eoger/tabcenter-redux/wiki/Custom-CSS-Tweaks#hide-the-horizontal-tab-strip-15][wiki of Tab Center Redux]]:
+
+  #+BEGIN_SRC css
+    #tabbrowser-tabs {
+	visibility: collapse !important;
+    }
+  #+END_SRC
+
+  I found this solution quite useful over the last months, but recently I got some web design to do and split my screen horizontally in half. In this mode the width of the sidebar used to much space. Disabling it with =F1= also didn't really help because then I had no tab list at all.
+
+  Today I got the idea of only showing the default tab bar, when necessary. Since I can't capture keys with CSS (and I didn't find a way to create a user JS file like =userChrome.css=) and pressing a key to show and hide would be too much work, I got the idea of showing the tabbar when hovering.
+
+  [[/2018/03/firefox-cropped-time.gif]]
+
+  The trick is to show a small rest of the tab bar above the address bar by default (in this case 5px). Only when the mouse cursor hovers this area, the full tab bar is shown. The following CSS code does this:
+
+  #+BEGIN_SRC css
+    #TabsToolbar {
+	min-height: 5px !important;
+	max-height: 5px !important;
+	opacity: 0 !important;
+    }
+
+    #TabsToolbar:hover {
+	max-height: inherit !important;
+	opacity: 1 !important;
+    }
+  #+END_SRC
+
+  To use this, you have to paste this CSS code in your [[http://kb.mozillazine.org/index.php?title=UserChrome.css][file]].
+
+* Scrolling doesn't work in GTK+ 3 apps in StumpWM :@linux:commonlisp:linux:lisp:stumpwm:
+  :PROPERTIES:
+  :EXPORT_DATE: 2018-02-15 11:17:07
+  :EXPORT_FILE_NAME: scrolling-doesnt-work-in-gtk-3-apps-in-stumpwm.md
+  :END:
+
+  Since some time ago I could not scroll in any GTK+ 3 window in StumpWM with an external mouse. Today I found a workaround for this problem: executing =export GDK_CORE_DEVICE_EVENTS=1= in a shell fixes the problem. To set this automatically when starting StumpWM insert the following in your =~/.stumpwmrc=:
+
+  #+BEGIN_SRC common-lisp
+    ;; bugfix for scrolling doesn't work with an external mouse in GTK+3 apps.
+    (setf (getenv "GDK_CORE_DEVICE_EVENTS") "1")
+  #+END_SRC
+
+  This bug was also reported (and fixed) at the following bug trackers. However, none of those fixes worked for me.
+
+  - [[https://bugs.launchpad.net/ubuntu/+source/gtk+3.0/+bug/1171342][https://bugs.launchpad.net/ubuntu/+source/gtk+3.0/+bug/1171342]]
+
+  I found this solution at [[https://www.linuxquestions.org/questions/slackware-14/gtk-3-mouse-wheel-doesn't-work-on-current-wed-sep-25-a-4175478706/][https://www.linuxquestions.org/questions/slackware-14/gtk-3-mouse-wheel-doesn't-work-on-current-wed-sep-25-a-4175478706/]].
+
+* Disabling comments
+  :PROPERTIES:
+  :EXPORT_DATE: 2018-01-11 13:14:01
+  :EXPORT_FILE_NAME: disabling-comments.md
+  :END:
+
+  /Update 03. April 2018:/ I re-enabled comments with an anti-spam plugin. If it works, I'll keep them enabled, otherwise I'll disable them again.
+
+  I'm running this WordPress instance since August 2017 now and at the end of last year my page was finally listed on one of those unreachable lists of WordPress pages, where some friendly bots can write awesome comments about my writing style or try to sell me some nice medicines of the highest quality for the best prices.
+
+  Because I sadly don't want to invest the time in thanking those nice people or compare these incomparable offers, *I decided to disable comments completely on this WordPress installation*.
+
+  If you're not one of those guys, feel always free to write me a mail, if you have any questions about one of my articles. If I rate your question high enough I will also append the question with an answer  at the original post. The same goes of course for any constructive notices on my bad grammar style or one of those many typos.
+
+  If you want to respond to one of my highly provocative articles, I'd rather see at more in-depth response on your own blog/site. If you wrote such a thing, please don't hesitate to send me a link via mail.
+
+  best regrads,
+  Marcel
+
+* Moving the open-source stuff from phab.mmmk2410 to GitLab :@code:android:bash:programs:rangitaki:scorelib:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2018-01-11 12:43:04
+  :EXPORT_FILE_NAME: moving-the-open-source-stuff-from-phab-mmmk2410-to-gitlab.md
+  :END:
+
+  The journey started in early 2016 when I decided to move my open-source projects and their management away from GitHub. First I launched a cgit instance for viewing the code and set up a gitolite for repository hosting. After a short time I moved the repositories to a self-hosted Phabricator instance at [[https://phab.mmk2410.org][phab.mmk2410.org]], because with that platform I had the possibilities for project management like issues or workboards.
+
+  But this concept also didn't last for long.  A few month later I decided to move the repos again. This time to [[https://github.com/mmk2410][GitHub]] profile. Since I couldn't import the GitLab public key into GitHub ("This key is already used by someone else") and a password authentication did not succeed (don't ask why, I don't know) I decided to use Phabricator for that. Phabricator has the ability to observe another repository and pull the changes from the remote repo but it also has the ability to mirror a repository to another remote repository. And luckily it can do both with the same repository. This mirroring system is also further in use to display all my repositories not only on my GitLab but also on my GitHub profile.
+
+  Now, after one and a half year, I decided to also move the tasks and wiki articles from Phabricator to GitLab. This should reduce the need for two accounts on two platforms and also the problem, that some people are creating issues on the "wrong" platform. Now contributors can also make use of the referencing abilities of GitLab.
+
+  I declined moving everything back when I moved the repositories because I liked (and still like) the way *Phabricator* works. Instead of GitLab or GitHub it is *not repository-centered but project-centered* (but not strictly). While in  GitLab or GitHub you create a repository and in this repository you have your complete project management stuff, the wiki, the bug tracker, the CI, etc., in Phabricator, each is its own application and can be used without the need of a repository. For access control or grouping things you /can/ use project, but you don't have to. Everything also works perfectly on its own. But what is the advantage of it? Well, for some of my projects, like the writtenMorse project, I have several repositories for the different applications. Where would you report, say, a missing code? In Phabricator I had a writtenMorse project and you could create an issue and add the writtenMorse project tag to it. To realize the same thing in GitLab or GitHub you would need a meta-repository for general issues or for wiki articles. This is also the reason why I keep my Phabricator instance running for private purposes.
+
+  If you once created an account on phab.mmk2410 and don't work on any private projects with me, your account was either disabled if you interacted with the platform in some way, or removed in case you didn't.
+
+  The migration is already completed and everything can be accessed on GitLab. The former tasks and wiki pages are still accessible at phab.mmk2410 and are more or less directly linked to the new corresponding GitLab object.
+
+* Cavallino-Treporti (IT) Bicycle Tour 1      :@bicycle:bicycle:holiday:tour:
+  :PROPERTIES:
+  :EXPORT_DATE: 2017-09-14 15:47:08
+  :EXPORT_FILE_NAME: cavallino-treporti-it-bicycle-tour-1.md
+  :END:
+
+  During my holiday in Cavallino-Treport (IT) I discovered the following bicycle track. The tour starts at the Piazzetta della Libertà in Cavallino and goes from there over the Via Francesco Baracca to an first unpaved way and later on Asphalt next to the Fiume Sile to Jesolo, where the river will be crossed. From there the track goes over a cycle path to Lido di Jesolo where the way leads through the inner city. After Lido di Jesolo the trip continues on the main road over the Fiume Sile back to Cavallino.
+
+  [[/2017/09/cavallino-01.gpx]]
+
+* Netzwerkseminar                                                     :@beci:
+  :PROPERTIES:
+  :EXPORT_DATE: 2017-01-06 02:00:00
+  :EXPORT_FILE_NAME: netzwerkseminar.md
+  :END:
+
+  Tja, wenn der Tag schon gut startet, was soll man dann erwarten. Nachdem ich auf dem Weg zur Uni nicht mit dem Rad gestürzt bin und der Aufbauf zeitlich sehr gut lief (auf den halbjährlichen Belastungstest der elektrischen Anlage der Universität durften wir dieses Mal verzichten). Doch wenn schon so vieles gut läuft, dann muss ja irgendwann der Rückschlag auf einen zukommen.
+
+  Heute kam dieser beim Einschalten meines Computers. Strom, Monitor, Tastatur, Maus und Ethernet waren schon verbunden, von dem her sollte ja eine einfache Betätigung des Einschalters vollend genügen. So einfach war es dann doch nicht. Ich hatte noch kurz etwas anderes zu tun und bemerkte erst nach einige Minuten, dass der Rechner nicht vernünftig bootet, sondern immer wieder neu startet, und kein Bild anzeigt. Durch Ausschalten und Warten konnte ich ihn zumindest dazu überreden, zumindest mal zu booten. Der Moment der Freude war allerdings nur kurz und bald wieder vorbei: Im Login-Screen sah ich etliche rechteckige Blöcke. Ein Neustarte führte wieder in den Bootloop, den ich wiederum durch warten lösen konnte. Beim dritten Mal hab ich es geschafft, in ein System zu booten.
+
+  Wenn damit nur alle Probleme behoben wären...
+
+  Auf meinem Windows Battelfield 2 einzurichten war nochmal um einiges schwieriger und zeitaufwändiger. Nachdem der dritte Anlauf dort geglückt war, ging es endlich los mit dem Zocken. Ich dachte schon, jetzt kann nichts mehr schief gehen. Der Gedanke hielt sich auch, bis das Essen ankam und Besteck sowie Teller erfrgt wurden. Dies ist ja kein Problem, da die Fachschaft beides in ausreichender Menge hat und die Sachen auch reserviert sind. Als ich den Schrank im Lager aufmachte, schaute ich allerdings ganz schön blöd. Die Teller waren wie gewohnt dort drinnen, vom Besteck allerdings war noch ein Eimer mit den kleinen Löffeln über. Die drei anderen Eimer mit Messern, Gabeln und Löffeln waren wie vom Erdboden verschluckt. Um genau zu sein sind sie das immer noch. Auch eine Mail über die FIN Liste hat noch keine Resultate erzielt. Mal schauen, was da noch rauskommt...
+
+* Der Drucker                                                         :@beci:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-12-23 02:00:00
+  :EXPORT_FILE_NAME: der-drucker.md
+  :END:
+
+  Wie schwer kann es sein, Altklausuren auszudrucken? Da ich mich, warum auch immer, dazu entschieden habe, Informatik zu studieren und nicht Chemie oder anderes, habe ich das Glück, ein dafür entwickeltes Werkzeug verwenden zu können (bei anderen Fachschaften verwendet man ein Wiki zum Speichern von Altklausuren). Somit beschränkt sich die Arbeit hauptsächlich darauf, schlecht formatierte E-Mails zu entziffern, Vorlesungsnamen in das Programm einzugeben, die letzten paar Altklausuren auszuwählen, den frisch gedruckten Stapel Altpapier zu beschriften und die Leute darüber zu benachrichtigen. Also theoretisch.
+
+  Praktisch bin ich mittlerweile mehr damit beschäftigt, die ganzen Kontaktanfragen und Job-Angebote, die der =service.fin=-LinkedIn-Account erhält, zu beantworten. Spass beiseite.
+
+  Eigentlich läuft der Druck gut durch, schließlich stehen im BeCI zwei Drucker, einer druckt schnell, der andere langsam. Zumindest sollte dies der Normalzustand sein. Doch der schnelle Drucker ist seit Anfang November nicht mehr wirklich benutzbar. Es fing ganz harmlos an, mit dem Hinweis, dass der Toner bald leer sei. Dies macht sich auch an der Lesbarkeit der Drucke bemerkbar, was wiederum dazu führte, dass man die dafür verantwortliche Person darauf hinwies und den anderen Drucker verwendete (auf diesem dauert das Drucken zwar drei mal so lange, allerdings ist das bei mäßigem Aufkommen noch gut machbar).
+
+  Die verantwortliche Person hat das zum Abholen eines neuen Toners benötigten Formular vorbereited. So viel ist klar. Die weitere sagenumwobene Geschichte dieses Formulars würde allerdings den Rahmen dieser Erzählung um ein Vielfaches sprengen. So mancher Autor könnte darüber wahrscheinlich sogar ein ganzes Buch schreiben, was allerdings leider nicht möglich ist, da keiner die wahren Begebenheiten dieses Formulars und seines Weges kennt. Aber macht ja nichts. Der andere Drucker geht ja noch. Er zieht manchmal die Blätter schlecht ein. Aber ansonsten...
+
+  So dachte ich zumindest, als ich eines Dienstags vormittags in das Büro kam um mal wieder Altklausuren zu drucken, in meinem Postfach häuften sich schließlich schon knapp 40 Bestellungen (Tendenz steigend). Anfangs zog er noch 80% der Blätter richtig ein. Der Wert hat sich dann beim Abarbeiten der obersten Bestellungen um 80 Prozentpunkte verschlechtert. Damit stand im BeCI kein funktionsfähiger Drucker mehr und das Drucken von Altklausuren still.
+
+  Nach Informierung der StuVe-Computerreferats über den Ausfall des Druckers wurde Plan B ins Leben gerufen: Mit Hilfe eines anderen aktiven FINies (diesem an dieser Stelle auch nochmal mein Dank!) startete ich um viertel nach 12 einen Sprint zum StuVe-Büro, in welchem man neue Toner abholen kann (den leeren Toner habe ich aus dem Drucker ausgebaut und gleich mitgenommen). Um einen Toner abzuholen braucht man allerdings ein Formular. Zur Erstellung dieses Formulars braucht man den Preis des Toners. Dieser steht auf der Verpackung des Toners. Dank der freundlichen und hilfsbereiten StuVe-Geschäftsstelle konnten wir den Toner im zweiten Anlauf im Lager finden, den Preis ablesen und das Formular drucken. An dem Tag habe ich so viel Uni-Sport gemacht wie schon lange nicht mehr.
+
+  Nachdem der Toner dann in das BeCI geschafft worden war und ich in mein Pflicht-Tutorium 20 Minuten zu spät kam, ging ich wieder ins BeCI zurück und staunte nicht schlecht, als ich das Druckergebnis mit neuem Toner sah. Bescheiden trifft es nicht ganz. Verschmierte Fliegenscheisse schon eher.
+
+  In den folgenden Stunden hat das Computer-Referat beide Drucker wieder betriebsbereit gemacht (bei dem langsamen half das Reinigen der Einzugsrollen, bei dem mit neuem Toner brauchte man ein vorhandenes Ersatzteil). An dieser Stelle auch nochmal eine großes Danke an das Computer-Referat (falls sich jemals einer von denen hierhin verirrt).
+
+  Der schon vorher erwähnte andere aktive FINie und ich haben uns den Stapel an eingeganen Bestellungen aufgeteilt und munter zum Drucken angefangen. Ich am langsamen Drucker, er am schnellen. Der Einzug an meinem Drucker ging perfekt, doch der andere Drucker (der mit neuem Toner) brachte eine ganz neue Atmosphäre ins BeCI. Mit unterschiedlichsten Techno-Rythmen begeisterte der Drucker sämtliche Zuhörer. Hätte ihn das Computer-Referat nicht zur stationären Behandlung abgeholt, hätten wir es mit einer Aufnahme wahrscheinlich bis ganz nach oben geschafft. Es bleibt noch abzuwarten ob er jemals wieder aus dem künstlichen Koma aufwacht.
+
+  Dank dem anderen Drucker konnten zwei Tage später durch vierstündigen Einsatz dennoch alle Bestellungen vor Weihnachten abgearbeitet werden.
+
+  Leute, ich kann ich nur eines empfehlen, bestellt rechtzeitig und (noch besser) druckt auch mal was mit aus.
+
+* Rangitaki Version 1.5.0                                   :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-08-03 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-version-1-5-0.md
+  :END:
+
+  I'm proud to announce a new release of the Rangitaki blogging engine which introduces post excerpts.
+
+  [[/2016/08/readmore.png]]
+
+  Post excerpts are disabled by default and can be enabled with (re-)running =php bin/init.php=.
+
+  Many thanks to [[https://gitlab.com/u/Stefan65][Stefan]] for fixing the OpenGraph and Twitter meta tags.
+
+  [[https://gitlab.com/mmk2410/rangitaki/blob/stable/CHANGELOG.md][Full Changelog]]
+
+  [[https://gitlab.com/mmk2410/rangitaki/raw/stable/update-scripts/1-4-4_1-5-0.sh][Update script]]
+
+* Quote by Wang Li                                              :music:quote:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-08-02 16:59:30
+  :EXPORT_FILE_NAME: quote-by-wang-li.md
+  :END:
+
+  #+begin_quote
+  Simplicity gives my music its freedom. I am nothing special. I am afraid about the future, I am afraid about the present and I try to find some warming moments in the past.
+  #+end_quote
+
+  /Wang Li/
+
+* Rangitaki Version 1.4.4                                   :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-06-03 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-version-1-4-4.md
+  :END:
+
+  Today I announce 1.4.4 of the Rangitaki blogging engine. It brings an important bug fix concerning the feed creation. Starting from 1.4.0 the feed creation server-side script failed with a 500 internal server error because it was not converted to the new YAML configuration (due to a bug - to be exact: a missing slash - in the .gitignore).
+
+  While working on fixing this issue, I also upgraded to the latest version of the feed generator (PicoFeed). The generated feeds will now contain all feed information.
+
+  The update script works only from 1.4.3. So I your using an older version of Rangitaki, please upgrade first to 1.4.3.
+
+  [[https://gitlab.com/mmk2410/rangitaki/raw/stable/update-scripts/1-4-3_1-4-4.sh][Update script]]
+
+  As usual: Download the script, place it in the root folder of your Rangitaki installation, make it executable =chmod +x= and run it.
+
+* Morse Converter Web App 0.3                            :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-05-31 02:00:00
+  :EXPORT_FILE_NAME: morse-converter-web-app-0-3.md
+  :END:
+
+  Hi folks!
+
+  No! The writtenMorse project is not dead!
+
+  Yesterday I released version 0.3 of the Morse converter web app. This update brings better performance when converting large texts thanks to a new converting engine written in Dart.
+
+  You can test it now live at [[https://mmk2410.org/morseconverter][mmk2410.org/morseconverter]].
+
+  Feel free to give me feedback either to me at opensource(at)mmk2410(dot)org or on [[https://gitlab.com/mmk2410/morse-converter-web][the GitLab project]]. Thanks!
+
+* Rangitaki Version 1.4.3                                   :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-05-21 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-version-1-4-3.md
+  :END:
+
+  Since the release of Rangitaki 1.4.0 two weeks ago there where three point releases. 1.4.1 and 1.4.2 brought changes to the authentication of the RCC and the RCC API. Caused by these changes you have to rerun =php bin/init_rcc.php=. To read more about this change habe a look at: [[https://phab.mmk2410.org/T116][https://phab.mmk2410.org/T116]]
+
+  Version 1.4.3 brings the following bugfixes:
+
+  - *[FIX]* Missing space in drawer between &quot;Blogs on&quot; and blogname
+  - *[FIX]* Background layer was not removed if drawer was closed
+
+  Besides these fixes Rangitaki 1.4.3 includes the theme of my [[https://mmk2410.org/blog][own blog]], nextDESIGN.
+
+  Since the three releases where in a very short time frame I decided to write the update script to let you update every Rangitaki 1.4 installation (1.4.0, 1.4.1, 1.4.2) to 1.4.3.
+
+  [[https://gitlab.com/mmk2410/rangitaki/raw/stable/update-scripts/1-4-2_1-4-3.sh][Update script]]
+
+* Rangitaki Version 1.4                                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-05-08 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-1-4.md
+  :END:
+
+  Yesterday I released Rangitaki version 1.4 with the following new features and
+  fixes:
+
+  - Three new scripts in the =bin= folder to simplify the maintenance and setup. Read more below.
+  - Rangitaki API for working with your Rangitaki installation from other apps. Read on how to use the API in the [[https://marcel-kapfer.de/rangitaki/docs/api][documentation]]
+  - SASS and CoffeeScript capabilities for writing extensions and themes. These files are compiled and minimized using [[http://gulpjs.com][Gulp]].
+  - Open links in articles in a new tab.
+  - Switch to YAML as language for the configuration. Rangitaki 1.4 and above cannot be used without a setup YAML configuration file at =config.yaml=. Read more below.
+  - Fix: Atom feeds didn't contain any text
+
+** Scripts
+   One of the main goals of Rangitaki is that anyone able to run a webserver should be able to easily install it. Because time you waste installing and configuring your blogging engine is time you don't have to write articles or do other stuff.
+
+   With version 1.4, Rangitaki made another step into this direction. It provides three PHP scripts. One for switch from the old and no longer supported =config.php= to the YAML config file and two for maintaining and setting Rangitaki and the RCC up.
+
+   The scripts are located in the =bin\= directory and can only run from the root directory of your Rangitaki installation (not the system root). You can run them with =php bin/thescript.php=. This requires, that the =php-cli= package (or whatever name it has in your distribution) is installed on your installation. If you can't install any software on the server which is hosting your Rangitaki blog, you can still run these scripts on your home computer or in a virtual machine running Linux.
+
+*** Switching config files.
+    =bin/config.php= is just there in 1.4 and will be removed in the next version. It's purpose is to switch from the old PHP config file (=config.php=) to the YAML config file used in Rangitaki 1.4 and above. Read more about this in the next paragraph.
+
+*** Initializing Rangitaki
+
+    =bin/init.php= is actually more than a script. It's a handy tool for initializing your fresh Rangitaki installation since it guides you through setting all the config values and also for changing your existing configuration, if you don't want to edit the =config.yaml= directly.
+
+*** Initializing the RCC and the API
+
+    =bin/init_rcc.php= is used for initializing the Rangitaki Control Center (RCC) and the API. It is separated from the init script since the user needs to provide a password and a username for the RCC and the API and not all users want to use these online tools.
+
+** Configuration file switch
+
+   I decided to switch from PHP to YAML as a language for the configuration, since PHP is pretty much non-human-readable and also quite limited if more variables are added. So I decided to use YAML because it is very readable for everyone since it doesn't contain any freakin' parentheses, colons or other stuff.
+
+   I didn't test it seriously but it didn't seem to take longer to parse the YAML compared then including the PHP file.
+
+   The YAML configuration file must be used with Rangitaki 1.4 and above. The old =config.php= does not work any longer. For switching you can use the script in =bin/config.php= which does the complete job for you. On how to use the script read the paragraph above.
+
+** Version Control System
+
+   Before you freak out. NO, Rangitaki does not contain a VCS and will never include one. This is about where Rangitaki is developed. I moved from GitHub (over git.mmk2410.org and over phab.mmk2410.org) to [[https://mmk2410.org/rangitaki/docs][mmk2410.org / marcel-kapfer.de]].
+
+   The main reason for doing that was and still is, that I think it's crazy to develop free (as in freedom, not as in free beer) on a proprietary platform.
+
+** Updating
+
+   As always I provide you an update script for easily switch from Rangitaki 1.3.0 to Rangitaki 1.4.0: [[https://gitlab.com/mmk2410/rangitaki/raw/stable/update-scripts/1-3-0_1-4-0.sh][https://gitlab.com/mmk2410/rangitaki/raw/stable/update-scripts/1-3-0_1-4-0.sh]]
+
+   Happy Blogging!
+
+* How to run a web app on your desktop     :@code:desktop:electron:linux:web:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-04-19 17:09:27
+  :EXPORT_FILE_NAME: how-to-run-a-web-app-on-your-desktop.md
+  :END:
+
+  Running a web app or a website on your desktop is nowadays much easier thanks to GitHub's Electron.
+** Why would someone want this?
+   Well... This is a good question. For me there are only two reasons: you can start it from your launcher and it's handled as its own application. But thats not why I'm writing this guide. My motvation is simple: It works.
+
+
+** Installing required software
+   For this guide you need npm and git. Search the wide web for installation instructions for your operating systems.
+
+   You need also a editor. Choose one you like. The lines of code you're gonna write are just a few.
+** Cloning the GitHub Repo
+   Fire up a terminal and clone the GitHub quickstart repo of Electron.
+   = your-web-app=
+   and change into that directory
+   = your-web-app=
+** Installing dependencies
+   Next install the npm dependencies with
+   = install=
+   and test the quick start app
+   = start=
+   Normally you should see a window with the dimension 800x600 and on the left side a line of text, on the right the developer console.
+** Editing the main.js
+
+   First were editing the JavaScript file to disable the developer console showing on startup.
+
+   Open the main.js file in the editor of your choice and search for the following line (around line 21 in the =createWindow()= function):
+
+   #+BEGIN_SRC js
+     mainWindow.webContents.openDevTools();
+   #+END_SRC
+
+   and comment it out:
+
+   #+BEGIN_SRC js
+     // mainWindow.webContents.openDevTools();
+   #+END_SRC
+
+   Now we're makeing the application window a little bit heighter and wider. Search for the line (around line 15 in the =createWindow()= function):
+
+   #+BEGIN_SRC js
+     mainWindow = new BrowserWindow({width: 800, height: 600});
+   #+END_SRC
+
+   and add to both values 200px so it looks like this:
+
+   #+BEGIN_SRC js
+     mainWindow = new BrowserWindow({width: 1000, height: 800});
+   #+END_SRC
+
+   Run now again =npm start= and enjoy the cleaner and bigger window.
+
+** Editing the index.html
+   Now open the index.html file delete everything and paste the following lines in there:
+
+   #+BEGIN_SRC html
+     <!DOCTYPE html>
+     <html style="width: 100%; height: 100%;">
+       <head>
+	 <meta charset="UTF-8">
+	 <title>Your Title</title>
+       </head>
+       <body style="width: 100%; height: 100%;">
+	 <webview src="https://your-web-app.com" style="width: 100%; height: 100%;" allowpopups plugins>
+       </body>
+     </html>
+   #+END_SRC
+
+   Change the title and the src to match the web app you want to bring to your desktop.
+
+   Now run your app with =npm start= and here you have a web app on your desktop.
+** Installing electron
+   For creating a desktop application install electron:
+   = install -g electron=
+   Now you can start your app with =electron .=
+** Creating a launcher
+   Create now a file =your-web-app.desktop= and open it in your editor:
+
+   #+BEGIN_SRC conf
+     [Desktop Entry]
+     Encoding=UTF-8
+     Version=1.0
+     Name=Your Web App
+     Comment=A comment about your web app
+     Exec=electron /path/to/your/app
+     Icon=appname.png
+     Type=Application
+     Categories=Network;
+     Terminal=false
+   #+END_SRC
+
+   Search and download now the icon for your application. The higher the resolution the better. Make sure you get a png of svg.
+
+   Now move the icon to =~/.local/share/icons/= and the .desktop file to =~/.local/share/applications/=.
+
+   Now the icon should appear in your launcher (if not log out and in again). If you click on it the web app should start.
+
+* Rangitaki Version 1.3                                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-02-16 02:00:00
+  :EXPORT_FILE_NAME: version-1-3.md
+  :END:
+
+  A new version of Rangitaki is out providing the following new features:
+
+
+  - Respect do-not-track
+
+  - RCC: Generate Atom feed
+
+  - Title fix
+
+  - Switch to composer
+
+
+
+  To update from Rangitaki 1.2 (or higher) use this script: [[https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-2-1_1-3-0.sh][https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-2-1_1-3-0.sh]]
+
+  Enjoy blogging!
+
+* Programs I use                                      :@linux:linux:programs:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-01-26 19:26:02
+  :EXPORT_FILE_NAME: linux-programs-i-use.md
+  :END:
+
+** Intro
+
+   A few people asked me in the last time which tools and programs I use so I decided to put them in a short list.
+
+   I often look at lists like "The best ...", "Software you need" or similar posts. Not because I need them, but because I want to get inspired and learn about new / other tools that may become a program I use. This also means that in most cases there is more than one program listed below.
+
+   But there is one most important thing if you're thinking about using a new / other program: The complete configuration shouldn't take more than what it's worth. It is without any sense to invest many hours to configure or switch to another program, if it doesn't bring you an enormous improvement concerning productivity, speed and / or creativity. Remember always that your time is limited and is better invested in something you want to achieve. And also keep in mind to never just copy a configuration file from someone else. Always write it yourself from scratch and evaluate exactly what you need.
+
+   Also keep in mind, that is is a list of software I like. I didn't try all the available alternatives that are out there. If a program is not listed, it doesn't mean that it's bad or that I don't like it.
+
+   I will update this list, if something changes, if I have the time.
+
+
+
+** List
+
+*** Text Editor / IDE
+
+    - [[https://www.gnu.org/software/auctex/][AucTeX]])
+
+
+*** Graphics and Images
+
+    - [[https://www.gimp.org/][GIMP]] (for image editing)
+
+
+*** Email client
+
+    - [[https://www.thunderbird.net][Thunderbird]]
+
+
+*** Web browser
+
+    - [[https://www.mozilla.org/en-US/firefox/new/][Firefox]] (mostly Developer Edition, if available)
+
+
+*** Shell
+
+    - [[https://fishshell.com/][fish]]
+
+
+*** Distributions
+
+    - [[https://www.archlinux.org/][Arch Linux]]
+
+
+*** Desktop Environments
+
+    - [[https://kde.org/plasma-desktop][KDE Plasma]] (if you miss a application category in this list and there is a KDE app available then I probably use that)
+
+
+*** RSS / Atom Feed Reader
+
+    - [[https://apps.nextcloud.com/apps/news][Nextcloud News]] (mostly with the corresponding Android apps)
+
+
+** Updates
+
+   Edit 16. February 2016: Removed a bunch of non-free (free as in libre) software and added a RSS / Atom Feed Reader
+
+   Edit 28. March 2016: Software changes
+
+   Edit 25. March 2018: Reworked and updated the complete list.
+
+   Edit 25. March 2020: Reworked and updated this post again. Can't believe how old it already is.
+
+* The Ending Year                            :@composing:minimal_music:music:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-01-04 19:35:20
+  :EXPORT_FILE_NAME: the-ending-year.md
+  :END:
+
+  A minimal music piece composed at the end of 2014. Now finally recorded in an acceptable quality.
+
+  If you like share it with your friends or even donate me at my page. Thanks.
+
+  https://www.youtube.com/nHugKFbqgMg
+
+* The Ending Year                                                :@composing:
+  :PROPERTIES:
+  :EXPORT_DATE: 2016-01-04 01:59:59
+  :EXPORT_FILE_NAME: the-ending-year-3.md
+  :END:
+
+  Ein Minimal Music Stueck, welches ich eine 2014 komponiert habe, allerdings erst jetzt dazugekommen bin es in annehmbarer Qualtität aufzunehmen: https://www.youtube.com/embed/nHugKFbqgMg
+
+  Wenn es dir gefaellt, teile es mit deinen Freund_innen und spende mir vielleicht. Danke
+
+* Rangitaki Version 1.2                                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-12-24 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-version-1-2.md
+  :END:
+
+  Just in time for Chistmas: Rangitaki Version 1.2.
+** Features
+
+   - Pagination: Split your blog posts over several page
+
+   - JavaScript Extension Support
+
+   - RCC: Write Posts
+
+   - RCC: Delete Posts
+
+   - RCC: Upload Media
+
+   - RCC: Edit Posts
+
+
+
+** Notes
+   Read the [[https://github.com/mmk2410/rangitaki/wiki/Upgrading-Guide][upgrading guide]] before upgrading.
+** Upgrading
+
+   - If you're currently on version 1.0.0 use this update script: [[https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-0-0_1-2-0.sh][https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-0-0_1-2-0.sh]]
+
+   - If you're currently on 1.1.90 use this update script: [[https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-90_1-2-0.sh][https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-90_1-2-0.sh]]
+
+
+   Have a lot of fun with Rangitaki 1.2. I wish all of you out there a Merry Christmas!
+
+* Rangitaki Version 1.1.90 Beta Release                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-12-21 02:00:00
+  :EXPORT_FILE_NAME: version-1-1-90-beta-release.md
+  :END:
+
+  The next step on the way to 1.2, the beta release.
+
+  *Changes:*
+
+  - BUGFIX: ArticleGenerator error when no tags set
+  - Pagination: Localized strings
+
+  Concerning the localized string: the new string are already added into the shipped english and german language files. *If you use your own language file, you /have/ to update your language file* with the following strings:
+
+  ="Next Page" > "Localized next page", "Previous Page" > "Localized previous page",=
+  To update yout blog - keep in mind that this is not a stable release, so don't use it in production - download the update script, make it executable (=chmod +x 1-1-2_1-1-90.sh=) and run it (=./1-1-2_1-1-90.sh=). If you're coming from 1.0 you have to run all update scripts. I only provide scripts from pre-release to pre-release and from stable to stable.
+
+  Update Script: [[https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-2_1-1-90.sh][https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-2_1-1-90.sh]]
+
+* Rangitaki Version 1.1.2 Development Release               :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-12-20 02:00:00
+  :EXPORT_FILE_NAME: version-1-1-2-development-release.md
+  :END:
+
+  I'm glad to announce another milestone an the way to Rangitaki 1.2.
+
+  This time it's quite a small one, which brings a few code style improvements and one new feature called *pagination*, which can split your blog into several pages, each with a set amount of posts.
+
+  Pagination is disabled by default. It can enabled through setting:
+
+  #+begin_src php
+    $pagination = number
+  #+end_src
+
+  The integer is the amount of posts you wan' to show on each page. E.g. if you set
+
+  #+begin_src php
+    $pagination = 4
+  #+end_src
+
+  you will see four posts on every site.
+
+  *Warning: If you use your own theme and want to use pagination*: You have to update your theme by styling =pag_buttons=, =button=, =pag_next= and =pag_prev=. Have a look at the themes shipped with Rangitaki.
+
+  You can update your installation again with the update script: [[https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-1_1-1-2.sh][https://raw.githubusercontent.com/mmk2410/rangitaki/master/update-scripts/1-1-1_1-1-2.sh]]
+
+* Scorelib                                             :@code:music:scorelib:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-12-01 19:41:19
+  :EXPORT_FILE_NAME: scorelib.md
+  :END:
+
+  I'm proud to present all of you another piece of software that I wrote: [[https://marcel-kapfer.de/scorelib][Scorelib]].
+
+  Scorelib is a music score organization tool with a command line interface, perfect for usage in your favorite terminal emulator. As most of the software I develop, it is written for Linux systems and published on [[https://github.com/mmk2410/scorelib][GitHub]].
+
+  The entered data is saved in a SQLite database in your home directory.
+
+  Currently Scorelib is in version 0.1 and I hope, that I find enough time to make it more customizable and to add additional features. Feel free to open Issues on [[https://github.com/mmk2410/scorelib/issues][GitHub]] about bugs or feature requests. You're of course also welcome to contribute to this project, it is written in Python (but don't expect any good code style).
+
+* In the lab                                                       :@private:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-11-23 14:45:01
+  :EXPORT_FILE_NAME: in-the-lab.md
+  :END:
+
+  Sadly this didn't work, but it was fun to make.
+
+  [[/2017/07/tmp_14150-20151123_103524-71180101.jpg]]
+
+* Winter is coming...                                              :@private:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-11-23 09:35:25
+  :EXPORT_FILE_NAME: winter-is-coming.md
+  :END:
+
+  Winter is coming...
+
+  [[/2017/07/tmp_29069-20151122-winter-817352794.jpg]]
+
+* Rangitaki Version 1.1.0 Development Release               :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-11-22 02:00:00
+  :EXPORT_FILE_NAME: version-1-1-0-development-release.md
+  :END:
+
+  It is time for another Rangitaki release and on this way to 1.2 , I release today the first Developmen release 1.1.0, which comes with following changes:
+
+  - RCC: Write blog posts
+  - RCC: Media Upload
+  - Drawer: Key listener ('ESC' to close, 'm; to open)
+  - Drawer: Highlight Blogs when hovering
+  - Drawer: 'X' button
+  - Metatags / Title based on subblog and / or article
+  - Script for updatig from 1.0.0 to 1.1.0
+
+  I strongly advise you not to update, since this is an untestet development release, if you are willing to risk it, download the update script from [[https://raw.githubusercontent.com/mmk2410/Rangitaki/master/update-scripts/1-0-0_1-1-0.sh][this]] link, make it executable and run it in your rangitaki home directory.
+
+* New piece coming soon                                          :@composing:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-09-24 02:00:00
+  :EXPORT_FILE_NAME: new-piece-coming-soon.md
+  :END:
+
+  Good News!
+
+  I just finished the draft for my second piece. Now all I have to do before I can publish it is setting it.
+
+  Stay tuned!
+
+* Rangitaki Version 1.0                                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-08-24 02:00:00
+  :EXPORT_FILE_NAME: rangitaki-1-0-0.md
+  :END:
+
+  Eight months ago I had the idea of a blogging engine. First I planned to write the blogging engine in JavaScript, but in February I learned PHP and I decided, that this is the better language for this project. The main goal of Rangitaki (earlier known as pBlog) was, is and will always be to be as simple to use as possible, but with any possible feature. And I turned out to be possible, especially with the subblogs and the Rangitaki Control Center. Now it is time to release a stable version of what is now called Rangitaki. A blogging engine with focus on simplicity. Easy to install, easy to configure, easy to use.
+
+  Rangitaki 1.0 includes the following features:
+
+  - Post writing in Markdown with a few keywords for the title, tags, date and the author (all optional)
+  - Multiple blogs
+  - A Subpages for each article with a comment box (Disqus; can be disabled)
+  - Share buttons (FAB; can be disabled)
+  - Disqus integration (can be disabled)
+  - Fast and easy configuration
+  - Google Analytics (optional)
+  - Twitter and OpenGraph meta tags
+  - Different themes
+  - Easy localization (just 3 (!) strings)
+  - Custom footer
+  - Navigation drawer (can be disabled)
+  - Tags
+  - Set author and date
+  - Mobile-first
+  - Rangitaki Control Center (aka RCC; optional, Read the [[https://marcel-kapfer.de/rangitaki/docs/rcc][RCC Documentation]])
+  - Online post upload
+
+  The development of Rangitaki will continue and I will add many nice features to the blogging engine and to the RCC. So stay tuned.
+
+  [[https://github.com/mmk2410/Rangitaki/releases/tag/v1.0.0][GitHub Release Notes / Download]]
+
+  [[https://gitlab.com/mmk2410/rangitaki][Rangitaki Webseite]]
+
+  [[https://gitlab.com/mmk2410/rangitaki/-/wikis/home][Rangitaki Documentation]]
+
+* Morse Converter Android 2.4.0                          :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-08-22 02:00:00
+  :EXPORT_FILE_NAME: morse-converter-android-2-4-0.md
+  :END:
+
+  A new release of the Android app is out. In comes with the same features, that where released with the desktop version 2.0.
+
+  - Line break support
+  - Instant converting
+  - Intelligent code recognization
+  - Slightly re-designed UI for the new features
+
+  Get the app now at [[https://play.google.com/store/apps/details?id=de.marcelkapfer.morseconverter][Google Play]].
+
+* Morse Converter Desktop Version 2.0.0                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-08-20 02:00:00
+  :EXPORT_FILE_NAME: desktop-version-2-0-0.md
+  :END:
+
+  It's time that I announce a new version of the morse converter with some awesome new features, that will simplify your converting life:
+
+  - Completely Native UI with tabs
+  - Instant converting
+  - Intelligent code recognization
+  - Update through the app itself. (Not available in the .deb package or in the Ubuntu repository)
+
+  Have fun with it!
+
+  [[https://gitlab.com/mmk2410/writtenmorse][Download]]
+
+* Landesverrat                                                    :@politics:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-07-31 13:15:00
+  :EXPORT_FILE_NAME: landesverrat.md
+  :END:
+
+  Seit gestern wird gegen die Macher des Blogs [[http://netzpolitik.org][netzpolitik.org]] wegen Landesverrat ermittelt, da sie geheime Dokumente des Verfassungsschutzes veröffentlichten. Dies ist ein schwerer Angriff auf die Meinungs- und Pressefreiheit in Deutschland, doch bei weitem nicht der erste, wie ein Blogartikel von mir aus dem Jahr 2013 zeigt ([[*Meinungsfreiheit in Deutschland?][Meinungsfreiheit in Deutschland?]]).
+
+  Die letzte Ermittlung wegen Landesverrat war vor 33 Jahren gegen die Zeitschrift "Konkret", und vielen sind auch die Ermittlungen gegen den Spiegel vor 50 Jahren bekannt. Und nun ist es wieder soweit: In dem angeblich "demokratischen" Staat wird wieder versucht, kritischen Journalisten, die ihrer Aufgabe nachgingen und geheime Berichte dem Volk zugänglich machten, einen Maulkorb anzulegen.
+
+  Aus diesem Grund veröffentlich einige Blogs (wie zum Beispiel [[http://correctiv.org][correctiv.org]]) diese Unterlagen und zeigen sich anschließend selbst beim Generalbundesanwalt an.
+
+  Ich veröffentliche hier zuerst nur die geheimen Dokumente, ob ich mich auch selbst anzeigen werde entscheide ich in den nächsten Tagen.
+
+  Wer netzpolitik unterstützen möchte, kann dies durch ein Spende an diese Konto tun:
+
+  Inhaber: netzpolitik.org e. V.
+
+  IBAN: DE62430609671149278400
+
+  Zweck: Spende netzpolitik.org
+
+  Hier ist auch ein Link zu einem Formular für eine Selbstanzeige: [[https://correctiv.org/media/public/fd/84/fd8461d9-564f-4393-a36d-bc12e1ac0bf2/anzeige_landesverrat_formular.pdf][https://correctiv.org/media/public/fd/84/fd8461d9-564f-4393-a36d-bc12e1ac0bf2/anzeige_landesverrat_formular.pdf]]
+
+** Artikel vom 15.04.2015
+
+*** Konzept zur Einrichtung einer Referatsgruppe 3C „Erweiterte Fachunterstützung Internet“ im BfV
+    Das BfV beabsichtigt den Aufbau einer neuen zentralen Organisationseinheit „Erweiterte Fachunterstützung Internet“ (EFI). Das nachfolgende Konzept beschreibt Hintergründe und Aufgaben sowie den geplanten sukzessiven Aufbau der neuen Organisationseinheit.
+
+    Auf der Basis des derzeit vorliegenden Konzepts wurde für die Organisationseinheit EFI ein Personalbedarf i. H. v. 75 Vollzeitäquivalenten mit entsprechender Stellenunterlegung ermittelt.
+
+    In einem ersten Schritt wurde zum 01.04.2014 ein Aufbaustab EFI eingerichtet, in den BfV-intern derzeit 21 (Plan-)Stellen mit den entsprechenden Aufgaben aus Abteilung 6, Abteilung IT (PG OTIF) und Abteilung 3 verlagert werden.
+
+    In einem zweiten Schritt soll der weitere Ausbau der EFI durch die im aktuellen Entwurf des Wirtschaftsplans 2014 zu Kapitel 0626 Titel 541 01 qualifiziert gesperrt etatisierten 30 Planstellen auf 51 Planstellen erfolgen. Eine Kompensation für diese Planstellen im Kapitel 0626 kann nicht erbracht werden.
+
+    Nach einer Konsolidierungsphase soll auf Basis bis dahin gewonnener Erfahrungswerte eine Evaluierung erfolgen.
+
+    Organisatorisch ist aufgrund der inhaltlichen Nähe und des G-10-Bezuges die Anbindung an die Abteilung 3 „Zentrale Fachunterstützungsabteilung“ zielführend.
+**** Hintergründe, Aufgaben und geplanter Aufbau der EFI
+     Die sich ständig verändernden Kommunikationsformen und -medien im Internet erfordern in Bezug auf die Informationssammlung und -auswertung eine strategische und organisatorische Neuaufstellung des BfV.
+
+     Ziele des Aufbaus der geplanten Referatsgruppe 3C sollen schwerpunktmäßig die Verbesserung und der Ausbau der Telekommunikationsüberwachung von internetgestützter Individualkommunikation nach dem Artikel-10-Gesetz (G-10) sein. Ferner soll Referatsgruppe 3C die Analyse von allen dem BfV aus unterschiedlichsten Quellen zugänglichen Daten, die im digitalen Zeitalter aufgrund ihres Umfanges oft nicht mehr manuell ausgewertet werden können (u. a. Asservate), umfassen. Daneben werden auch neue Methoden und Maßnahmen zur Datenauswertung in den Aufgabenbereich der Referatsgruppe 3C fallen, bei deren Entwicklung, Anwendung und Umsetzung Fragestellungen in den Vordergrund treten, die eine herausgehobene technische Expertise sowie die Einordnung in einen komplexen Rechtsrahmen erfordern, ohne dass das G-10 einschlägig ist.
+
+     Im Einzelnen:
+
+     In der geplanten Referatsgruppe 3C soll zum einen der Bedarf der Fachabteilungen zur strategischen, technischen und rechtlichen Entwicklung neuer Methoden der Informationsauswertung und -analyse zentralisiert bearbeitet werden. Ziel ist es, die technische und rechtliche Expertise im Bereich der Internetbearbeitung, insbesondere mit Bezug zum G-10 zu bündeln und für die Fachabteilungen einen einheitlichen Ansprechpartner für dieses komplexe und zunehmend relevanter werdende Phänomen zu installieren.
+
+     Zum anderen sollen in der Referatsgruppe 3C die Methoden und Maßnahmen angewandt werden, die aufgrund der Komplexität und/oder wegen des G-10-Bezugs der Daten eine Zentralisierung erforderlich machen. In enger Zusammenarbeit mit der G-10-Auswertung in Referatsgruppe 3B wird die Referatsgruppe 3C die Auswertung in Bezug auf die nach dem G-10 erhobenen Internetdaten aus Einzelmaßnahmen ausbauen.
+
+     Zudem werden die bestehenden Ansätze zur verbesserten Auswertung von nach dem G-10 gewonnener Daten (z. B. zentrale Analyse von Telekommunikationsverkehrsdaten) aufgegriffen. Der Ausbau dieser Ansätze birgt einen unmittelbaren Erkenntnismehrwert für die Fachabteilungen. Die zusätzliche Optimierung der allgemeinen G-10-Auswertung und die zentral gefertigten Analyseberichte verstärken diesen Mehrwert.
+
+     Die Referatsgruppe soll aus den folgenden sechs Referaten bestehen:
+**** Referat 3C1: „Grundsatz, Strategie, Recht“
+     Im Referat 3C1 sollen sämtliche Grundsatz-‚ Rechts- und Strategiefragen bezogen auf die oben beschriebenen Aufgaben behandelt werden.
+
+     Hier sollen neue Methoden und technische Verfahren erfasst, rechtlich geprüft, getestet und weiterentwickelt sowie „best practices“ zu deren Nutzung entwickelt werden. Das Referat 3C1 wird dazu in enger Abstimmung mit den Fachabteilungen und in Zusammenarbeit mit Referat 3C6 den Bedarf erheben, bündeln und dessen Realisierung über die Abteilung IT koordinieren.
+
+     Zudem sollen im Referat 3C1 einschlägige Rechtsfragen zentral bearbeitet werden (etwa zur Zulässigkeit und den Rahmenbedingungen von Internetauftritten zur verdeckten Informationsgewinnung).
+
+     Für die vorgenannten Aufgaben wird das Referat 3C1 zentraler Ansprechpartner im BfV. Dies umfasst auch Kontakte zu LfV und anderen Sicherheitsbehörden sowie die Zusammenarbeit mit dem Strategie- und Forschungszentrum Telekommunikation (SFZ TK).
+**** Referate 3C2 und 3C3: „Inhaltliche/technische Auswertung von G-10-Internetinformationen“
+     In Köln und Berlin soll je ein Referat zur inhaltlichen und technischen Auswertung von Erkenntnissen, die nach dem Artikel-10-Gesetz aus dem Internet gewonnen wurden, aufgebaut werden.
+
+     Die TKÜ-Anlage PERSEUS dient im Rahmen der individuellen, anschlussbasierten Telekommunikationsüberwachung nach dem Artikel-10-Gesetz sowohl der Aufbereitung und Auswertung der klassischen Telefonie (z. B. Sprache, Telefax, SMS) wie auch der erfassten Internetkommunikation (z. B. E-Mail, Chatprotokolle, Websessions und Dateitransfere). Ein Teil der gewonnenen Rohdaten wird den G-10-Auswerter/innen von PERSEUS automatisiert aufbereitet und lesbar zur Verfügung gestellt. Jedoch bedarf es zum Auffinden und zur Darstellung bestimmter Informationen aus den Individualüberwachungsmaßnahmen (z. B. eines Facebook-Chats) speziellerer Kenntnisse im Umgang mit der PERSEUS-Anlage und eines vertieften Grundverständnisses der Funktionsweise von aktuellen Internetanwendungen.
+
+     Ein Teil der Rohdaten kann von der PERSEUS-Anlage nicht automatisiert dekodiert werden. Diese sollen exportiert und anschließend unter Zuhilfenahme von gesonderten Werkzeugen zur Dekodierung und Auswertung bearbeitet werden. Auf diese Weise sollen aus den bereits vorhandenen Daten aus der Individualüberwachung zusätzliche inhaltliche Erkenntnisse für die G-10-Auswertung aufbereitet und die Ergebnisse den Fachabteilungen zur Verfügung gestellt werden.
+
+     Ein Bestandteil der Referate 3C2 und 3C3 wird die technische Unterstützung der dort tätigen Auswertung sein. Die Mitarbeiter/innen der technischen Unterstützung sollen die Schnittstelle zur Abteilung IT bilden und die IT-Infrastruktur mit Bezug auf die Rohdatenauswertung (z. B. Konfiguration der Analysesoftware, Datenimporte‚ Prozessüberwachung) betreuen. Sie sollen außerdem komplexe Anfragen im Analysesystem erstellen und pﬂegen.
+
+     Referat 3C2 soll am Standort Köln dabei überwiegend die Bearbeitung der anfallenden Daten aus den Beschränkungsmaßnahmen in den Abteilungen 2, 4 und 5 (Rechtsextremismus/-terrorismus‚ Geheim- und Sabotageschutz, Spionageabwehr, Ausländerextremismus sowie Linksextremismus/-terrorismus) übernehmen. In Referat 3C3 soll vorrangig die Bearbeitung aus dem Bereich der Abteilung 6 (Islamismus und islamistischer Terrorismus) am Standort Berlin erfolgen. Die räumliche Nähe der technischen G-10-Internetauswertung ist zur Zusammenarbeit untereinander vorteilhaft und in Bezug auf die G-10-Auswertung in Referatsgruppe 3B sowie die Beratung der Bedarfsträger in den Fachabteilungen unabdingbar. Organisatorisch ist deshalb eine referatsweise standortbezogene einer standortübergreifenden Lösung vorzuziehen. Zur Abdeckung von Arbeitsspitzen kann jedoch auch eine standortübergreifende Bearbeitung erfolgen.
+**** Referate 3C4 und 3C5: „Zentrale Datenanalysestelle“
+     Um den Bedarf der Fachabteilungen an einer Auswertung aller relevanten Erkenntnisse zu den beobachteten Personen (Kommunikationsverhalten‚ Bewegungsprofile etc.) zu bedienen, sollen die Referate 3C4 und 3C5 jeweils an den Standorten Köln und Berlin zur zentralen Analysestelle in Bezug auf komplexe Datenmengen ausgebaut werden.
+
+     Die Referate 3C4 und 3C5 sollen zu einzelnen G-10-/§8a-Maßnahmen Auswertungsberichte zu den im Rahmen der angeordneten Überwachungsmaßnahmen angefallenen Metadaten fertigen, z. B. Übersichten der Kommunikationspartner und -häufigkeiten, zeitliche und räumliche Verteilung der Kommunikationen. Bei einer Schnittstellenanalyse wird z. B. anhand der Telekommunikationsverkehrsdaten (TKVD) aufgezeigt, ob Hauptbetroffene verschiedener G-1O-Maßnahmen in direktem Kontakt zueinander stehen oder denselben Mittelsmann kontaktieren (Analyse von Beziehungsnetzwerken).
+
+     Die Analyse von TKVD ermöglicht zudem eine präzisere Steuerung der G-10-Auswertung, um zeitnah relevantes Aufkommen zu finden. Auch wenn die Kommunikationsdaten auf der PERSEUS-Anlage ausschließlich aus der Telekommunikationsüberwachung einzelner bestimmter Personen nach dem Artikel-10-Gesetz stammen, kann das Gesamtvolumen insbesondere wegen des stetig zunehmenden Kommunikationsverhaltens nicht mehr vollständig bearbeitet werden. Im Vorhinein muss also möglichst zielsicher das relevante von dem (überwiegend) nicht relevanten Aufkommen sondiert werden.
+
+     Die Analyse großer Datenmengen erstreckt sich über den Bereich TKÜ hinausgehend auf alle dem BfV aus unterschiedlichsten Quellen zugänglichen Daten (u. a. Asservate infolge von vereinsrechtlichen Verbotsverfahren). Sie verfolgt das Ziel, die vorliegenden Informationen schnell anhand der Metadaten zu sortieren und somit eine zielgerichtete Auswertung zu ermöglichen. Sie generiert somit zeitnah unmittelbaren fachlichen Mehrwert. Diese Informationsmehrwerte können bei der Analyse komplexer Datenmengen nur mit Hilfe von IT-gestützten Analyse- und Datenbankwerkzeugen generiert werden. Um Synergieeffekte nutzen zu können, ist organisatorisch ein zentraler Einsatz von hochspezialisierten Analyseteams sinnvoll.
+
+     Innerhalb der Referate 3C4 und 3C5 soll eine technische Unterstützung eingerichtet werden, die insbesondere die dort tätigen Analyseteams und die Datenerfassung/-aufbereitung berät. Die Mitarbeiter/innen der technischen Unterstützung bilden die Schnittstelle zu den Bereichen, von denen ein Großteil der auszuwertenden Daten generiert wird, sowie zur Abteilung IT und betreuen die analysespezifische IT-Infrastruktur (z. B. Konfiguration der Analysesoftware, Datenimporte, Prozessüberwachung, Erstellung und Pflege von komplexen Anfragen im Analysesystem).
+
+     Referat 3C4 wird am Standort Köln überwiegend Daten der Abteilungen 2 (Rechtsextremismus/-terrorismus), 4 (Spionageabwehr, Geheim- und Sabotageschutz) und 5 (Ausländerextremismus und Linksextremismus/-terrorismus), Referat 3C5 am Standort Berlin die Daten der Abteilung 6 (Islamismus und islamistischer Terrorismus) bearbeiten. Hierdurch soll eine räumliche Nähe zu den Bedarfsträgern hergestellt und die Leitungsspanne der Komplexität der Aufgaben angepasst werden.
+**** Referat 3C6: „Informationstechnische Operativmaßnahmen, IT-forensische Analysemethoden“
+     Zur möglichst umfassenden Auswertung des Kommunikationsverhaltens der beobachteten Personen besteht neben der anschlussbasierten konventionellen TKÜ im Bereich der Internetkommunikation die Notwendigkeit zur Anwendung darüber hinausgehender TKÜ-Varianten. Die „Nomadisierung“ des Nutzerverhaltens, die Internationalisierung der angebotenen Dienste, die Verschlüsselung der Kommunikation sowie die mangelnde Verpflichtbarkeit ausländischer Provider wird ansonsten zunehmend zur Lückenhaftigkeit der Auswertung des Kommunikationsverhaltens der beobachteten Personen führen.
+
+     Im Referat 3C6 soll daher die Planung und Durchführung von informationstechnischen Operativmaßnahmen zur verdeckten Informationserhebung nicht öffentlich zugänglicher Informationen im Internet gebündelt werden. Hierzu zählen insbesondere konspirative informationstechnische Überwachungsmaßnahmen von Online-Diensten unter den Richtlinien des G-10-Gesetzes („Server-TKÜ“, „Foren-Überwachung“, „E-Mail-TKÜ“).
+
+     Der Bereich IT-forensische Analysemethoden unterstützt die Referate der technischen G-10-Auswertung bei der Auswahl und ggf. Entwicklung von Auswertungssystemen und darüber hinaus die Fachreferate des BfV bei der IT-forensischen Vorauswertung von Rechnersystemen, die z. B. im Rahmen von vereinsrechtlichen Verbotsverfahren als Asservate auszuwerten sind.
+
+     Die Aufgaben des Referates 3C6 werden daher zudem insbesondere folgende Bereiche umfassen:
+
+     - die Planung und Entwicklung von informationstechnischen Verfahren für den Einsatz in derartigen Operativmaßnahmen sowie für sonstige, auf IT-Systeme ausgerichtete operative Maßnahmen,
+
+     - die Datenextraktion, technische Analyse und Bewertung von Datenträgern bzw. datenspeichernden IT-Systemen, insbesondere auch mobiler Geräte, zur Beweissicherung bzw. operativen Informationsgewinnung,
+
+     - die technische Beratung der Fachabteilungen in operativen Angelegenheiten, u. a. zu Potenzial und Risiken technischer Methoden der operativen Informationsgewinnung aus dem Internet,
+
+     - die strukturierte Sammlung vorrangig technisch geprägter Erkenntnisse und Sachverhalte mit (potenziellem) Bezug zur Internetbearbeitung („Technik-Radar“) und
+
+     - den Austausch und die Zusammenarbeit mit anderen Sicherheitsbehörden in diesen Angelegenheiten.
+
+*** Personalplan der Referatsgruppe 3C „Erweiterte Fachunterstützung Internet“ im BfV
+
+    (Tage sind Arbeitstage a 7,5 Stunden pro Jahr.)
+
+**** Referatsgruppe 3C: Erweiterte Fachunterstützung Internet
+
+| Tage | Laufbahn | Aufgabe                         |
+|------+----------+---------------------------------|
+| 200  | hD       | Gruppenleitung                  |
+| 21   | hD       | Fachaufgaben der Gruppenleitung |
+
+**** Referat 3C1: Grundsatz, Strategie, Recht
+
+| Tage | Laufbahn | Aufgabe                                                                                               |
+|------+----------+-------------------------------------------------------------------------------------------------------|
+|  177 | hD       | Referatsleitung                                                                                       |
+|   44 | hD       | Fachaufgaben der Referatsleitung                                                                      |
+|  221 | hD       | Referententätigkeiten (Konzeption, Projektmanagement, Strategie, Rechtsprüfung, G-10-Freizeichnungen) |
+
+**** 3C1: Querschnittstätigkeiten
+
+| Tage | Laufbahn | Aufgabe                                               |
+|------+----------+-------------------------------------------------------|
+| 69   | gD       | Abstimmung insbesondere mit dem G-10-Grundsatzbereich |
+| 46   | gD       | Auftrags- und Informationssteuerung                   |
+
+**** 3C1: Serviceaufgaben
+
+| Tage | Laufbahn | Aufgabe                            |
+|------+----------+------------------------------------|
+| 92   | mD       | Statistikführung, Terminverwaltung |
+| 45   | mD       | Vorbereitung von Präsentation      |
+| 276  | mD       | Bearbeitung allg. Schriftverkehr   |
+| 69   | mD       | Aktenverwaltung, DOMUS-Erfassung   |
+
+**** 3C1: Bearbeitung von Grundsatz-, Strategie- und Rechtsfragen EFI
+
+| Tage | Laufbahn | Aufgabe                                                                                                       |
+|------+----------+---------------------------------------------------------------------------------------------------------------|
+| 99   | gD       | Konzeption und Fortschreibung von Grundsatz- und Strategiepapieren                                            |
+| 278  | gD       | Berichtswesen für die Referatsgruppe (Bearbeiten von Stellungnahmen, Berichten, Sprechzeiten, Erlassen, etc.) |
+| 113  | gD       | Vorbereitung von rechtlichen Prüfungen                                                                        |
+| 111  | gD       | Recherche                                                                                                     |
+
+**** 3C1: Zentrale Koordination der technisch-methodischen Fortentwicklung, Innovationssteuerung
+
+| Tage | Laufbahn | Aufgabe                                                                                            |
+|------+----------+----------------------------------------------------------------------------------------------------|
+|  111 | gD       | Beschreibung von Einsatzszenarien und taktische Konzeption                                         |
+|  221 | gD       | Koordinierung der methodischen Fortentwicklung innerhalb der Referatsgruppe sowie mit Abteilung IT |
+|  119 | gD       | Erstellung von Prozessabläufen                                                                     |
+
+**** 3C1: Bedarfsabstimmungen mit den Fachabteilungen
+
+| Tage | Laufbahn | Aufgabe                    |
+|------+----------+----------------------------|
+|  287 | gD       | Anforderungsmanagement     |
+|  223 | gD       | Beratung                   |
+|   45 | gD       | Teilnahme an Besprechungen |
+
+**** 3C1: Zusammenarbeit mit weiteren Behörden
+
+| Tage | Laufbahn | Aufgabe                          |
+|------+----------+----------------------------------|
+| 204  | gD       | Kooperation mit LfV              |
+| 45   | gD       | Kooperation mit SFZ TK           |
+| 668  | gD       | Kooperation mit weiteren Stellen |
+
+**** Referat 3C2: Inhaltliche/technische Auswertung von G-10-Internetinformationen (Köln)
+
+| Tage | Laufbahn | Aufgabe                                                                                                 |
+|------+----------+---------------------------------------------------------------------------------------------------------|
+| 177  | hD       | Referatsleitung                                                                                         |
+| 44   | hD       | Fachaufgaben der Referatsleitung                                                                        |
+| 221  | hD       | Referententätigkeiten (Spezielle technische Analysen, Konzeption technisch-methodische Fortentwicklung) |
+
+**** 3C2: Technische Auswertung von G-10-Internetdaten
+
+| Tage | Laufbahn | Aufgabe                                                                                                                                                             |
+|------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 97   | mD       | Datenaufbereitung, -import, -export                                                                                                                                 |
+| 212  | gD       | Beratung und Schulung 3B und Fachabteilungen zu Möglichkeiten und Potential der technische Auswertung von G-10-Internetdaten                                        |
+| 883  | gD       | Technische Auswertung unter Berücksichtigung fachlicher Aspekte                                                                                                     |
+| 46   | gD       | Fachliche und technische Adminstration der Auswertungssysteme                                                                                                       |
+| 179  | gD       | Softwaretechnische Adaption und Konfiguration von IT-Systemen zur Auswertung von G-10-Internetdaten                                                                 |
+| 221  | gD       | Methodische Fortentwicklung, Evaluierung von neuer IT-Verfahren zur Auswertung von G-10-Internetdaten, Abstimmung mit Kooperationspartner in diesen Angelegenheiten |
+
+**** Referat 3C3: Inhaltliche/technische Auswertung von G-10-Internetinformationen (Berlin)
+
+| Tage | Laufbahn | Aufgabe                                                                                                 |
+|------+----------+---------------------------------------------------------------------------------------------------------|
+|  177 | hD       | Referatsleitung                                                                                         |
+|   44 | hD       | Fachaufgaben der Referatsleitung                                                                        |
+|  221 | hD       | Referententätigkeiten (Spezielle technische Analysen, Konzeption technisch-methodische Fortentwicklung) |
+
+**** 3C3: Technische Auswertung von G-10-Internetdaten
+
+| Tage | Laufbahn | Aufgabe                                                                                                                                                             |
+|------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   97 | mD       | Datenaufbereitung, -import, -export                                                                                                                                 |
+|  212 | gD       | Beratung und Schulung 3B und Fachabteilungen zu Möglichkeiten und Potential der technische Auswertung von G-10-Internetdaten                                        |
+|  883 | gD       | Technische Auswertung unter Berücksichtigung fachlicher Aspekte                                                                                                     |
+|   46 | gD       | Fachliche und technische Adminstration der Auswertungssysteme                                                                                                       |
+|  179 | gD       | Softwaretechnische Adaption und Konfiguration von IT-Systemen zur Auswertung von G-10-Internetdaten                                                                 |
+|  221 | gD       | Methodische Fortentwicklung, Evaluierung von neuer IT-Verfahren zur Auswertung von G-10-Internetdaten, Abstimmung mit Kooperationspartner in diesen Angelegenheiten |
+
+**** Referat 3C4: Zentrale Datenanalysestelle (Köln)
+
+| Tage | Laufbahn | Aufgabe                                                                                                                             |
+|------+----------+-------------------------------------------------------------------------------------------------------------------------------------|
+| 177  | hD       | Referatsleitung                                                                                                                     |
+| 44   | hD       | Fachaufgaben der Referatsleitung                                                                                                    |
+| 221  | hD       | Referententätigkeiten (insbesondere Bearbeitung von speziellen technischen Analysen, konzeptionnele und methodische Fortentwicklung |
+
+**** 3C4: Analyse von Datenmengen (methodischen Fortentwicklung, Evaluierung von neuen IT-Verfahren zur Datenanalyse, Abstimmung mit Kooperationspartner in diesen Angelegenheiten)
+
+| Tage | Laufbahn | Aufgabe                                                                    |
+|------+----------+----------------------------------------------------------------------------|
+|  662 | gD       | Durchführung von Analyse mit den Bedarfsträgern                            |
+|  331 | gD       | Erstellung von Analyse-/Auswertungsberichten für die Fachabteilungen       |
+|  110 | gD       | Steuerung der G-10-Auswertung durch Analyse                                |
+|  111 | gD       | Abstimmung mit Ländern (Competence Center Telekommunikationsverkehrsdaten) |
+|  441 | gD       | Analytische Datenerfassung                                                 |
+|  441 | gD       | Konzeptionelle Weiterentwicklung ITAM                                      |
+
+**** 3C4: Technische Unterstützung
+
+| Tage | Laufbahn | Aufgabe                         |
+|------+----------+---------------------------------|
+|  448 | gD       | Technische Analyseunterstützung |
+|  230 | mD       | Datenaufbereitung               |
+
+**** Referat 3C5: Zentrale Datenanalysestelle (Berlin)
+
+| Tage | Laufbahn | Aufgabe                                                                                                                             |
+|------+----------+-------------------------------------------------------------------------------------------------------------------------------------|
+| 177  | hD       | Referatsleitung                                                                                                                     |
+| 44   | hD       | Fachaufgaben der Referatsleitung                                                                                                    |
+| 221  | hD       | Referententätigkeiten (inbesondere Bearbeitung von speziellen technischen Analysen, konzeptionelle und methodische Fortentiwcklung) |
+
+**** 3C5: Analyse von Datenmengen (methodische Fortentwicklung, Evaluierung von neuen IT-Verfahren zur Datenanalyse, Abstimmung mit Kooperationspartner in diesen Angelegenheiten)
+
+| Tage | Laufbahn | Aufgabe                                                                    |
+|------+----------+----------------------------------------------------------------------------|
+| 662  | gD       | Durchführung von Analyse mit den Bedarfsträgern                            |
+| 331  | gD       | Erstellung von Analyse-/Auswertungsberichten für die Fachabteilungen       |
+| 110  | gD       | Steuer der G-10-Auswertung durch Analyse                                   |
+| 111  | gD       | Abstimmung mit Ländern (Competence Center Telekommunikationsverkehrsdaten) |
+| 441  | gD       | Analytische Datenerfassung                                                 |
+| 441  | gD       | Konzeptionelle Weiterentwicklung ITAM                                      |
+
+**** 3C5: Technische Unterstützung
+
+| Tage | Laufbahn | Aufgabe                         |
+|------+----------+---------------------------------|
+|  448 | gD       | Technische Analyseunterstützung |
+|  230 | mD       | Datenaufbereitung               |
+
+**** Referat 3C6: Informationstechnische Operativmaßnahmen, IT-forensische Analysemethoden
+
+| Tage | Laufbahn | Aufgabe                                                                                                  |
+|------+----------+----------------------------------------------------------------------------------------------------------|
+| 177  | hD       | Referatsleitung                                                                                          |
+| 44   | hD       | Fachaufgaben der Referatsleitung                                                                         |
+| 221  | hD       | Referententätigkeiten (insbesondere Beratung, Konzeption von IT-Systemen, spezielle technische Analysen) |
+| 28   | gD       | Querschnittstätigkeiten                                                                                  |
+| 23   | mD       | Querschnittstätigkeiten                                                                                  |
+
+**** 3C6: Unkonventionelle TKÜ
+
+| Tage | Laufbahn | Aufgabe                                                                                                                                                     |
+|------+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 297  | gD       | Technische Beratung von Bedarfsträgern in operativen Angelegenheiten des BfV                                                                                |
+| 486  | gD       | Konzeption, Entwicklung und Programmierung von IT-Verfahren und -Systemen zur verdeckten Informationserhebung bzw. speziellen Telekommunikationsüberwachung |
+| 36   | gD       | Einsatzdurchführung von Operativmaßnahmen des BfV zur verdeckten Informationserhebung über Computernetze, Maßnahmendokumentation, Einsatzrichtlinien        |
+| 294  | gD       | Datenextraktion und -rekonstruktion, technische Analyse und Bewertung von Datenträgern bzw. datenspeichernden IT-Systemen                                   |
+| 359  | gD       | IT-forensische Analysen von Datenstromaufzeichnungen und Softwaresystemen, Reverse-Engineering von Software und Kommunikationsprotokollen                   |
+| 32   | gD       | Einsatzdurchführung und Einsatzunterstützung von offenen und verdeckten Maßnahmen zur IT-forensischen Datensicherung                                        |
+| 23   | gD       | Konzeption, Entwicklung und Betrieb von konspirativen technischen Infrastrukturen                                                                           |
+| 248  | mD       | Betrieb von konspirativen technischen Infrastrukturen                                                                                                       |
+| 9    | gD       | Mitwirkung und Unterstützung der Fachabteilung bei der Werbung und Führung von Quellen                                                                      |
+| 9    | gD       | Zusammenarbeit und Informationsaustausch mit nationalen und internationalen Sicherheitsbehörden                                                             |
+| 9    | gD       | Mitwirkung in Arbeitsgruppen der Internetstrategie des BfV bzw. behördenübergreifende Arbeitsgruppen                                                        |
+| 20   | mD       | Vor-/Nachbereitung von Arbeitsgruppen der Internetstrategie des BfV bzw. behördenübergreifenden Arbeitsgruppen                                              |
+| 46   | gD       | Technologie-Monitoring, Technik-/Trendfolgenabschätzung mit Bezug zur Internetbearbeitung                                                                   |
+| 46   | mD       | Unterstützung bei Technologie-Monitoring, Technik-/Trendfolgenabschätzung mit Bezug zur Internetbearbeitung                                                 |
+
+** Artikel vom 25. Februar 2015
+
+*** Technische Unterstützung des Prozesses Internetbearbeitung (2.750 T€)
+    Das Internet gewinnt als Kommunikations- und Ausforschungsmedium für Extremisten, Terroristen und fremde Nachrichtendienste zunehmend an Bedeutung. Es dient ihnen als global verfügbare Informationsquelle und als Plattform zur weltweiten Verbreitung extremistischer Propaganda mittels Webseiten, Foren oder Videobotschaften. Das Internet erleichtert interessierten Personen in erheblichem Maße die Aneignung von Wissensbausteinen und ideologischen Versatzstücken, unabhängig von Herkunft, Sprache und Religion. Der Konsum von im Internet angebotenem Propagandamaterial kann z.B. Radikalisierungsprozesse initiieren oder beschleunigen. Eine zentrale Rolle nehmen dabei so genannte „Soziale Netzwerke“ wie Facebook, Twitter oder YouTube ein, die auch von verfassungsschutzrelevanten Personenkreisen genutzt werden.
+
+    Erfahrungen aus der täglichen Internetbearbeitung des BfV zeigen, dass Extremisten bzw. Terroristen jeglicher Prägung immer größere Datenmengen im Internet veröffentlichen. Das BfV steht vor der Herausforderung, aus der Masse an Informationen die verfassungsschutzrelevanten Erkenntnisse zu extrahieren und diese mit Daten aus anderen Quellen, z.B. von Polizeibehörden, zu verknüpfen. Dies ist aufgrund des Umfangs der Daten manuell nicht mehr möglich. Die anfallenden Daten müssen zunächst in ihrer Rohform erfasst und aufbereitet werden, um sie anschließend miteinander in Beziehung setzen zu können. Auf diese Weise können mittels technischer Unterstützung neue bzw. weiterführende Erkenntnisse gewonnen werden.
+
+    Weiterhin nimmt die Komplexität Elektronischer Angriffe durch fremde Nachrichtendienste immer mehr zu. Dies betrifft sowohl den Aufbau der eingesetzten Software auch die Identifizierungsmöglichkeiten der Urheber. Um diesen Angriffen adäquat begegnen zu können, ist eine entsprechend leistungsfähige IT-Infrastruktur erforderlich, mittels derer sich Elektronische Angriffe analysieren und zurückverfolgen und dadurch wirksamer als bisher abwehren lassen.
+
+    Um große Datenmengen automatisiert aufbereiten und systematisch analysieren zu können, soll in Kooperation mit externen Stellen aus Forschung und Entwicklung ein System zur Gewinnung, Verarbeitung und Auswertung von großen Datenmengen aus dem Internet entwickelt werden. Damit soll das BfV in die Lage versetzt werden, Massendaten unter den Voraussetzungen der Verschlusssachenanweisung (VSA) auszuwerten und relevante Informationen zu verknüpfen. Damit wird das Ziel verfolgt, bislang unbekannte und nicht offen erkennbare Zusammenhänge zwischen einschlägigen Personen und Gruppierungen im Internet festzustellen. Diese Aufklärung von verdeckten Netzwerkstrukturen trägt dazu bei, Radikalisierungen bei Einzeltätern frühzeitig zu erkennen.
+
+    Bei der Massendatenauswertung von Internetinhalten handelt es sich um eine für das BfV neuartige Herausforderung. Im Zuge dessen sind für die Einrichtung und Lauffähigkeit eines Systems zur Gewinnung, Verarbeitung und Auswertung von großen Datenmengen aus dem Internet umfangreiche Maßnahmen im Bereich der IT-Infrastruktur erforderlich. Die für die Internetbearbeitung notwendige ﬂächendeckende Verfügbarkeit von Internetarbeitsplätzen setzt den Aufbau einer modernen Netzinfrastruktur im BfV voraus.
+
+    Die gewonnenen Informationen bedürfen aufgrund ihres großen Umfangs einer Vorauswertung mittels intelligenter Werkzeuge. Um der Herausforderung der Massendatenauswertung zielgerichtet begegnen zu können, müssen bestehende IT-Infrastrukturen (Server, Speichersysteme, Arbeitsplatzrechner, Netzwerkkomponenten, Komponenten für Netzwerkübergänge etc.) für Analyse-, Entwicklungs- und Testaktivitäten ergänzt werden. Neben der Analyse der erhobenen Daten bzw. von Elektronischen Angriffen dienen die Erweiterungen dazu, sowohl marktverfügbare erfolgversprechende Hard- und Softwarelösungen in Bezug auf die spezifischen fachlichen und technischen Anforderungen des BfV zu bewerten und ggf. anzupassen, als auch Lösungen selbst zu entwickeln.
+
+    In einer dergestalt erweiterten Infrastruktur werden neben speziellen Recherche- und Analysetools, die z.B. die automatisierte Erhebung von offen im Internet verfügbare Informationen (z.B. von Kontaktlisten und Beziehungsgeﬂechten in sozialen Netzwerken wie Facebook) ermöglichen, auch geeignete Programme zur Analyseunterstützung (z.B. zur automatisierten Textvorauswertung) und zur Visualisierung von Auswertungsergebnissen bereitgestellt bzw. integriert.
+
+    Artikelbild: Netzpolitik.org unter CC-BY-SA 3.0
+
+* Morse Converter Desktop Public Beta 1.9.3              :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-07-30 02:00:00
+  :EXPORT_FILE_NAME: desktop-public-beta-1-9-3.md
+  :END:
+
+  Today I publish a public beta version of the next version of the morse converter for desktop systems. This version comes with the following new features:
+
+  - Intelligent code recognization (code and language)
+  - automatic / instant converting
+  - line break support
+  - integrated update function
+  - tabbed design
+  - native ui on all systems
+
+  Feel free to try this version.
+
+  *Please report all bugs at the bug tracker: [[https://github.com/mmk2410/morse-converter/issues][https://github.com/mmk2410/morse-converter/issues]] or to opensource(at)mmk2410(dot)org.*
+
+  [[http://lab.marcel-kapfer.de/writtenmorse/desktop/morseconverter.jar][Download]]
+
+* Rangitaki Version 0.9: Release Condidate for 1.0          :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-07-25 02:00:00
+  :EXPORT_FILE_NAME: version-0-9-release-condidate-for-version-1-0.md
+  :END:
+
+  It's time now for the last pre-release of version 1.0: the *release candidate* for version 1.0. After nearly seven weeks Rangitaki is now stable enough to release the last testing version.
+
+  This version comes with the following (bug) fixes:
+
+  - 'Blogs of {BLOG NAME}' always shown (even if there are no other blogs)
+  - pictures in articles not centred
+  - long links longer than article card (especially a problem on mobile devices)
+  - Localization strings are now grouped in one array
+  - Better code (in some parts)
+
+  I also *commented the whole code*. The documentation for Rangitaki will releases with version 1.0 (or vice versa).
+
+  [[https://github.com/mmk2410/Rangitaki][GitHub Repository]]
+
+  [[https://github.com/mmk2410/Rangitaki/releases/tag/v0.9][GitHub Release 0.9]]
+
+* Rangitaki Version 0.8                                     :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-07-16 13:15:00
+  :EXPORT_FILE_NAME: version-0-8.md
+  :END:
+
+  After one week of testing and bugfixing (mainly the RCC) we now release the beta version (number 0.8) of Rangitaki.
+
+  This versions brings various security updates for the RCC and you should really update to this version, if you're using the RCC. Otherwise you can wait until the release candidate , which will come this sunday with more bugfixes, especially for the blogging engine.
+
+  Stay tuned :)
+
+  P.S: Right now I'm searching for a few people, who can help me to localize Rangitaki by translating the strings in lang/en.php into their language. If you translated theses words, make a pull request on GitHub or send me the file over mail.
+
+* Rangitaki Version 0.7 - The alpha release                 :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-07-05 02:00:00
+  :EXPORT_FILE_NAME: version-0-7-the-alpha-release.md
+  :END:
+
+  Today is the day! I release the alpha release for version 1.0 with the version number 0.7. This means that the development phase for 1.0 is closed and that there will only small improvements and bugfixes. It also means that you can start migrating your blog from 0.2.x to this release, since there wont be any further changes concerning the file structure.
+
+
+  Instead of listing the new features in 0.7 I list now all features that Rangitaki has as of today:
+
+  - Post writing in Markdown with a few keywords for the title, tags, date and the author (all optional)
+  - Multiple blogs
+  - A Subpages for each article with a comment box (Disqus; can be disabled)
+  - Share buttons (FAB; can be disabled)
+  - Disqus integration (can be disabled)
+  - Fast and easy configuration
+  - Google Analytics (optional)
+  - Twitter and OpenGraph meta tags
+  - Different themes
+  - Easy localization (just 3 (!) strings)
+  - Custom footer
+  - Navigation drawer (can be disabled)
+  - Tags
+  - Set author and date
+  - Mobile-first
+  - Rangitaki Control Center (RCC; optional, requires linux know-how, do not enable this unless you know what your doing)
+  - Online post upload
+
+  Since mainly everything is done, I will no start writing a documentation for Rangitaki, the RCC, themes and localization. I will also provide a quick-starting guide. These documents will be published with the 1.0 release which is drafted for the end of this month.
+
+  I also rewrote the GitHub Readme, so you can find there some additional infos concerning Rangitaki.
+
+  [[https://github.com/mmk2410/Rangitaki][GitHub Repository]]
+
+  [[https://github.com/mmk2410/Rangitaki/releases/tag/v0.7][GitHub Release 0.7]]
+
+* A new design for marcel-kapfer.de                             :@design:web:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-06-23 19:51:10
+  :EXPORT_FILE_NAME: a-new-design-for-marcel-kapfer-de.md
+  :END:
+
+  Today I roll out a first version of the new marcel-kapfer.de. With this upload not everything is fully designed, but these missing pages will follow later this week or next week.
+
+  I decided to go in another direction using more subpages and the same design on every page, if it's just a subpage or its own project.
+
+  While designing the new page I not only tried to create a beautiful theme but also to provide a smoother user experience through designing page change animations with JavaScript. What you can actually see is just the beginning :D . I'll gonna improve the page animations to make them more seamless.
+
+  The idea was (and still is) to create a colorfull and light design which tries to provide a clean UI and a good UX by leaving large areas free. The important clickable areas in the design are quite large to create a good expirience for mobile users. To make the pages colorfull I choosed a own color (token from the Google Material Color palette) for each page and I used large artwork (mostly icons).
+
+  I call this design *nextDESIGN 8* which is the eight large release of the nextDESIGN. A web design series which tries to provide beautiful web design since mid 2013. I will release the sourcecode of earlier versions (4 - 7) on GitHub in the next months. For more information write me on Google+ (have a look at the about page).
+
+* Rangitak version shedule until 1.0                        :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-06-12 02:00:00
+  :EXPORT_FILE_NAME: version-shedule-until-version-1-0.md
+  :END:
+
+  The development on the new Rangitaki blogging engine started a few days ago and the version 0.3 (*not ready for productive use*) is out. But what are the features of the versions 0.3 until 0.9? First of all there all not ready for productive use. They are just there for testing and bug-fixing. You can obtain a copy on [[https://github.com/mmk2410/Rangitaki/releases][GitHub]].
+
+
+
+  I made also a table about the different versions:
+
+| Version | Features                                                             |
+|---------+----------------------------------------------------------------------|
+|     0.3 |                                                                      |
+|     0.4 | New Features: Tags, Author, Multiple Blogs, Online Upload (optional) |
+|     0.5 | Material Design                                                      |
+|     0.6 | More configuration options                                           |
+|     0.7 | Alpha release                                                        |
+|     0.8 | Beta release                                                         |
+|     0.9 | Release Candidate                                                    |
+|     1.0 | Stable final release                                                 |
+
+  With version 1.0 I will also provide a documentation.
+
+  Stay tuned!
+
+* Rangitaki Version 0.5 and Material Design                 :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-06-06 02:00:00
+  :EXPORT_FILE_NAME: version-0-5-and-material-design.md
+  :END:
+
+  With the development Version 0.5 Rangitaki has a complete new look, which is based on Material Design.
+
+  *Why Material Design?*
+
+  Material Design is influenced by paper and this element was for a long time the main material for the written word. Books, newspaper, letters and also diaries and logbooks were written on paper. So in my opinion is quite natural to use a design which is heavy influenced by this resource.
+
+  Read more about Material Design at [[https://google.com/design/][Google Design page]].
+
+  &nbsp;
+
+  *What will happen 'til 1.0?*
+
+  During the next development releases there will be mainly bug fixes and improvements. In version 0.6 there will also more configuration options and more themes.
+
+* Morse Converter Android App Version 2.2.7              :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-06-01 02:00:00
+  :EXPORT_FILE_NAME: android-app-version-2-2-7.md
+  :END:
+
+  Version 2.2.7 of the Morse Converter for Android is out and comes with the following changes:
+
+** Design
+
+     - Added shadow to the actionbar (exept for tablets)
+     - New layout for about
+     - Other small design fixes
+
+** Functions
+
+     - Added option to donate
+     - Added writtenMorse code list
+     - Closes keyboard when opening the drawer
+
+** Other
+
+     - Fixed links in the about sections
+     - Keyboard closes now after convertion process
+     - New icon
+     - Bugfix: Cursor not visible
+     - Bugfix: Sharing didn't work
+
+* Morse Converter Android App Beta testing               :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-05-22 02:00:00
+  :EXPORT_FILE_NAME: android-app-beta-testing.md
+  :END:
+
+  This week I decided to enable beta testing for new version of the morse converter android app to provide better and less buggier builds for all users.
+
+  I would really appreachiate it, if you would help me by testing beta builds. Just join the [[https://plus.google.com/communities/103668718628585126049][Google+ community]].
+
+* Rangitaki Version 0.2.2                                   :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-05-13 02:00:00
+  :EXPORT_FILE_NAME: version-0-2-2-2.md
+  :END:
+
+  Today I release a small new version to the new 0.2 series, which includes following changes:
+
+  - Links are now underlined, when you hover over them
+  - Simplified it to add the disqus comments
+  - Added and configuration option for setting a favicon
+  - Added the option to use Google Analytics
+
+  The following files changed:
+
+  - index.php
+  - blog.css
+  - config.php
+
+  When you updating you installation make sure that your nor overriding your existing configuration. Check on GitHub what are the differences between the two versions.
+
+* From pBlog to Rangitaki                                   :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-05-12 02:00:00
+  :EXPORT_FILE_NAME: from-pblog-to-rangitaki.md
+  :END:
+
+  /EDIT: 13 August 2015/
+
+  I decidet to scale down the social appearance of Rangitaki, and so I removed the Google+ Page and the Twitter account. Follow [[https://plus.google.com/+MarcelMichaelKapfer/posts][+MarcelKapfer]] for further updates about Rangitaki./
+
+  Some huge changes happend to this blogging engine in the last few days:
+
+
+  - The name was changed from pBlog to Rangitaki: Since the early beginning I searched for a good name for the blogging engine and Rangitaki (from the maori language and means logbook) fits just perfect
+  - The default color changed to #ff4415
+  - I wrote a webpage for Rangitaki [[http://marcel-kapfer.de/rangitaki][marcel-kapfer.de/rangitaki]]
+  - I created a Twitter profile [[https://twitter.com/rangitaki][@rangitaki]]
+  - and a Google+ profile [[https://plus.google.com/b/101437210222436501912/101437210222436501912/posts][+Rangitaki]]
+
+* Abitur und Weisheitszaehne                                :@private:abitur:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-05-05 01:59:59
+  :EXPORT_FILE_NAME: abitur-und-weisheitszaehne.md
+  :END:
+
+  Da ich gerade mitten im Abitur bin und an dieses logischerweise einige Gedanken verschwende, erkannte ich heute morgen eine Verbindung zwischen den Prüfungen und der Entfernung meiner Weisheitszähne.
+
+  Was sich im ersten Moment komisch anhört, hat bei genauerer Betrachtung viele Ähnlichkeiten. Das Offensichtlichste ist, dass die Freude nach jeder einzelnen Prüfung, repektive jedem Zahn, enorm ansteigt. Im selben Moment steigt aber auch schon die Angst vor den Schmerzen des nächsten Tests, oder Zahns - je nachdem ob man Wurzeln zieht oder drinnen lässt.
+
+  Allerdings gibt es auch gewisse Unterschiede, vor allem im Hinblick auf die Vorbereitungen. Während man sich schon Wochen vor seinem Eingriff mit verschiedensten Doktoren fachsimpelt und sich gewissenhaft auf nur jeden möglichen und unmöglichen Umstand vorbereiten, sieht d_ bayrische Abiturient_in das Abitur des dritten Prüfungsfaches ganz in Ruhe auf sich zukommen. Manche voreiligen Kammerad_innen denken sich dann schon um viertel vor acht: &quot;Musikabi in 'ner dreiviertel Stunde. Ich könnt' mal schön langsam zum Lernen anfangen.&quot;. Andere Mitschüler_innen, welche sich von allem befreit fühlen, wollen diesen Zustand auch möglichst lange halten, wie durch den Spruch &quot;Zwei 600er Ibuprofen vor Deutsch braucht's schon!&quot; des häufigeren aufgezeigt wurde.
+
+  Auch bezüglich der Vorbereitung in den letzten Minuten vor dem großen Event sind sich Vertreter von Ärzt_innen und Schüler/innen noch immern nicht ganz einig. Während d/ freundliche Kieferchirurg_in mit Baggerschaufelhänden einem den letzten Nerv raubt und dafür einen gekonnt gemischten Mix verschiedenster Chemikalien in den Mundraum pumpt, reicht bei einer Abiturprüfung schon ein gekonnter Griff in das Ü-18 Regal des nächsten Supermarkts um die letzten grauen Zellen in einen ruhigen Schlaf zu schicken. Die Wirkung dieser beiden Methoden ist erstaunlich wirksam und wenn sie erstmal voll einsetzt steht der Party nichts mehr im Weg.
+
+  Wenn dann der Kieferorthopäde endlich das Radio einschaltet und mit &quot;Highway to Hell&quot; den ersten Schnitt macht stürzt sich auch der Prüfling tatenfroh auf das so sorgfältig bedruckte Aufgabenheft und gönnt sich einen Artikel aus einem nicht gewählten Aufgabenteil als Morgenlektüre (leider darf man sich keinen Kaffee holen, wenn man &quot;auf's Klo geht&quot; :( ). Und ist die Party dann mal richtig im Gange so lässt er sich durch nichts mehr halten (und hier ist nicht nur der Schüler sondern auch dessen Mundraum gemeint).
+
+  Während die meisten Schüler/innen durch ihre anfängliche Überanstrengung nun unaufhaltbar in ein Tief rutschen und dieses mir einer ganzen Schicht an Süßigkeiten und der gesamten Bäckerei von nebenan zu stopfen versuchen, bietet de/ Leidenden d_ strahlende Dorfschmied_in (Stop. Das war eine andere Geschichte...) Kieferorthopäd_in den frisch erbeuteten Schatz an.
+
+  Doch auch so manche_r X-trem Schüler/in sieht das Licht am Ende des Tunnels und gibt Vollgas. Und das nicht nur in Chemie. Auch in anderen ähnlich weltfremden Disziplinen lassen es manche Krachen und liefern noch voll im (Taten)rausch 16 ganze Din A4 bei d/ Vorarbeiter_in ab.
+
+  Ich persönliche ziehe es an dieser Stelle eher vor meinen Klassenkolleg_innen zu sagen, dass alles gar nicht so schlimm sei und man sich ja nächstes Jahr eh wieder sehe und fahre froh vergnügt und dicht beladen mit meinem Six-Pack in Richtung Osten.
+
+* Web App Alpha Release                                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-04-17 02:00:00
+  :EXPORT_FILE_NAME: web-app-alpha-release.md
+  :END:
+
+  Today I release a first alpha version of the Morse Converter Web App.
+
+  This version is not ready for professional use. It's just there for testing and bug finding and fixing.
+
+  Have fun with it! :)
+
+  [[../writtenmorse/morseconverter/][Morse Converter Alpha]]
+
+* pBlog Version 2.1                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-29 02:00:00
+  :EXPORT_FILE_NAME: version-2-1.md
+  :END:
+
+  This version includes fixes for the article links. You only have to replace the hrefgenerator.php file in the res folder.
+
+* About the Future of pBlog                                 :@code:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-29 02:00:00
+  :EXPORT_FILE_NAME: about-the-future-of-pblog.md
+  :END:
+
+  I figured out that there will be many changes in the engine which will require many changes in the files (especially the posts file) and in the filestructure. I can't say right now which things will change and what you have to change. Out of this reason. I change the Version numbers and add an zero in front of them. So instead of 2.1 the latest version is now 0.2.1. The 0.2.x series is now on GitHub as an own branch and will recive bugfix updates. The series 0.3, 0.4, 0.5 and so own will be development releases which won't be compatible to the 0.2 series. I recommend current users to stay on 0.2.x - at least until the 1.0 release. I'm verry sorry for this and in case that there are requests I may write a small script that will help you switch to version 1.0.
+
+* pBlog Version 2.0                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-27 02:00:00
+  :EXPORT_FILE_NAME: version-2-0.md
+  :END:
+
+  This version introduces some very imporant features:
+
+  - *Own page for every article*
+  - Social *sharing buttons* (at the moment: google+, twitter, facebook but more will follow)
+  - *Disqus* integration
+  - Local *config file* -&gt; no more editing the index file
+
+  pBlog 2.0 is only partially compatible with prior versions. You don't have to change anything in the posts or intro file (in case you have one), but to switch to version 2.0 you have to replace your index.php with the new one. With this step all your settings like the title will be lost and you have to set them in the new config.php file. For more questions write me a mail to marcelmichaelkapfer@yahoo.co.nz.
+
+  In the near future I will spend more time in writing a documentation about the blog engine and adding more comments (especially in the css file).
+
+* Morse Converter Android Version 2.1                    :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-10 02:00:00
+  :EXPORT_FILE_NAME: android-version-2-1.md
+  :END:
+
+  This release includes the following features:
+
+  - Tablet layout
+  - Display fix in the About section
+
+  The update will be available on Google Play in a few hours.
+
+* Morse Converter Debian Package                         :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-08 02:00:00
+  :EXPORT_FILE_NAME: debian-package.md
+  :END:
+
+  For all my users of Debian-based systems: I made a .deb package, so installing will be much easier. Just download the .deb package and execute the following command as root:
+
+  =dpkg -i morse-converter.deb=
+
+  If you're using an Ubuntu-based distro: I created a ppa for easy installing and updating. Just fire up a terminal and run the following lines:
+
+  #+begin_src shell
+    sudo apt-add-repository ppa:mmk2410/morse-converter
+    sudo apt-get update
+    sudo apt-get install morse-converter
+  #+end_src
+
+  Have a lot of fun!
+
+* pBlog Version 1.2                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-03-08 02:00:00
+  :EXPORT_FILE_NAME: version-1-2.md
+  :END:
+
+  In this Version code is better designed so you can read and recognise it better.
+
+  This is a code example:
+
+  =scp -r * marcel-kapfer.de:=
+
+* pBlog Version 1.1                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-24 02:00:00
+  :EXPORT_FILE_NAME: version-1-1.md
+  :END:
+
+  After I published the Version 1.0 last sunday I realized some problems with german umlauts. Now I added a function that converts every umlaut (ü, Ü, ä, Ä, ö, Ö and ß) into the html code.
+
+* Week in Review                           :@code:design:morse:rangitaki:web:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-22 19:55:04
+  :EXPORT_FILE_NAME: week-in-review.md
+  :END:
+
+  Last week a few big changes happend in my projects. Nearly every project had an bigger release.
+
+  - *Morse Converter Desktop Edition* /Version 1.1/ (Sourcecode: [[http://marcel-kapfer.de/writtenmorse][http://marcel-kapfer.de/writtenmorse]])
+  The Desktop version of the Morse Converter has now the ability to show different languages. German is the first added locale and I hope that some people will submit more localizations.
+
+  - *Morse Converter Android Edition* /Version 2.0/ (Sourcecode: [[http://marcel-kapfer.de/writtenmorse][http://marcel-kapfer.de/writtenmorse]])
+  May the biggest release this week was the version 2.0 of the Android Morse Converter. I re-wrote more or less the whole app to make it awesome. The biggest change is the Material design.
+
+  - *pBlog* /Version 1.0/ (Sourcecode: [[https://github.com/mmk2410/pBlog][https://github.com/mmk2410/pBlog]])
+  Another new project entered the public state last week and saw today the Version 1.0. pBlog is a blogging engine based on PHP, XML and Markdown and it is completly independent from any database. It tries to be as simply as possible. At the moment there are not much features included but more will follow. Right now you're visiting a page created with pBlog.
+
+  - *My Website* (Sourcecode: [[http://marcel-kapfer.de][http://marcel-kapfer.de]])
+  My Website also saw a new release this week (to be exact: today). It is not just a small change - it is a completely new page. Less content and less subpage, simply reduced on the main content (programming). Also new: It is written in PHP to provide a few nice and handy features. Enjoy it!
+
+
+  I hope that I can continue such an amount of new stuff in the future even if I have not much time until middle of June this year.
+
+* pBlog Version 1.0                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-22 02:00:00
+  :EXPORT_FILE_NAME: version-1-0-2.md
+  :END:
+
+  Today I'm proud to announce the *Version 1.0* of the pBlog - a simple PHP, XML and Markdown based blogging engine
+  which is completly independent from any databases. Even if this is the version 1.0 it is still in a early state of
+  development.
+
+  Version 1.0 has the following features:
+
+  - Blog writing in XML
+  - Content in Markdown
+  - Static intro in Markdown
+
+* Material Bildschirmhintergründe 1 und 2                 :@design:wallpaper:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-22 01:59:59
+  :EXPORT_FILE_NAME: material-bildschirmhintergrunde-1-und-2.md
+  :END:
+
+  Um meinen Desktop / Homescreen besser aussehen zu lassen habe ich kürzlich zwei einfache "Material" Hintergründe gestaltet. Diese sind kostenlos zu downloaden und zu verteilen (CC-BY-SA 4.0). Ich habe diese mit einer hohen 16:9 Auflösung gestaltet, sodass sie auch auf 2k Dislays (und auch auf Größeren) gut aussehen.
+
+  Hochformat (z.B. für Smartphones und kleine Tablets)
+
+  [[/2017/07/material001-orange-red-1.png]]
+
+  [[/2017/07/material002-orange.png]]
+
+  Querformat (z.B. für Computer und große Tablets)
+
+  [[/2017/07/material001-LS-orange-red-1.png]]
+
+  [[/2017/07/material002-LS-orange.png]]
+
+* pBlog Version 0.3                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-20 02:00:00
+  :EXPORT_FILE_NAME: version-0-3.md
+  :END:
+
+  This is the Version /0.3/ of pBlog. It comes with the following changes:
+
+  - Complete Markdown Support
+  - Design fixes
+  - a mainlink is no longer required
+
+* pBlog Version 0.2                                   :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-20 02:00:00
+  :EXPORT_FILE_NAME: version-0-2-3.md
+  :END:
+
+  The following things are new in this version:
+
+  - Design
+  - Better structure
+  - cleaned up
+
+  More will come when it is ready!
+
+  This is the version /0.2/.
+
+* Morse Converter Android Version 2.0                    :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-18 02:00:00
+  :EXPORT_FILE_NAME: android-version-2-0.md
+  :END:
+
+  Today I release the version 2.0 of the Android app. The initial release of the Android app is just about 2 months ago but it is still worth to make a big number jump.
+
+  - Fixed a bug in the normal morse encode engine which made this function u nusable until now
+  - Now both, input and output, are on the same screen
+  - Added copy to clipboard function
+  - Material Design: Complete new materialized design (I re-wrote more or less the whole app)
+
+* Material Wallpapers 1 and 2             :@design:material_design:wallpaper:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-17 20:08:02
+  :EXPORT_FILE_NAME: material-wallpapers-1-and-2.md
+  :END:
+
+  To bring a better look to my desktop / homescreen I recently made two simple material like wallpapers. These wallpapers are free to download and to redistribute (CC-BY-SA 4.0). I made them with a high 16:9 resolution that the also look great on 2k screen (or even higher resolutions) and in two versions:
+
+  Portrait Version (e.g. for smartphones and small tablets)
+
+  [[/2017/07/material001-orange-red-1.png]]
+
+  [[/2017/07/material002-orange.png]]
+
+  Landscape Version (e.g. for computers and large tablets)
+
+  [[/2017/07/material001-LS-orange-red-1.png]]
+
+  [[/2017/07/material002-LS-orange.png]]
+
+* Morse Converter Desktop Version 1.1.1                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-17 02:00:00
+  :EXPORT_FILE_NAME: desktop-version-1-1-1.md
+  :END:
+
+  - Fixed a bug in the normal morse encode engine
+
+* Morse Converter Desktop Version 1.1                    :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-16 02:00:00
+  :EXPORT_FILE_NAME: desktop-version-1-1.md
+  :END:
+
+  - Added German translation
+
+* Blog (Experimental)                                 :@code:pblog:rangitaki:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-13 02:00:00
+  :EXPORT_FILE_NAME: blog-experimental.md
+  :END:
+
+  This is a test version in a early state of the new *blog engine*. By now it supports following things:
+
+  - Markdown
+  - Mainlink and various other links
+
+  More will come when it is ready!
+
+  This is the version /0.1/.
+
+* The Ending Year                                                :@composing:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-02-05 13:51:50
+  :EXPORT_FILE_NAME: the-ending-year-2.md
+  :END:
+
+  Today I publish my first composed piece called: "The Ending Year". I composed it at the end of 2014 to review the old year.
+
+* UPDATE: Bash script for LaTeX users                       :@tex:bash:latex:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-09 20:19:37
+  :EXPORT_FILE_NAME: update-bash-script-for-latex-users.md
+  :END:
+
+  On the 6th I posted a link to this script in the LaTeX community on Google+ ([[http://pastebin.com/YtVuVQJK][Pastebin]].
+
+* UPDATE: Bash Skript für LaTeX Benutzer                         :@tex:latex:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-09 01:59:59
+  :EXPORT_FILE_NAME: update-bash-skript-fur-latex-benutzer.md
+  :END:
+
+  Am sechsten habe ich eine Link zu dem von mir veröffentlichten Shell Skript in der LaTeX Community auf Google+ gepostet ([[https://plus.google.com/+EliasToivanen/posts][Profile]]) hat dies gesehen, das Skript angepasst und mit dem inotify-tools ausgestattet. Mit inotify wird die .tex Datei nur dann kompiliert, wenn sie geändert wurde. Hier ist ein Link zu dem Skript auf Pastebin.
+
+  [[http://pastebin.com/YtVuVQJK][Pastebin]]
+
+* Bash script for LaTeX users                               :@tex:bash:latex:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-06 20:23:42
+  :EXPORT_FILE_NAME: 107.md
+  :END:
+
+  Here a little shell script for LaTeX users who dont use an LaTeX IDE and who often use the command pdflatex. With this script is it possible to do so in regulary times automatically. It is also possible to tell the script how often it should build the PDF-file and how much time should be between these builds. Before you can use this script you have to make it executable with the command =chmod +x= buildpdf.sh.
+
+  #+BEGIN_SRC bash
+    #!/bin/bash
+    # A script for automatically creating PDf files from a latex document
+    # You can set the amounts of builds and the time between these builds
+    # Usage: ./buildpdf.sh filename [build amount] [time between builds in s]
+    # Marcel Michael Kapfer
+    # 6th January 2015
+    # GNU GPL v3.0 -&gt; Feel free to re-distribute it or fork it
+    if [[ -z "$1" ]]; then
+	echo "Usage: ./buildpdf.sh filename [build amount] [time between builds in s]"
+	exit 1
+    else
+	filename=$1
+    fi
+    if [[ -z "$2" ]]; then
+	builds=1
+    else
+	builds=$2
+    fi
+    if [[ -z "$3" ]]; then
+	sleeptime=120
+    else
+	sleeptime=$3
+    fi
+    for ((i=1; i&lt;=$builds; ++i)) ;
+    do
+	pdflatex $filename
+	echo "Build $i ready"
+	if (( i &lt; builds )); then
+	    echo "Waiting $sleeptime seconds - then build again"
+	    sleep $sleeptime
+	fi
+    done
+  #+END_SRC
+
+* Bash Skript für LaTeX Benutzer                                 :@tex:latex:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-06 01:59:59
+  :EXPORT_FILE_NAME: bash-skript-fur-latex-benutzer.md
+  :END:
+
+  Hier ein kleines Shell Skript für LaTeX Benutzer die keine LaTeX IDE verwenden und somit häufiger von dem Befehl pdflatex Gebrauch machen. Mit dem Skript kann man das in regelmäßigen Abständen automatisch ablaufen lassen. Es ist möglich festzulegen, wie oft der Prozess ablaufen soll und wie lange dazwischen gewartet werden soll. Vor dem Verwenden muss es mit =chmod +x= buildpdf.sh ausführbar gemacht werden.
+
+  #+BEGIN_SRC bash
+    #!/bin/bash
+    # A script for automatically creating PDf files from a latex document
+    # You can set the amounts of builds and the time between these builds
+    # Usage: ./buildpdf.sh filename [build amount] [time between builds in s]
+    # Marcel Michael Kapfer
+    # 6th January 2015
+    # GNU GPL v3.0 -&gt; Feel free to re-distribute it or fork it
+
+    if [[ -z "$1" ]]; then
+	echo "Usage: ./buildpdf.sh filename [build amount] [time between builds in s]"
+	exit 1
+    else
+	filename=$1
+    fi
+
+    if [[ -z "$2" ]]; then
+	builds=1
+    else
+	builds=$2
+    fi
+
+    if [[ -z "$3" ]]; then
+	sleeptime=120
+    else
+	sleeptime=$3
+    fi
+
+    for ((i=1; i&lt;=$builds; ++i));
+	pdflatex $filename echo "Build $i ready"
+	if (( i &lt; builds )); then
+	    echo "Waiting $sleeptime seconds - then build again" sleep $sleeptime
+	fi
+    done
+  #+END_SRC
+
+  [[./media/2015/buildpdf.sh][Rechts Klick -&gt; Speichern als]]
+
+* Morse Converter Android Version 1.0.1                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-05 02:00:00
+  :EXPORT_FILE_NAME: android-version-1-0-1.md
+  :END:
+
+  - Bugfix: ='#'= / 3 Spaces in front of ='+'= / 7 Spaces
+  - Bugfix: Wrong length of the word divider in normal morse
+  - Bugfix: About on small devices not completely readable
+  - Bugfix: Landing in writtenMorse after converting normal morse
+
+* Morse Converter Desktop Version 1.0.2                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-04 02:00:00
+  :EXPORT_FILE_NAME: desktop-version-1-0-2.md
+  :END:
+
+  - Bugfix: Wrong length of the word divider in normal morse
+
+* Morse Converter Desktop Version 1.0.1                  :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-03 02:00:00
+  :EXPORT_FILE_NAME: desktop-version-1-0-1.md
+  :END:
+
+  - Added program icon
+  - Bugfix: ='#'= / 3 Spaces in front of ='+'= / 7 Spaces
+
+* Comfortaa Font for Cyanogenmod Theme Engine :@code:android:cyanogenmod:font:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-02 20:25:58
+  :EXPORT_FILE_NAME: comfortaa-font-for-cyanogenmod-theme-engine.md
+  :END:
+
+  This is the open source Comfortaa font by aajohan (aka Johan Aakerlund), packaged for the Cyanogenmod Theme Engine. All the credits go to aajohan. This font has no italic types.
+
+  [[/2017/07/comfortaa-screenshot001.png]]
+
+  [[/2017/07/comfortaa-screenshot002.png]]
+
+  [[https://play.google.com/store/apps/details?id=de.marcelkapfer.cyngn.theme.comfortaa][Get it]]
+
+* Morse Converter sourcecode now on GitHub :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-02 02:00:00
+  :EXPORT_FILE_NAME: sourcecode-now-on-github.md
+  :END:
+
+  I decided that I publish the sourcecode of both applications on Github instead of providing an sourcecode zip package. Feel also free to commit any changes. A link to a trello board will apear on the Github readme soon.
+
+* Comfortaa Font für Cyanogenmod Theme Chooser :@code:android:cyanogenmod:font:
+  :PROPERTIES:
+  :EXPORT_DATE: 2015-01-02 01:59:59
+  :EXPORT_FILE_NAME: comfortaa-font-fur-cyanogenmod-theme-chooser.md
+  :END:
+
+  Das ist die open-source Schriftare Comfortaa von aajohann (auuch bekannt als Johan Aakerlund), verpackt für den Cyanogenmode Theme Chooser. Sämtlicher Dank geht an aajohan. Diese Schriftart ist nicht als kursiv erhältlich.
+
+  [[/2017/07/comfortaa-screenshot001.png]]
+
+  [[/2017/07/comfortaa-screenshot002.png]]
+
+  [[https://play.google.com/store/apps/details?id=de.marcelkapfer.cyngn.theme.comfortaa][Download]]
+
+* Morse Converter Android App Version 1.0 :@code:android:app:morse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-12-11 20:28:28
+  :EXPORT_FILE_NAME: morse-converter-android-app-version-1-0.md
+  :END:
+
+  I'm proud to present you this android app. With this app you can now convert your code on the way. The application has all the functions that the desktop program has.
+
+  [[/2017/07/screenshot_android001.png]]
+
+  [[/2017/07/screenshot_android002.png]]
+
+  [[/2017/07/screenshot_android003.png]]
+
+  It also includes a share button for directly sharing your output to different apps on your device.
+
+  I don't plan any apps for other mobile os like iOS.
+
+  [[https://gitlab.com/mmk2410/writtenmorse][Read more]]
+
+  [[https://play.google.com/store/apps/details?id=de.marcelkapfer.morseconverter][Get it]]
+
+  [[https://github.com/mmk2410/morse-converter-android][GitHub]]
+
+* Morse Converter Android App Version 1.0 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-12-11 02:00:00
+  :EXPORT_FILE_NAME: android-app-version-1-0.md
+  :END:
+
+  I'm proud to present you this android app. With this app you can now convert your code on the way. The application has all the functions that the desktop program has. It also includes a share button for directly sharing your output to different apps on your device. I don't plan any apps for other mobile os like iOS.
+
+* Morse Code Converter Android App Version 1.0 :@code:android:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-12-11 02:00:00
+  :EXPORT_FILE_NAME: morse-code-converter-android-app-version-1-0.md
+  :END:
+
+  Ich veröffentliche nun eine Android App für writtenMorse. Mit dieser App kannst du nun auch unterwegs text ver- und entschlüsseln. Die App hat die selben Funktionen wie das Desktop Programm.
+
+  [[/2017/07/screenshot_android001.png]]
+
+  [[/2017/07/screenshot_android002.png]]
+
+  [[/2017/07/screenshot_android003.png]]
+
+  Die App beinhalted auch einen Teilen-Buttton um die konvertierte Nachricht mit verschiedenen Apps auf deinem Gerät zu teilen
+
+  Ich habe nicht vor die App für andere mobile Betriebssysteme wie iOS zu entwickeln.
+
+  [[https://play.google.com/store/apps/details?id=de.marcelkapfer.morseconverter][Download]]
+
+  [[http://marcel-kapfer.de/writtenmorse][Mehr Informationen]]
+
+  [[https://github.com/mmk2410/morse-converter-android][GitHub]]
+
+* Morse Code Converter Version 1.0.0 :@code:desktop:java:morse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-11-30 20:33:20
+  :EXPORT_FILE_NAME: morse-code-converter-version-1-0-0.md
+  :END:
+
+  After a few months developing I'm proud to present now the Version 1.0.0. of the Morse Code Converter.
+
+  [[/2017/07/morseconverter-desktop.png]]
+
+  With this version it is possible to convert an unlimited amount of signs. There is also a completely new user interface and the version handles now all converting processes.
+
+  The program is able to run under every system including Linux, Mac OS X and Windows as long as a up-to-date java runtime is installed.
+
+  [[http://marcel-kapfer.de/writtenmorse][Get it]]
+
+* Morse Converter Version 1.0 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-11-30 02:00:00
+  :EXPORT_FILE_NAME: version-1-0.md
+  :END:
+
+  With this version some necessary features are introduced:
+
+  - Converting of more than one sign. Now you can de- and encrypt words and sentences,
+  - Complete new user interface with input and output box in same window and
+  - All versions (normal morse de- and encrypt and writtenMorse de- and encrypt as well) now in one application.
+
+* Morse Converter Version 1.0.0 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-11-30 02:00:00
+  :EXPORT_FILE_NAME: morse-converter-version-1-0-0.md
+  :END:
+
+  Nach etlichen Monaten Entwicklung veröffentliche ich nun die Version 1.0.0 des Morse Code Converters.
+
+  [[/2017/07/morseconverter-desktop.png]]
+
+  Mit dieser Version ist es nun möglich mehrere Zeichen umzuwandeln. Des weiteren hat das Programm ein komplett neues aussehen und vereint nun alle Umwandlungsprozese.
+
+  Das Programm läuft unter Linux, Mac OS X und Windows, wenn eine aktuelle Java Version installiert ist.
+
+  [[http://marcel-kapfer.de/writtenmorse][Mehr Informationen &amp; Download]]
+
+* Punktebilanz :@code:java:school:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-09-16 20:36:14
+  :EXPORT_FILE_NAME: punktebilanz.md
+  :END:
+
+  Today I released a little program for german students from the 11th grade. The program is able to calculate the point average. It also shows you the worst entred mark and the highest. Because the software is for german students it's completely in german.
+
+  [[/2017/07/notenbilanz.png]]
+
+  More features will be added when they are ready.
+
+  The program is able to run under every system including Linux, Mac OS X and Windows as long as a up-to-date java runtime is installed.
+
+  The Software is released under GNU Public License v3.0
+
+  [[./media/2014/notenbilanz.jar][Download]]
+
+* Morse Converter Version 0.2.2 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-08-07 02:00:00
+  :EXPORT_FILE_NAME: version-0-2-2.md
+  :END:
+
+  This version is also a small release. The hotword windows are improved and, in case you are a developer, the sourcecode is improved concerning formating and the code itself. There is also a new hotword: &quot;missing code&quot;.
+
+* Morse Converter Version 0.2.1: First public release :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-06-23 02:00:00
+  :EXPORT_FILE_NAME: version-0-2-1-first-public-release.md
+  :END:
+
+  Small release. Two new hot words.
+
+* The writtenMorse website is online :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-06-23 02:00:00
+  :EXPORT_FILE_NAME: the-website-is-online.md
+  :END:
+
+  Today, after two weeks of coding, the website is online.
+
+* Morse Converter Version 0.2 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-06-01 02:00:00
+  :EXPORT_FILE_NAME: version-0-2.md
+  :END:
+
+  The secound release, now the decoding software is fine. Also the hotwords are new.
+
+* Morse Converter Version 0.1 :@code:writtenmorse:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-05-29 02:00:00
+  :EXPORT_FILE_NAME: version-0-1.md
+  :END:
+
+  In this release the decode version was kind of useless.
+
+* Installation of Debian 8 "jessie" testing :@linux:debian:install:jessie:
+  :PROPERTIES:
+  :EXPORT_DATE: 2014-05-15 20:39:05
+  :EXPORT_FILE_NAME: installation-of-debian-8-jessie-testing.md
+  :END:
+
+** 1 Preparation
+
+*** 1.1 Download image
+
+    To download a image go to [[http://www.debian.org/devel/debian-installer/][http://www.debian.org/devel/debian-installer/]] and copy the download link of the netinstall iso for your architecture from the netinst section (Right Click &gt; Copy Link Location (Firefox) / Copy Link Address (Chrome)) and download it with the command =wget -c [copied link]= (you can simply paste the link with the shortcut /STRG+SHIFT+V/). Create now a file for the checksum with the command =touch sha512sum= in the same folder and open it with =nano sha512sum=.
+
+    Then click in the CD section on your architecture and click on the new page on SHA512SUM and copy from there the line of the netinstall iso (normally it is the second one from the bottom) into the sha512sum file (you can simply use the shortcut /STRG+SHIFT+C/ to paste it). Save now the file with the shortcut /STRG+SHIFT+O/ and close it with /STRG+SHIFT+X/. Finally check now the iso image with the command =sha512sum -c sha512sum=.
+
+    Normally the image should be fine, if not, try again to download it.
+
+*** 1.2 Preprare the boot device
+
+**** 1.2.1 Prepare a boot DVD
+
+     I recommend to burn the CD with brasero. Open the program and click on burn image. Choose then your iso image an burn it on a CD. Now your CD is ready for installing Debian.
+
+     *Some old dvd drives have problems to boot from a dvd, so you have to choose a CD!*
+
+**** 1.2.2 Prepare a boot USB flash drive
+
+     Write the ISO image with the following command on your USB flash drive: =sudo dd if=debian*.iso of=/dev/sdX=
+
+     The =X= is the letter of your USB flash drive. If you are unsure about the name of your usb flash drive, you can find it out with =lsblk=.
+
+     =/dev/sda= is normally your hard disk, so do not use this device! Now your USB device is ready for installing debian.
+
+*** 1.3 Boot from the installation device
+
+    Now reboot your computer and start from the DVD or USB flash drive. You may have to change the boot device by tap /F12/. On some computers you have to go in the BIOS or EFI with /ESC/, /DEL/, /F2/, or some other key. If the computer doesn't boot from the USB flash drive, make sure that the USB Legacy Support in the BIOS is enabled. Some old computer can't boot from USB, so you have to take a CD. If your computer start from your boot device, then continue with ENTER to start the installation.
+
+    *TRICK: The default desktop environment in Debian is XFCE. If you want to install another desktop environment, go into 'Advanced Option', then go to 'Alternative Desktop Environment'. Now choose one of the three and continue with install.*
+
+** 2 Installation
+
+*** 2.1 Localization
+
+    First choose your favorite language and contuine with /ENTER/. Then choose your contry. If your contry isn't listed search under others. Choose your keyboard layout in the next step and continue with /ENTER/.
+
+*** 2.2 Network connection
+
+    Choose the network you wanna use and continue with /ENTER/. If you have only one of them, the installer will automatically continue with this method. 'eth0' is your wired connection and something like 'wlan0' is your wireless connection.
+
+**** 2.2.1 Ethernet connection
+
+     The ethernet connection configures itself normally, so you don't have anything to do. Continue with step 2.3.
+
+**** 2.2.2 WiFi connection
+
+     Choose the name of your wireless network from the list and continue. If you have a hidden network you have to choose 'Enter ESSID manually'. In the next step you have to choose, if your wireess connection is open or secure. For open one choose 'WEP/Open Network' and for protected networks choose 'WPA/WPA2 PSK', where you have to enter your key in the next step.
+
+*** 2.3 Network configuration
+
+    Enter a hostname for your computer. This is the name that appear in your (home) network. Then insert in the next step an domain name. You should use the same on all the computer of your home network. If you didn't use a home network yet, make something up.
+
+*** 2.4 Root and user
+
+    The next step is to set up a root password. You need this for example to install or update software. In the next box simply retype this password to verify it. Don't forget this password ever! The next step is about creating a user. In the first box you should insert your full name. Then choose a username. You can also use the one which is automatically insert. Then create a password for the user and verify it.
+
+*** 2.5 Time zone
+
+    Next choose your time zone. Which one you have to choose varies in every country.
+
+*** 2.6 Partitioning
+
+    I recommend to use the manual way. If you have already a file system on your hard disk the installer should show it. You now can change there you partition details. If you have no file system on you hard disk or simply want to create a new one, choose your hard disk from the list, mostly it is the third option. Then create a new empty partition table. After the installer did this you see again the list from the beginning of this step, only with a few more options.
+
+    *I recommend for the following procedure a hard drive with at least 40 GB.*
+
+**** 2.6.1 Boot partition
+
+     Continue with /ENTER/ on the line, which is marked with 'FREE SPACE'. Choose now 'create a new partition'. This partition should have 50MB. Choose 'Primary' in the next step, then choose 'End' in the next step. Change now the partition settings to the following example:
+
+     #+BEGIN_SRC conf
+       Us as: Ext4 journaling file system
+       Mount point: /boot
+       Mount option: default
+       Label: boot
+       Reserved blocks: 5%
+       Typical usage: standard
+       Bootable flag: on
+     #+END_SRC
+
+     If all is set like the example above, continue with 'Done setting up the partition'.
+
+**** 2.6.2 System partition
+
+     Continue with /ENTER/ on the line, which is marked with 'FREE SPACE'. Choose now 'create a new partition'. This partition should have at least 20GB. Choose 'Primary' in the next step, then choose 'Beginning' in the next step. Change now the partition settings to the following example:
+
+     #+BEGIN_SRC conf
+       Us as: Ext4 journaling file system
+       Mount point: /
+       Mount option: default
+       Label: system
+       Reserved blocks: 5%
+       Typical usage: standard
+       Bootable flag: off
+     #+END_SRC
+
+     If all is set like the example above, continue with 'Done setting up the partition'.
+
+**** 2.6.3 Home partition
+
+     Continue with /ENTER/ on the line, which is marked with 'FREE SPACE'. Choose now 'create a new partition'. Use the rest of the disk minus your RAM size, you need this for the next partition. Choose 'Logical' in the next step, then choose 'Beginning' the next step. Change now the partition settings to the following example:
+
+     #+BEGIN_SRC conf
+       Us as: Ext4 journaling file system
+       Mount point: /home
+       Mount option: default
+       Label: home
+       Reserved blocks: 5%
+       Typical usage: standard
+       Bootable flag: off
+     #+END_SRC
+
+     If all is set like the example above, continue with 'Done setting up the partition'.
+
+**** 2.6.4 Swap
+
+     Continue with /ENTER/ on the line, which is marked with 'FREE SPACE'. Choose now 'create a new partition'. Use now the rest of the disk, this is normally the size, that the installation program suggest. Choose 'Logical' in the next step, then choose 'Beginning' in the next step. Change now the partition settings to the following example:
+
+     #+BEGIN_SRC conf
+       Us as: swap area
+       Bootable flag: off
+     #+END_SRC
+
+     If all is set like the example above, continue with 'Done setting up the partition'.
+
+**** 2.6.5 Finishing partitioning
+
+     Now choose 'Finishing partitioning and write changes to disk', which is normally the last option. Accept now the summary and the partitions will be written on your hard disk.
+
+*** 2.7 Configuration of the package manager
+
+    Choose your country, or, if country isn't available choose one which is near your country. Normally you can choose the mirror at the top of the list. Then you can enter a proxy server. If you don't use one just hit /ENTER/. After that you will be asked, if you want participate in the package usage survey. Choose here what you decide for yourself. If you aren't sure choose no and reconfigure it later with the command =dpkg-reconfigure popularity-contest=.
+
+*** 2.8 Software selection
+
+    For normal users I recommend to select the following software:
+
+    - Debian desktop environment
+    - ssh server
+    - laptop (if you have a laptop)
+    - print server
+    - standard system utilities
+
+    Continue with /TAB/ and /ENTER/.
+
+*** 2.9 Finishing installation
+
+    Answer the next question simply with /ENTER/. Then remove the boot device from the computer until it start again the installer. At the first start you will be asked, if you want to 'Use default config' or simply 'One empty panel'. I recommend to 'Use default config' and customize it later.
+
+    *So congratulations to your Debian testing "jessie"!*
+
+** 3 Upgrade from Debian 7
+
+   If you have already an Debian 7, then make a backup and continue with step 2.
+
+*** 3.1 Install a Debian 7
+
+    If the installation above fails, you can try this way to get an Debian testing on your system. First install Debian 7 "wheezy" on your computer. You can mostly following the guide above. You can download it on [[https://www.debian.org/distrib/netinst][https://www.debian.org/distrib/netinst]].
+
+*** 3.2 Change repositories
+
+    After installing, change your repositories as root with the command =nano /etc/apt/sources.list=
+
+**** 3.2.1 Debian 8 repositories (If you want just the next release)
+
+     Replace "wheezy" everywhere with "jessie". It should be look like this:
+
+     #+BEGIN_SRC conf
+       deb http://ftp.de.debian.org/debian/ jessie main
+       deb-src http://ftp.de.debian.org/debian/ jessie main
+
+       deb http://security.debian.org/ jessie/updates main
+       deb-src http://security.debian.org/ jessie/updates main
+
+       deb http://ftp.de.debian.org/debian/ jessie-updates main
+       deb-src http://ftp.de.debian.org/debian/ jessie-updates main
+     #+END_SRC
+
+**** 3.2.2 Debian testing repositories (If you always want a Debain testing)
+
+     Replace "wheezy" everywhere with "testing".
+
+     *Backport repositories must always have a codename like "jessie".*
+
+     #+BEGIN_SRC conf
+       deb http://ftp.de.debian.org/debian/ testing main
+       deb-src http://ftp.de.debian.org/debian/ testing main
+
+       deb http://security.debian.org/ testing/updates main
+       deb-src http://security.debian.org/ testing/updates main
+
+       deb http://ftp.de.debian.org/debian/ testing-updates main
+       deb-src http://ftp.de.debian.org/debian/ testing-updates main
+     #+END_SRC
+
+*** 3.3 Upgrade the system
+
+    Now update first the package list with =apt-get update= as root. Then upgrade your system with =apt-get upgrade &amp;&amp; apt-get dist-upgrade= also as root.
+
+*** 3.4 Install systemd
+
+    I highly recommend to install and use systemd. Install it first with =apt-get install systemd= as root. Then open the grub configuration with =nano /etc/default/grub= and add =init=/bin/systemd= to the line =GRUB_CMDLINE_LINUX_DEFAULT=. It should look like this:
+
+    #+begin_src conf
+      GRUB_CMDLINE_LINUX_DEFAULT="nomodeset init=/bin/systemd"
+    #+end_src
+
+    Execute then the following commands as root =update-grub && reboot=.
+
+    *So congratulations to your Debian testing "jessie"!*
+
+* Schöne ruhige Zeit :@politics:
+  :PROPERTIES:
+  :EXPORT_DATE: 2013-12-24 01:59:59
+  :EXPORT_FILE_NAME: schone-ruhige-zeit.md
+  :END:
+
+  Seit den letzten Wahlen, welche vor einem Vierteljahr stattfanden, war es ruhig in Deutschland. Angenehm ruhig. Ich werde diese Zeit die nächsten vier Jahre sehr vermissen. Drei Monate habe ich nicht das wirre Gerede von so manchen hohlen Politiker_inenn hören müssen. Drei Monate lang hat mich kein hirnlos erstelltes Gesetz aus der Ruhe gerissen. Während viele sagen, dass diese lange Zeit ohne Regierung schlecht war, meine ich genau das Gegenteil. Von mir aus hätte das gerne noch vier Jahre so weiter gehen können. Diese Zeit lernte ich schätzen. Und gerade dann, als ich mich richtig daran gewöhnt hatte, war der Koalitionsvertrag "endlich" ausgearbeitet. Das nächste war dann der SPD-Mitgliederentscheid. Eine Idee für die die ansonsten zweifelhafte SPD-Führung gelobt gehört, auch wenn diese es garantiert nicht aus Gründen des Verlangens nach mehr Demokratie gemacht hat. Genau der selben SPD-Spitze hätte ich allerdings gewünscht, dass die Mitgliederabstimmung gegen die Große Koalition ausgeht. Als ich ein paar Tage nach dem Start dieser Abstimmung im Radio gehört habe, dass die komplette SPD-Führung zurücktritt, wenn die Basis gegen die Koalition stimmt, habe ich mir gedacht: "Leute, das ist eine einmalige Gelegenheit!"". Leider stand die Mehrheit trotzdem hinter der Großen Koalition. Man kann eben nicht alles haben, wobei ich gar nichts gegen eine Große Koalition habe. Es ist eigentlich egal, wer mit wem regiert. Es kommt immer das selbe raus: Ein riesiger Haufen Müll! Nachdem dann das Ergebnis verkündet wurde, war mit klar, dass es aus ist mit der Ruhe. Doch das es SO schlimm kommt, habe ich nicht erwartet. Schon allein die Verteilung der Ministerposten ist ein Grund zum auswandern. Und dann war es so weit: Frau Merkel beginnt ihre Amtszeit mit der obligatorischen Lüge, dass es dem Volk nach diesen vier Jahren besser gehen wird. Es ist zum heulen. Ich wünsche mir diese schöne, ruhige Zeit zurück als diese ganzen Lügner an ihrem geisteskranken Koalitionsvertrag herum gedoktort haben.
+
+  Vielen Dank an Jan S. für die Unterstützung!
+
+* 15. September 2013 :@private:
+  :PROPERTIES:
+  :EXPORT_DATE: 2013-09-15 01:59:59
+  :EXPORT_FILE_NAME: 15-september-2013.md
+  :END:
+
+  Ich habe mich dazu entschlossen wieder einen politischen Artikel zu verfassen. Leider fehlt es mir nurgerade an einem Thema...
+
+  Wenn jemand eine Idee hat, über was ich schreiben soll, dann kann er diese mir per Mail an me(at)mmk2410(dot)org mitteilen. Ich denke, dass ich dann trotz der Zeit in der Oberstufe ein wenig Zeit dafür finde.
+
+  Ich wünsche allen Schülern die diesen Artikel lesen ein gutes und erfolgreiches neues Schuljahr.
+
+* 02. August 2013 :@private:
+  :PROPERTIES:
+  :EXPORT_DATE: 2013-08-02 01:59:59
+  :EXPORT_FILE_NAME: 02-august-2013.md
+  :END:
+
+  Tja, mit der Bilderseite war es letzte Woche nichts mehr. Wann das ganze fertig wird, weiß ich auch nicht genau. Wie es gerade aussieht kannst du auf dieser Seite anschauen. Wahrscheinlich dauerts aber noch ein bisschen.
+
+  Seit heute bin ich als ein Übersetzter der Software gtkpod tätig.
+
+  Jetzt sind erstmal die nächsten sechs Wochen Ferien. Was ich mach, weiß ich zwar noch nicht, aber besser als Schule ist es auf jeden Fall!
+
+* 22. Juli 2013 :@private:
+  :PROPERTIES:
+  :EXPORT_DATE: 2013-07-22 01:59:59
+  :EXPORT_FILE_NAME: 22-juli-2013.md
+  :END:
+
+  Wer auch immer das ließt: Ab heute schreibe ich auf meiner Website im Bereich Blog auch Sachen über mich.
+
+  In diesem Blog ist nun alles vermischt: Artikel über die Politik und die Welt, wie auch die Einträge über mich.
+
+  Die letzten eineinhalb Schulwochen fangen schon gut an! Und zwar mit den Bundesjugendspielen. Zwar nimmt meine Jahrgangsstufe nicht mehr teil, doch nun heißt die Aufgabe: Organisieren und Leiten. Es geht zwar ganz schön auf die Ohren, wenn man den ganzen Vormittag die Startklappe zuschlagen muss, ist allerdings immernoch bei weitem besser als Unterricht! Der Vormittag dauerte nur bis um 11:20, denn dann war alles wieder aufgeräumt und die Urkunden für die unteren Klassen ausgestellt. Da hieß es dann heimfahren. Heute Nachmittag kamen mir dann zwei (gute) Ideen Für meine Website: zum einen dieser Blog und zum andereneine Bilderseite. Während der Blog jetzt schon so gut wie fertig ist, wird das mit der Bilderseite noch eine Weile dauern. Vielleicht bin ich Ende der Woche fertig.
+
+  Das war's auch schon für heute. Die Hitze hat mich ganz schön fertig gemacht. Und da morgen &quot;Unterricht&quot; sein soll, hau ich mich mal jetzt (also um halb 12) in die Kiste.
+
+* Meinungsfreiheit in Deutschland?                                :@politics:
+  :PROPERTIES:
+  :EXPORT_DATE: 2013-06-30 13:13:00
+  :EXPORT_FILE_NAME: meinungsfreiheit-in-deutschland.md
+  :END:
+
+  In den letzten Jahren fielen mir zum Thema "keine Meinungsfreiheit" immer Länder wie China oder Russland ein. Doch das änderte sich am 25. Januar 2011 als das Volk in Ägypten aufstand und gegen Mubarak demonstrierte. Die Protestwelle des arabischen Frühlings hat mir vorallem gezeigt, dass viele Menschen nicht einfach ihrer Meinung sagen können. In Ägypten gingen die Proteste mit über 800 Toten vergleichsweise "friedlich" aus. Bei den Meinungsäußerungen im Nachbarstaat Libyen starben 10.000 Menschen. Darunter 5.000 Rebell_, von welchen die meisten in den Bürgerkreig gezogen sindum ihre Meinung zu sagen. Doch die Welle des arabischen Frühlings ist noch nicht vorbei! Im syrischen Bürgerkrieg, welcher Anfang 2011 begann, starben bisher 93.000 Menschen,viele, weil sie gegen die momentane Regierung sind. Eine Millionen (so geschrieben: 1.000.000) Syrer_innen sind im Exil und vier (!) Millionen auf der Flucht. Und vor ein paar Wochen hat die Welle auch die Türkei erfasst, wo, wie zu sehen ist, auch von der Meinungsfreiheit nichts gehalten wird.
+
+  Da stellt sich mir auf einmal die Frage, wie eigentlich die Situation hierzulande aussieht. In Deutschland. Einem Staat, welcher angeblich einer der modernsten und wirtschafttsstärksten weltweit ist. Ein Staat, in welchem die Meinungsfreiheit angeblichgeachtet wird, welche sogar im Grundgesetzt festgehalten ist (Artikel 5). Doch dürfen wir uns, als deutsche Bürger_innen, wirklich frei äußern? Dürfen wir sagen und schreiben was wir wollen? Oder finden wir das, was wir in anderen Ländern vergebens suchen, in Deutschland genauso wenig? In der letzten Zeit sind die Antworten auf die oben genannten Fragen glasklar! Egal ob wir nach Frankfurt, nach Bayreuth oder nach Augsburg blicken.
+
+  Einer der neusten Fälle in den letzten Tagen, war der Polizeibesuch bei Frau Gresser, welche in einem Tweet schrieb, dass man Beate Merk am 10.06.13 um 19:00 im Landgasthof Hofolding fragen könne, wann Mollath freikommt. Kurz darauf standen dann zwei Polizisten vor der Tür und schüchterten Frau Gresser ein. An dieser Stelle wurden zwei Sachen in die Tonne getreten, die für eine Demokratie unabdingbar sind. Zum einen die freie Meinungsäußerung und zum anderen die Gewaltenteilung, was einer Diktatur gleichkommt!
+
+  Ein anderer Fall ist auch in Bayern geschehen, in Augsburg, um genau zu sein. Frau Johanna Holm hat an die Augsburger Allgemeine Zeitung einen Leserbrief geschrieben, in welchem sie die Aufstellung eines CSU-Bundestagskandidaten kritische betrachtete. Zwei Wochen später bekommt Frau Holm einen Brief von einem Anwalt und einen riesigen Schrecken. Der Anwalt wurde von den CSU Politikern Kränzle und von Hohenhau losgelassen. In dem Briefumschlag fand die Rentnerin das Ultimatum, dass sie entweder ihre Meinung öffentlich dementiern muss und eine Unterlassungserklärung unterschrieben muss, sonst drohe ihr eine Strafe von 5000,01 €. Daraufhin hat die standhafte Augsburgerin die Augsburger Allgeimeine Zeitung kontaktiert, welche einen Artikel dazu schrieb. Viele Leserbriefe und über 300 Internetkommentare gingen daraufhin bei der Zeitung ein. Später entschuldigten sich dann die meinungsfeindlichen Politiker. Wenn ich nur daran denke, dass Menschen, die die Meinungsfreiheit und somit das Grundgesetzt so dermaßen verachten, Politiker sind und theoretisch mal über das Volk regieren, wird mir übel!
+
+  Doch es geht auch größer! In Frankfurt wurden 1000 Blockupy-Demonstranten gewaltsam daran gehindert, ihre Meinung zu sagen! Wenn ich die Bilder aus Frankfurts Innenstadt mit denen vom Taksim Platz in Istanbul vergleiche kann ich keine Unterschiede erkennen. In beiden Fällen hat die Polizei total überreagiert. Und der Befehl sicher nicht von einem Polizeibeamten gekommen!
+
+  Wenn ich jetzt über den vierten Fall schreibe, dann schreibe ich über einen der größten Justizskandal in der ganzen Geschichte der Bundesrepublik Deutschland. Nürnberg - Bayreuth - München. Das sind die Orte die unweigerlich mit dem Fall Mollath zu tun haben. Mollath. Ein Mann der seit 2006 unschuldig in der Psychatrie in Bayreuth sitzt. Die Gutachten die das Justizopfer als geistig krank einstufen wurden von Leuten geschreiben, die Mollath nie gesehen, geschweige denn mit ihm gesprochen haben. Der Richter der in diesem Fall das Urteil sprach war voreingenommen und hat Mollath weder sich verteidigen lassen noch dessen Verteidigungsschrift gelesen. Mollath, welcher nach meiner Überzeugung im Vollbesitz seiner geistigen Kräfte ist, hat Schwarzgeldgeschäfte der Hypo Vereinsbank zur Anzeige gebracht, bei welchen seine Frau als Vermögensberaterin aktiv beteiligt war. Diese Anzeige wurde von der Polizei nicht bearbeitet, was der, später für den Fall zuständige, Richter Brixner veranlasste. Die Hypo Vereinsbank hat mittlerweile zugegeben, dass Mollath in allen Punkten der Anzeige recht hat. Auch seine Frau und das Gutachten von Dr. Leipziger sind nicht mehr glaubwürdig. So sehe ich keinen Grund mehr, dass Mollath in der Psychatrie sitzt. Mittlerweile sitzt er seit 7 Jahren in der Psychatrie, weil er seine Meinung gesagt hat.
+
+  Die hier aufgeführten Fälle sind nur einige von vielen, in denen in Deutschland die Meinungsfreiheit verachtet wird. Ich sehe, dass hier die Politik viel nachzubessern hat, wie zum Beispiel eine stärkere Trennung von Staat und Justiz. Des weiteren hoffe ich, dassMollath bald freikommt und die Unterdrückung von Menschen die ihre Meinung sagen aufhört.
