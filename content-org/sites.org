@@ -129,13 +129,17 @@
 
 ** Debian packages and Ubuntu PPAs
 
-   My (unofficial) Debian packages and the corresponding Ubuntu PPAs
-   are probably the most famous thing I have created. Actually I
-   maintain four packages. One for the writtenMorse project (see
-   below), one of the Eclipse Java IDE and the community and ultimate
-   versions of IntelliJ IDEA by JetBrains. If one of those is out of
-   date, don't hesitate to file a bug report at or make a pull request
-   at GitLab.
+   My unofficial Debian packages and the corresponding Ubuntu PPA for
+   Jetbrains IntelliJ IDEA are probably the most “famous” thing I have
+   created. At least I get bug reports and marge requests when I do
+   not update the packages fast enough.
+
+   Besides them I also created a few other packages for Debian.
+
+   To clarify: I am not a official Debian Developer or Maintainer and
+   am also not formally trained on building Debian packages. Therefore
+   the quality of the packages is not that good. There are -- more or
+   less -- quite hacky.
 
 *** IntelliJ IDEA Community & Ultimate
 
@@ -156,18 +160,14 @@
     - [[https://gitlab.com/mmk2410/intellij-idea-community/][IntelliJ IDEA Community repository]]
     - [[https://gitlab.com/mmk2410/intellij-idea-ultimate/][Intellij IDEA Ultimate repository]]
 
-*** Eclipse Java IDE (inactive)
+*** Typefaces
 
-    Corresponding to the IntelliJ IDEA packages I also provide a
-    repository to install the Eclipse Java IDE with
+    Because I needed them, I packaged two typefaces for Debian. The
+    package should also work for Ubuntu but I don't provide an
+    repository for them.
 
-    #+BEGIN_SRC shell
-      sudo apt-add-repository ppa:mmk2410/eclipse-ide-java # Add the repository
-      sudo apt-get update # Update the package list
-      sudo apt-get install eclipse-ide-java # Install Eclipse Java
-    #+END_SRC
-
-    The repository is hosted at [[https://launchpad.net/~mmk2410/+archive/ubuntu/eclipse-ide-java][Launchpad]] and the code at [[https://gitlab.com/mmk2410/eclipse-ide-java/][GitLab]].
+    - *Iosevka*: [[https:://gitlab.com/mmk2410/fonts-iosevka][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
+    - *Hermit*: [[https://gitlab.com/mmk2410/fonts-hermit][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
 
 ** Scorelib (inactive)
 
@@ -228,6 +228,7 @@
     started). There is also the usual bunch of dead experiments like
     an Rangitaki SSH Sync library, written in C with libssh. As of now
     all these are no longer developed and archived.
+
 * Manuscripts
   :PROPERTIES:
   :EXPORT_FILE_NAME: _index
