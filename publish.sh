@@ -17,4 +17,4 @@ rsync \
     --delete \
     --progress \
     public/ \
-    mmk2410.org:/var/www/mmk2410.org/
+    tolkien:/var/www/mmk2410.org/
