@@ -64,9 +64,9 @@ imprinttext = "Impressum und Datenschutz"
 giturl = "https://git.mmk2410.org/mmk2410/mmk2410.org"
 
 [params.social]
-twitter = "https://twitter.com/mmk2410"
 mastodon = "https://fosstodon.org/@mmk2410"
-git = "https://gitlab.com/mmk2410"
+gitlab = "https://gitlab.com/mmk2410"
+gitea = "https://git.mmk2410.org/mmk2410"
 
 [params.comment]
 commentmail = "comment(at)mmk2410(dot)org"
