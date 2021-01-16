@@ -286,9 +286,16 @@
   :EXPORT_HUGO_MENU: :menu main :weight 99
   :END:
 
-  If you want to contact me, feel free to write me a mail at
-  me(at)mmk2410(dot)org or a direct message on [[https:twitter.com/mmk2410][Twitter]] or
-  [[https://fosstodon/@mmk2410][Mastodon/Fosstodon]].
+  If you want to contact me you can choose among the following options:
+
+  - E-Mail: me(at)mmk2410(dot)org
+  - XMPP/Jabber: marcel.kapfer(at)mailbox(dot)org
+
+  You can also follow me on the following social networks where I am more or less active:
+
+  - Mastodon/Fosstodon: [[https://fosstodon.org/@mmk2410][@mmk2410@fosstodon.org]]
+  - Twitter: [[https://twitter.com/mmk2410][@mmk2410.org]]
+
 * Impressum und Datenschutz
   :PROPERTIES:
   :EXPORT_FILE_NAME: _index
