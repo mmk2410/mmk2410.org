@@ -290,8 +290,9 @@
 
   - E-Mail: me(at)mmk2410(dot)org
   - XMPP/Jabber: marcel.kapfer(at)mailbox(dot)org
+  - Matrix/Element: @mmk2410:matrix.org
 
-  You can also follow me on the following social networks where I am more or less active:
+  You can also follow me on some social networks where I am more or less active:
 
   - Mastodon/Fosstodon: [[https://fosstodon.org/@mmk2410][@mmk2410@fosstodon.org]]
   - Twitter: [[https://twitter.com/mmk2410][@mmk2410.org]]
