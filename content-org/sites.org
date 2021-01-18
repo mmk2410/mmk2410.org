@@ -162,12 +162,13 @@
 
 *** Typefaces
 
-    Because I needed them, I packaged two typefaces for Debian. The
-    package should also work for Ubuntu but I don't provide an
-    repository for them.
+    Because I needed them, I packaged three typefaces for Debian. The package should also work for Ubuntu but I don't provide an repository for them.
+
+    I currently can not ensure active maintenance of these packages.
 
     - *Iosevka*: [[https:://gitlab.com/mmk2410/fonts-iosevka][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
     - *Hermit*: [[https://gitlab.com/mmk2410/fonts-hermit][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
+    - *Overpass*: [[https://git.mmk2410.org/deb/fonts-overpass][Gitea]]
 
 ** Scorelib (inactive)
 
