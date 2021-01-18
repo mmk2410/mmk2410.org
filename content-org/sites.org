@@ -288,14 +288,13 @@
 
   If you want to contact me you can choose among the following options:
 
-  - E-Mail: me(at)mmk2410(dot)org
-  - XMPP/Jabber: marcel.kapfer(at)mailbox(dot)org
-  - Matrix/Element: @mmk2410:matrix.org
+  - E-Mail: me(at)mmk2410(dot)org (PGP key ID: =CADE 6F0C 09F2 1B09=)
+  - Direct Message on either Mastodon or Twitter (accounts see below)
 
   You can also follow me on some social networks where I am more or less active:
 
   - Mastodon/Fosstodon: [[https://fosstodon.org/@mmk2410][@mmk2410@fosstodon.org]]
-  - Twitter: [[https://twitter.com/mmk2410][@mmk2410.org]]
+  - Twitter: [[https://twitter.com/mmk2410][@mmk2410]]
 
 * Impressum und Datenschutz
   :PROPERTIES:
