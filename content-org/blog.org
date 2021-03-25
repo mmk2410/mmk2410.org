@@ -85,6 +85,25 @@ git push --mirror "$downstream_repo"
   block back then which uses the same idea. If I find it again I will
   link it here.)
 
+*** Update 2021-03-25: Git hooks feature disabled by default
+
+    Since Gitea 1.13.0 the "Git Hooks" feature is [[https://github.com/go-gitea/gitea/pull/13058][disabled by default
+    for security reasons]]. So the method written above does not work
+    any longer without configuration adjustments and apparently also
+    already defined Git hooks are no longer visible in the web
+    interface.
+
+    If you operate our own Gitea instance you can however re-enable
+    the web-based Git hooks support by adding =DISABLE_GIT_HOOKS =
+    false= to the =[security]= section. It might be additionally
+    necessary to allow the usage of Git hooks in the user settings.
+
+    Before you (re-)enable Git hooks support *please make sure, that
+    you fully understand the consequences and the possible security
+    risk!* Any Gitea user who can add Git hooks can execute code on
+    the server and thereby possible even get Gitea administrator
+    rights or gain root privileges.
+
 * DONE Switching my Website to Hugo using ox-hugo   :emacs:orgmode:hugo:@web:
   CLOSED: [2020-05-15 Fri 18:50]
   :PROPERTIES:
