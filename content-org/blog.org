@@ -1,6 +1,46 @@
 #+HUGO_SECTION: blog
 #+HUGO_BASE_DIR: ../
 
+* Automatic UUID creation in some Org-mode files
+  :PROPERTIES:
+  :EXPORT_DATE:  [2021-05-04 Tue 19:15]
+  :EXPORT_FILE_NAME: org-mode-auto-uuid.md
+  :END:
+
+  I am currently exploring the option in Org mode to export a file (or
+  some entries) to an ics-file which I can then in turn import into my
+  calendar. For reliably creating (and most importantly: updating)
+  entries it is necessary that each one has an unique ID. To create a
+  ID for the current entry I could just run =M-x org-id-get-create= and
+  for an entire file execute the following Emacs Lisp ~(org-map-entries
+  'org-id-get-create)~. Of course this is not an ideal solution. But
+  adding this s-expression to ~org-mode-hook~ would create IDs in all
+  Org file I edit which I also don't like. Since the amount of files I
+  do want the automatic creation is (currently) not that large it is
+  OK for me to do some work on my own, at least if it is only a one
+  time setup.
+
+  The idea which I had to achieve this goal was to create a file-local
+  variable (called ~mmk2410/org-create-uuids~) that I set to ~t~ in the
+  buffers I need the automatic adding of IDs and adding a hook to
+  ~org-mode-hook~ that in turn adds a hook to ~before-save-hook~ for
+  calling the function ~mmk2410/org-create-all-uuids~ that executes the
+  previously named s-expression to add a ID to each entry in the
+  buffer.
+
+  #+begin_src emacs-lisp
+  (setq mmk2410/org-create-uuids nil)
+
+  (defun mmk2410/org-create-all-uuids ()
+    "Create UUIDs for all entries in the current org-mode buffer."
+    (interactive)
+    (when mmk2410/org-create-uuids
+      (org-map-entries 'org-id-get-create)))
+
+  (add-hook 'org-mode-hook
+            (lambda () (add-hook 'before-save-hook 'mmk2410/org-create-all-uuids nil t)))
+  #+end_src
+
 * DONE „Mirroring“ my open-source Git repos to my Gitea instance  :@code:git:
   CLOSED: [2020-08-30 Sun 01:17]
   :PROPERTIES:
