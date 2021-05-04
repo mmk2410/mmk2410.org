@@ -1,7 +1,7 @@
 #+HUGO_SECTION: blog
 #+HUGO_BASE_DIR: ../
 
-* Automatic UUID creation in some Org-mode files
+* Automatic UUID creation in some Org-mode files         :@pim:emacs:orgmode:
   :PROPERTIES:
   :EXPORT_DATE:  [2021-05-04 Tue 19:15]
   :EXPORT_FILE_NAME: org-mode-auto-uuid.md
