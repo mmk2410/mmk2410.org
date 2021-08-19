@@ -70,7 +70,7 @@ gitlab = "https://gitlab.com/mmk2410"
 gitea = "https://git.mmk2410.org/mmk2410"
 
 [params.comment]
-comments = true
+mail = "comment@mmk2410.org"
 
 ###############
 # Markup
