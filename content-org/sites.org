@@ -30,70 +30,66 @@
 	<strong>Hi!</strong>
     </div>
     <div style="font-size: 25px">
-	My name is Marcel Kapfer. I compose music and write stuff.
+	My name is Marcel Kapfer and I do creative things.
     </div>
   </div>
   #+end_export
 
 ** Coding
 
-   I learned Java back in 2014 and started a first project, the
-   writtenMorse project. It provided tools to convert writtenMorse
-   code to latin letters and the other way around. (Btw.: The
-   writtenMorse code itself is an “invention” of mine). Later in 2014
-   I started to learn coding for Android, since I wanted to develop a
-   writtenMorse app to this mobile OS. This app was published on the
-   Google Play Store in mid December, just three weeks after my first
-   contact with Android development. Additionally to that I learned in
-   2014 was JavaScript.
+   I learned Java as my first programming language back in 2014 and started a first project, the [[https://gitlab.com/mmk2410/writtenmorse-specs/-/wikis/home][writtenMorse]] project.
+   It provided tools to convert writtenMorse code to Latin letters and the other way around. (Btw.: The writtenMorse code itself is an “invention” of mine for better writing Morse code by using other symbols than dots and dashes).
+   Later in 2014 I started to learn coding for Android, since I wanted to develop a writtenMorse app for the mobile OS.
+   This app was published on the Google Play Store in mid December, just three weeks after my first contact with Android development.
+   Additionally to that I learned a bit of JavaScript in 2014 for enhanced features on my websites.
 
-   In 2015 I expanded my knowledge by learning Bash, PHP, Python and a
-   little bit of C. I also released a few font apps for the
-   Cyanogenmod Theme Engine and some bash scripts to make my (and
-   maybe also your) life easier. Rangitaki is another project that I
-   started in February 2015. It was a blogging engine without any
-   database dependencies, written in PHP, which tries to be
-   lightweight and extremely fast to start with and easy to use.
+   In 2015 I expanded my knowledge by learning Bash, PHP, Python and a little bit of C.
+   I also released a few font apps for the Cyanogenmod Theme Engine and some bash scripts to make my (and maybe also your) life easier.
+   Rangitaki is another project that I started in February 2015.
+   It was a blogging engine without any database dependencies, written in PHP, which tries to be lightweight and extremely fast to start with and easy to use.
 
-   In October 2015 I started studying computer science at Ulm
-   University to improve my knowledge in this area further.
+   Following this passion I joined the Ulm University in October 2015 to studying computer science to further improve my knowledge in this area.
+   In April 2021 I earned a Bachelor of Science degree in the field of theoretical computer science.
 
-   I started learning more and more things about free (as in freedom,
-   not as in free beer) software in February 2016. I strongly support
-   the idea of freedom in software and try to move away from non-free
-   software. One part of that is my decision to move all my project
-   from GitHub to [[https://gitlab.com/u/mmk2410/projects][GitLab]].
+   I started learning more and more things about free (as in freedom, not as in free beer) software in the following years.
+   I strongly support the idea of freedom in software and try to avoid non-free software were possible.
+   One part of that is my decision to move all my project from GitHub to [[https://gitlab.com/u/mmk2410/projects][GitLab]] and [[https://git.mmk2410.org/explore/repos][my own Gitea instance]].
 
-   Due to other activities in the recent years (and also the coming
-   ones) I don't have much time (and also not much interested) in
-   developing software. I try to further maintain some relevant
-   projects, but most of them have been archived.
+   Due to other activities in the recent years (and also the coming ones) I don't have much time (and currently also not much interested) in developing software.
+   I try to further maintain some relevant projects, but most of them have been archived.
 
 ** Graphic Design
 
-   Next to coding I'm also in designing things. I started designing a
-   few years ago but I hadn't jet time to do any major public work. As
-   of now my experience narrows down to web design and print design,
-   but maybe I find more time in the future to invest in this area.
+   I am a huge fan of eye pleasing works!
+   Therefore I started designing a few years ago, but I hadn't jet time to do any major public work.
+   As of now my experience narrows down to web design and a little bit of print design, but I currently expand my knowledge by taking online graphic design courses.
 
 ** Composing
 
-   During my school time I had a lot to do with music and learned to
-   play the piano. Last year I started to focus more on finding my own
-   style, which is is combination of Minimal Music and Impressionism
-   and I also wrote down some scores. A first piece is written and
-   more or less professionally set and also recorded. You can download
-   both on the [[https://marcel-kapfer.de][composing page]].
+   During my school time I had a lot to do with music and learned to play the piano.
+   Later I started to focus more on finding my own style, which is is combination of Minimal Music and Impressionism and I also wrote down some scores.
+   A first piece is written and more or less professionally set and also recorded.
+   You can download and view both on the [[https://marcel-kapfer.de][composing page]].
 
-   Due a lack of time in the last years I didn't have time to compose
-   anything new. But one piece is nearly done.
+   Due a lack of time in the last years I didn't have time to compose anything new.
+   But one other piece is done and only waiting for its recording. Stay tuned!
 
 ** Writing
 
-   To write about coding, politics, happenings in my life and also
-   philosophy questions is something I'm interested in for years.
+   To write about coding, politics, happenings in my life and also philosophy questions is something I'm interested in for years.
    Sadly due to many  other tasks I wasn't able to write much things.
-   Next to the blog entries I have also published a few longer
+   Next to the blog entries I have also published a few longer [[/manuscripts][manuscripts]].
+
+** Real Life
+
+   Away from my desk I loosely follow some hobbies.
+   On one hand I like to read books of various kinds, including crime novels and science fiction / fantasy stuff but also some technical books.
+   On the other hand I like visiting mother nature either for cycling, hiking or photographing.
+
+** Others
+
+   In case you are interested into what software and hardware I use, you can read my [[/uses][What I Use]] page.
+
 * Blog
   :PROPERTIES:
   :EXPORT_FILE_NAME: _index
