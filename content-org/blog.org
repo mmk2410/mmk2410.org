@@ -845,6 +845,8 @@ git push --mirror "$downstream_repo"
   :EXPORT_FILE_NAME: linux-programs-i-use.md
   :END:
 
+  *Note: I decided to dedicate this topic its own permanent [[/uses][What I Use]] page instead of this blog post.*
+
 ** Intro
 
    A few people asked me in the last time which tools and programs I use so I decided to put them in a short list.
