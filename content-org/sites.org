@@ -7,19 +7,14 @@
   :EXPORT_HUGO_MENU: :menu main :weight 1
   :END:
 
-  Hi, I'm Marcel Kapfer, also known as mmk2410. When I have time I
-  compose music (have a look at [[https://marcel-kapfer.de][marcel-kapfer.de]] for that) or write
-  stuff. Stuff, you know. Like blog posts, manuscripts, quotes, or
-  software.
+  Hi, I'm Marcel Kapfer, also known as mmk2410. When I have time I invest it in creative work. As part of that I compose music (have a look at [[https://marcel-kapfer.de][marcel-kapfer.de]] for that), train myself in doing graphic design or write text as well as code.
 
-  I've bin a Linux user since about 2012, write software since around
-  2014 and live in Emacs and Org-Mode since around 2016/17. Currently
-  I study computer science at the University of Ulm. Due the lack of
-  time I'm not really active in doing the things listed above but from
-  time to time I happens anyway and then you may read about it here.
+  These pages are (currently) focused on the computer-based parts of my life (like software development, operating systems and similar stuff).
+  Since about 2012 I am mainly using Linux (some times exclusively, although currently not).
+  In 2014 I started writing software and since around 2016/17 I live in Emacs and Org-Mode.
+  Currently I study computer science at the University of Ulm.
 
-  Besides these pages you can also find me at a few other places
-  across the web.
+  Besides these pages you can also find me at a few other places across the web.
 
 * About me
   :PROPERTIES:
