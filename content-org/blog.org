@@ -1,6 +1,37 @@
 #+HUGO_SECTION: blog
 #+HUGO_BASE_DIR: ../
 
+* Updates to my website
+  :PROPERTIES:
+  :EXPORT_DATE: [2021-08-20 Fri 11:08]
+  :EXPORT_FILE_NAME: updates-website.md
+  :END:
+
+  During the last days I took some time to review and update my website and---while I am at it---also slightly changed some other things. Since there are two thing that may interest you, I decided to write few words about it.
+
+** What I Use
+
+   In early 2016 I wrote a blog post about what software I use from day to day, motivated by questions from some people.
+   Since then I regularly (meaning around once a year (boy, there is really some outdated stuff there)) updated the post, extending, re-working and updating it.
+   During the last months I saw some other people having a dedicated page on what hard- and software they use and I decided that this would possibly also something for me.
+   So I sat down and created a [[/uses][What I Use]] page which replaces and extends the old post.
+   It now also features the various hardware that I have lying around.
+   Of course I will also update that page more or less regularly (I added a note on top when it was last updated).
+
+** Engage!
+
+   Next to a few design tweaks I also better highlighted the possibility to comment on my posts.
+   This follows a great idea I read on the [[https://kevq.uk/adding-the-post-title-to-my-reply-by-email-button/][Blog of Kev Quirk]] to use a button for engaging readers to write their thoughts by email.
+   When I moved from Wordpress (where I used the build in commenting system) to this Hugo based site I no longer had a way for readers to comment on posts
+   As an alternative I put a really small text at the end of each post telling people to write me comments by email (I think I had this idea from [[https://karl-voit.at/][Karl Voit]]).
+   However: I never got any email on my posts (OK, admittedly I do not post much and following the stats there are also not much readers...).
+
+   What  Kev does is a bit more advanced: while he also follows the idea of not having a commenting system but engaging the readers to write him a mail, he has a much better UX for that.
+   At the end of each post he puts a highly visible button labeled with "Reply via email".
+   I like the idea very much and decided to [[https://gitlab.com/mmk2410/nextdesign/-/commit/cbc79dbe7f97ba7dc4413c3750be87e05febeeba][implement]] the same approach on this page.
+   So feel free to send me your thoughts by mail using the nice button below!
+
+
 * Automatic UUID creation in some Org-mode files         :@pim:emacs:orgmode:
   :PROPERTIES:
   :EXPORT_DATE:  [2021-05-04 Tue 19:15]
