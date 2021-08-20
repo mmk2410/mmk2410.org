@@ -280,9 +280,9 @@
   :EXPORT_HUGO_MENU: :menu main :weight 99
   :END:
 
-  If you want to contact me you can choose among the following options:
+  If you want to contact me you can choose among the following options (though I prefer email):
 
-  - E-Mail: me(at)mmk2410(dot)org (PGP key ID: =CADE 6F0C 09F2 1B09=)
+  - Email: me(at)mmk2410(dot)org (PGP key ID: =CADE 6F0C 09F2 1B09=)
   - XMPP/Jabber: mmk2410(at)xmpp(dot)mmk2410(dot)org
   - Direct Message on either Mastodon or Twitter (accounts see below)
 
