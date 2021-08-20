@@ -163,13 +163,15 @@
 
 ** Scorelib (inactive)
 
-   Scorelib is a smaller project I started in 2015 for managing my
-   collection music scores (the sheetpapers) with a database. Scorelib
-   is a CLI program written in Python and using SQlite as a database.
-   I assume that it only runs on Linux, but I never tested it on other
-   platforms. Scorelib is, as of now, quite small with only the basic
-   features implemented (like I wrote on the beginning, I had no time
-   to code much the last years). It is available at [[https://gitlab.com/mmk2410/scorelib][GitLab]].
+   Scorelib is a smaller project I started in 2015 for managing my collection music scores (the sheetpapers) with a database.
+   Scorelib is a CLI program written in Python and using SQlite as a database.
+   I assume that it only runs on Linux, but I never tested it on other platforms.
+   Scorelib is, as of now, quite small with only the basic features implemented (like I wrote on the beginning, I had no time to code much the last years).
+   It is available at [[https://gitlab.com/mmk2410/scorelib][GitLab]].
+
+   Note: Although the title says that the project is inactive I do not consider archiving it.
+   Theoretically I still have a need for such a software but practically time is missing to work on it.
+   It is also possible that I will start working on it again but then possibly also with a completely different tech stack/goal.
 
 ** Other
 
