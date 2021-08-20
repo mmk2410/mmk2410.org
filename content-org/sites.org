@@ -113,30 +113,25 @@
   :EXPORT_HUGO_MENU: :menu main :weight 4
   :END:
 
-  During the last years I started a few small software projects. Sadly
-  over the last two years I had nearly no time to maintain any of them
-  (except features and bugfixes I needed). However, I try to further
-  maintain and develop them. You can find all of them at [[https://gitlab.com/mmk2410][GitLab]].
+  Since I started to program in 2014 I started a few small software projects.
+  Sadly over the last  years I had nearly no time to maintain any of them (except features and bugfixes I needed).
+  However, I try to further maintain and develop them.
+  You can find all of them at [[https://gitlab.com/mmk2410][GitLab]].
 
 ** Debian packages and Ubuntu PPAs
 
-   My unofficial Debian packages and the corresponding Ubuntu PPA for
-   Jetbrains IntelliJ IDEA are probably the most “famous” thing I have
-   created. At least I get bug reports and marge requests when I do
-   not update the packages fast enough.
+   My unofficial Debian packages and the corresponding Ubuntu PPA for Jetbrains IntelliJ IDEA are probably the most “famous” thing I have created.
+   At least I get bug reports and merge requests when I do not update the packages fast enough.
 
    Besides them I also created a few other packages for Debian.
 
-   To clarify: I am not a official Debian Developer or Maintainer and
-   am also not formally trained on building Debian packages. Therefore
-   the quality of the packages is not that good. There are -- more or
-   less -- quite hacky.
+   To clarify: I am not a official Debian Developer or Maintainer and am also not formally trained on building Debian packages.
+   Therefore the quality of the packages is certainly not that good.
+   There are---more or less---quite hacky.
 
 *** IntelliJ IDEA Community & Ultimate
 
-    The community edition and the ultimate edition as well can be
-    received from the Launchpad repository [[https://launchpad.net/~mmk2410/+archive/ubuntu/intellij-idea][ppa:mmk2410/intellij-idea]]
-    which you can add on Ubuntu with
+    The community edition and the ultimate edition as well can be received from the Launchpad repository [[https://launchpad.net/~mmk2410/+archive/ubuntu/intellij-idea][ppa:mmk2410/intellij-idea]] which you can add on Ubuntu with
 
     #+begin_src shell
       sudo apt-add-repository ppa:mmk2410/intellij-idea # Add the repository
@@ -145,17 +140,17 @@
       sudo apt-get install intellij-idea-ultimate # and/or install IntelliJ IDEA Ultimate
     #+end_src
 
-    The source code and the =.deb= packages are available at their
-    repositories on GitLab:
+    The source code and the =.deb= packages are available at their repositories on GitLab:
 
     - [[https://gitlab.com/mmk2410/intellij-idea-community/][IntelliJ IDEA Community repository]]
     - [[https://gitlab.com/mmk2410/intellij-idea-ultimate/][Intellij IDEA Ultimate repository]]
 
 *** Typefaces
 
-    Because I needed them, I packaged three typefaces for Debian. The package should also work for Ubuntu but I don't provide an repository for them.
+    Because I needed them, I packaged three typefaces for Debian.
+    The packages should also work for Ubuntu but I don't provide an PPA for them.
 
-    I currently can not ensure active maintenance of these packages.
+    I currently can not ensure active maintenance of any of these packages.
 
     - *Iosevka*: [[https:://gitlab.com/mmk2410/fonts-iosevka][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
     - *Hermit*: [[https://gitlab.com/mmk2410/fonts-hermit][GitLab]] [[https://git.mmk2410.org/deb/fonts-iosevka][Gitea]]
