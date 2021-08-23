@@ -31,7 +31,6 @@
    I like the idea very much and decided to [[https://gitlab.com/mmk2410/nextdesign/-/commit/cbc79dbe7f97ba7dc4413c3750be87e05febeeba][implement]] the same approach on this page.
    So feel free to send me your thoughts by mail using the nice button below!
 
-
 * Automatic UUID creation in some Org-mode files         :@pim:emacs:orgmode:
   :PROPERTIES:
   :EXPORT_DATE:  [2021-05-04 Tue 19:15]
@@ -78,6 +77,11 @@
   :CREATED: [2020-08-30 Sun 00:32]
   :EXPORT_FILE_NAME: gitea-gitlab-clarification.md
   :END:
+
+  /Updates:/
+  - Update 2021-03-25: [[*Update 2021-03-25: Git hooks feature disabled by default][Git hooks feature disabled by default]]
+  - Update 2021-08-23: [[*Update 2021-08-23: Built-in mirror feature][Built-in mirror feature]]
+
 
    tl;dr: GitLab will still be my primary Git platform for my public
   projects/repositories, but these repositories can now also viewed at
@@ -156,24 +160,74 @@ git push --mirror "$downstream_repo"
   block back then which uses the same idea. If I find it again I will
   link it here.)
 
-*** Update 2021-03-25: Git hooks feature disabled by default
+** Update 2021-03-25: Git hooks feature disabled by default
 
-    Since Gitea 1.13.0 the "Git Hooks" feature is [[https://github.com/go-gitea/gitea/pull/13058][disabled by default
-    for security reasons]]. So the method written above does not work
-    any longer without configuration adjustments and apparently also
-    already defined Git hooks are no longer visible in the web
-    interface.
+   Since Gitea 1.13.0 the "Git Hooks" feature is [[https://github.com/go-gitea/gitea/pull/13058][disabled by default for security reasons]].
+   So the method written above does not work any longer without configuration adjustments and apparently also already defined Git hooks are no longer visible in the web interface.
 
-    If you operate our own Gitea instance you can however re-enable
-    the web-based Git hooks support by adding =DISABLE_GIT_HOOKS =
-    false= to the =[security]= section. It might be additionally
-    necessary to allow the usage of Git hooks in the user settings.
+   If you operate our own Gitea instance you can however re-enable the web-based Git hooks support by adding =DISABLE_GIT_HOOKS = false= to the =[security]= section.
+   It might be additionally necessary to allow the usage of Git hooks in the user settings.
 
-    Before you (re-)enable Git hooks support *please make sure, that
-    you fully understand the consequences and the possible security
-    risk!* Any Gitea user who can add Git hooks can execute code on
-    the server and thereby possible even get Gitea administrator
-    rights or gain root privileges.
+   Before you (re-)enable Git hooks support *please make sure, that you fully understand the consequences and the possible security risk!*
+   Any Gitea user who can add Git hooks can execute code on the server and thereby possible even get Gitea administrator rights or gain root privileges.
+
+** Update 2021-08-23: Built-in mirror feature
+
+   The just released [[https://blog.gitea.io/2021/08/gitea-1.15.0-is-released/][Gitea 1.15.0]] now includes a functionality to mirror repositories to other Git hosting platforms.
+   You can refer to the [[https://docs.gitea.io/en-us/repo-mirror/][official documentation]] for how to setup your mirror(s).
+
+   Given the security concerns explained in my previous update and the simplicity of the new feature it is IMO highly preferable over my hacky workaround.
+   I myself are currently in process of switching the mirroring of my repositories to the new method and thereby also start mirroring them again to [[https://github.com/mmk2410][GitHub]] for better discoverability.
+   First tests already passed successfully.
+
+* TODO Während dem Schreiben dieses Artikels wurden zwei Frauen ermordert
+  :PROPERTIES:
+  :CREATED: [2020-08-19 Wed 23:10]
+  :END:
+
+  Nicht etwa, weil sie Opfer eines Anschlags wurden oder bei einem
+  tragischen Unfall ums Leben kamen. Auch nicht, weil sie sich selbst
+  das Leben nahmen oder einer schweren Krankheit erlegen sind. Nein,
+  diese beiden Frauen starben, weil sie Frauen waren. Aus dem selben
+  Grund, warum jedes Jahr allein in Deutschland 100 Frauen ermordet
+  werden. In der Zeit, welche zum Schreiben dieses Artikels benötigte,
+  sechs Tage, umgerechnet also zwei Frauen. 100 ist übrigens nur die
+  Zahl der „erfolgreichen“ (wenn man das so nennen möchte)
+  Mordversuche die (Ex-)Partner an deren (Ex-)Partnerinnen verüben.
+  300 Versuche im Jahr sind es insgesamt. Oder vielleicht sogar noch
+  viel mehr. Denn das sind nur die, die bekannt sind. Wie hoch die
+  Dunkelziffer ist, weiß wohl niemand. Und ein Mordversuch geschieht
+  nicht von heute auf morgen. Spätestens bei dem Gedanken wie viel
+  Gewalt (vollkommen egal ob psychisch oder physisch) von Männern
+  gegenüber ihren (Ex-)Partnerinnen verübt wird, kann einem nur noch
+  schlecht werden.
+
+  Ich möchte allerdings an dieser Stelle keine Abhandlung über diese
+  unzähligen sinnlosen und unbegründbaren Verbrechen schreiben, die
+  wohl zumeist deshalb entstanden sind, da manche Männer meinen, dass
+  Frauen ihr „Eigentum“ sind, über welches sie mehr oder weniger frei
+  „verfügen“ können. Den Fokus in diesem Artikel lege ich darauf, wie
+  ich selbst für dieses Thema sensibilisiert wurde und durch welche
+  Medien ich mehr über dieses Grauen lernte. Denn diese Quellen, die
+  auf die ich in den folgenden Abschnitten eingehen, gehen an das
+  Thema deutlich professioneller heran, als ich es könnte. Mir ist es
+  an dieser Stelle wichtig, Sichtbarkeit und Awareness zu schaffen,
+  sowie zum Nachdenken anzuregen.
+
+  - Von wegen Familiendrama - was wir über Femizide wissen müssen
+    - Sendung: Zündfunk Generator
+    - Produzent: Bayrischer Rundfunk / Bayern 2
+    - [[https://www.br.de/radio/bayern2/sendungen/zuendfunk/generator-podcast-was-wir-ueber-femizide-wissen-muessen-100.html][Bayern 2 Sendungsseite]]
+    - [[https://www.br.de/mediathek/podcast/zuendfunk-generator/von-wegen-familiendrama-was-wir-ueber-femizide-wissen-muessen/1798926][BR  Mediathek Podcast]]
+  - Der Mörder und meine Cousine
+    - Sendungs-Typ: True Crime Podcast
+    - Produzent: Bayrischer Rundfunk / Bayern 2
+    - [[https://www.br.de/radio/bayern2/der-moerder-und-meine-cousine104.html][Bayern 2 Sendungsseite]]
+    - [[https://www.br.de/mediathek/podcast/der-moerder-und-meine-cousine/833][BR Mediathek Podcast]]
+  - Kein Mord aus Liebe - warum Femizide verharmlost werden
+    - Sendung: 1 Thema, 3 Köpfe
+    - Produzent: Bayrischer Rundfunk / B5 aktuell
+    - [[https://www.br.de/mediathek/podcast/1-thema-3-koepfe/kein-mord-aus-liebe-warum-femizide-verharmlost-werden/1801849][BR Mediathek Podcast]]
 
 * DONE Switching my Website to Hugo using ox-hugo   :emacs:orgmode:hugo:@web:
   CLOSED: [2020-05-15 Fri 18:50]
