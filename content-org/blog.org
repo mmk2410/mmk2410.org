@@ -1,5 +1,20 @@
 #+HUGO_SECTION: blog
 #+HUGO_BASE_DIR: ../
+#+startup: indent
+
+* 100 Days To Offload                                     :@100DaysToOffload:
+:PROPERTIES:
+:EXPORT_DATE: [2022-01-09 Sun 17:03]
+:EXPORT_FILE_NAME: 100-days-to-offload-start.md
+:END:
+
+Since I joined the [[https://fosstodon.org/about/more][Fosstodon community]] over one and a half years ago (boy, time really flies...) I constantly read posts with a hashtag #100DaysToOffload and wondered what the heck this is. Well, someday I read [[https://100daystooffload.com/][the description]] and just thought "what a nice idea!" (tl;dr: during a time span of a year, write 100 more or less useful blog posts). Though I never really thought about joining since I cannot imaging writing 100 blog posts in just one year (if you look at my blog you will see that I published five posts during the last two years, with that speed I would need 40 years to finish the #100DaysToOffload). Although I have done something similar in 2015: a project 365: posting a inspiring quote every day for 365 days. Well, more or less successfully:  on some days I didn't have time and therefore posted two quotes the next day. OK, there were also larger gaps where I didn't post and needed to catch up.
+
+However, this morning I read a [[https://mikestone.me/100-days-to-offload-part-3/][blog post]] by Mike Stone stating that he will try the #100DaysToOffload challenge again after he already failed two times. And at this point for no good reason I started thinking that maybe I should try it to. During the day the thought grew more and more on me, so started writing this post and made a new To-Do in my system to write a new one every three days.
+
+So be prepared for either some awesome and totally useless blog posts spamming you every few days or to watch me utterly fail this challenge. Or a mixture of both. We'll see!
+
+/Day 1 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
 
 * Updates to my website
   :PROPERTIES:
