@@ -99,7 +99,7 @@
   Since I find the lists of other people about what the use quite interesting and from time to time someone asks my about what software/hardware I use I decided to also set up one.
   After having a simple blog post listing software since around 2016 I now put it all together here and update it from time to time.
 
-  /Last updated: 20. August 2021/
+  /Last updated: 09. January 2022/
 
 ** Hardware
 
@@ -111,19 +111,24 @@
     - *USB-Audiointerface:* Focusrite Scarlett 2i2 (3rd Generation)
     - *Headphones:* Audio-Technica ATH-M50x
     - *Microphone:* Marantz Pro MPM-1000
+    - *Earbuds*: Sennheiser CX True Wireless
     - *Keyboard:* Ducky One2 Mini
-    - *Mouse:* Cherry MW2110 (wireless)
+    - *Mouse:* Cherry MW4500 (wireless, vertical mouse)
 
 *** Laptop 1: Lenovo ThinkPad E490
+
+    For personal use.
 
     - *CPU:* Intel Core i5-8265 @ 1.6GHz
     - *GPU:* Intel UHD Graphics 620
     - *RAM:* 16GB
     - *Storage:* 500GB NVMe-SSD and 500GB SATA-SSD
-    - *OS:* Microsoft Windows 10 Professional, Fedora Workstation 34, Debian 11 Bullseye
+    - *OS:* Microsoft Windows 11 Professional, Fedora Workstation 35, Debian 11 Bullseye
     - *Display*: 14" 1920x1080
 
 *** Laptop 2: Lenovo Y50-70
+
+    For personal use.
 
     - *CPU:* Intel Core i7-4710HQ @ 2.5GHz
     - *GPU:* NVIDIA GeForce GTX 860M and Intel HD Graphics 4600
@@ -131,6 +136,19 @@
     - *Storage:* 500GB SATA-SSD
     - *OS:* Microsoft Windows 10 Education
     - *Display*: 15", 3840x2160
+
+    The battery in this thing is completely broken and the WiFi never worked with Linux and also only for a short period in Windows. Therefore I use it as a desktop PC.
+
+*** Laptop 3: Tuxedo InfinityBook Pro 14 Gen. 6
+
+    Exclusively for work.
+
+    - *CPU:* Intel Core i5-1135G7 @ 2.4GHz
+    - *GPU:* Intel Xe Graphics G7 (80EUs)
+    - *RAM:* 32GB
+    - *Storage:* 500GB NVMe-SSD
+    - *OS:* Fedora Workstation 35
+    - *Display*: 14", 1920x1080
 
 *** Other hardware
 
@@ -147,21 +165,21 @@
 
     - *Browser:* Mostly [[https://www.mozilla.org/firefox/][Firefox]], sometimes Brave, with following extensions:
       - [[https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/][Privacy Badger]]
-      - [[https://addons.mozilla.org/en-US/firefox/addon/decentraleyes/][Decentraleyes]]
-      - [[https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/][HTTPS Everywhere]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/want-my-rss/][Want My RSS]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/facebook-container/][Facebook Container]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/][Tree Style Tab]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/][KeePassXC-Browser]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/link-cleaner/][Link Cleaner]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/json-lite/][JSON Lite]]
-    - *E-Mail client:* Sometimes [[https://www.thunderbird.net][Thunderbird]], sometimes [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]]
-    - *Planner:* [[https://orgmode.org/][org-mode]]
-    - *Text editor:* [[https://www.gnu.org/software/emacs/][Emacs]], sometimes [[https://code.visualstudio.com/][Visual Studio Code]], notable extensions:
+    - *E-Mail client:* Sometimes [[https://wiki.gnome.org/Apps/Evolution][Evolution]], sometimes [[https://www.thunderbird.net][Thunderbird]], sometimes [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] (though I prefer mu4e)
+    - *Planner:* Todoist (personal) )and [[https://orgmode.org/][org-mode]] (work)
+    - *Read it later service*: Pocket
+    - *Text editor:* [[https://www.gnu.org/software/emacs/][Emacs]], sometimes [[https://code.visualstudio.com/][Visual Studio Code]] and sometimes PhpStorm (especially for work)
+    - *Notable Emacs extensions*:
       - [[https://magit.vc/][Magit]] (the Git client)
       - [[https://orgmode.org/][org-mode]] (notes, todo-lists, planning, ...)
-      - [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] (Mail client)
       - [[https://www.orgroam.com/][org-roam]] (personal knowledge management)
+      - [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] (Mail client)
       - [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] (Language Server Protocol integration)
       - [[https://www.gnu.org/software/erc/][ERC]] (Emacs IRC cient)
       - [[https://www.gnu.org/software/auctex/][AucTeX]] (LaTeX editing environment)
@@ -169,7 +187,7 @@
       - [[https://oremacs.com/swiper/][Ivy, counsel, swiper]] and [[https://company-mode.github.io/][company-mode]] (completion system)
       - [[https://editorconfig.org/][editorconfig]] (defined and shared code styles)
       - [[https://github.com/akermu/emacs-libvterm][vterm]] (Emacs libvterm integration)
-    - *Photo management:* Adobe Lightroom Classic (about to switch to something else soon)
+    - *Photo management:* Adobe Lightroom Classic, Skylum Luminar Neo (once it's released, currently only testing it)
     - *Photo editing:* [[https://affinity.serif.com/en-gb/photo/][Affinity Photo]], Adobe Photoshop, [[https://www.gimp.org/][GIMP]]
     - *Vector graphics:* [[https://affinity.serif.com/en-gb/designer/][Affinity Designer]], Adobe Illustrator, [[https://inkscape.org/][Inkscape]]
     - *Desktop publishing*: [[https://affinity.serif.com/en-gb/publisher/][Affinity Publisher]] and [[https://www.latex-project.org/][LaTeX]]
@@ -177,32 +195,36 @@
     - *Digital audio workstation (DAW):* Adobe Audition, Ableton Live Lite, Audacity (currently undecided)
     - *Scorewriter:* [[https://musescore.org/][musescore]]
     - *Music listening:* Spotify
+    - *Accounting software*: [[https://hledger.org/][hledger]]
 
 *** Mobile
 
     - *Browser:* Brave and Firefox
     - *Messaging:* Conversation (XMPP), Discord, Linphone (softphone), [[https://github.com/MCMrARM/revolution-irc][Revolution IRC]], [[https://www.signal.org/][Signal]], Telegram, [[https://threema.ch/en][Threema]], WhatsApp
-    - *Organization:* [[https://acalendar.tapirapps.de/en/support/home][aCalendar+]] (calendar and tasks), [[https://k9mail.app/][K-9 Mail]] (email)
+    - *Organization:* [[https://acalendar.tapirapps.de/en/support/home][aCalendar+]] (calendar), [[https://k9mail.app/][K-9 Mail]] (email), [[http://www.orgzly.com/][Orgzly]] (currently not), Todoist
     - *Music listening:* Spotify and [[http://y20k.org/transistor/][Transistor]] (radio)
     - *Social Networks:* [[https://tusky.app/][Tusky]] (Mastodon), [[https://klinkerapps.com/talon-overview/][Talon]] (Twitter), Instagram
     - *Privacy-tools:* [[https://jak-linux.org/projects/dns66/][DNS66]]
     - *Security:* [[https://github.com/andOTP/andOTP][andOTP]], [[https://github.com/PhilippC/keepass2android][Keepass2Android]]
     - *Software centres:* Google Play Store and [[https://f-droid.org/][F-Droid]]
-    - *Others:* [[https://wiki.openstreetmap.org/wiki/StreetComplete][StreetComplete]]
+    - *Other notable apps:* [[https://wiki.openstreetmap.org/wiki/StreetComplete][StreetComplete]], AccuBattery, [[https://www.cgeo.org/][c:geo]], MuPDF Viewer, Pocket
 
 ** Self-hosted
 
-   Everything except Searx (which runs on my home server) is hosted on a Hetzner VPS.
-   Not really hosted but nevertheless still worth mentioning is [[https://syncthing.net/][Syncthing]].
+   Some services are publicly available and hosted on a cheap Hetzner VPS others are hosted on my home server.
+   Not really hosted but nevertheless still worth mentioning because I heavily rely on it is [[https://syncthing.net/][Syncthing]].
 
    - *Wiki:* [[https://moinmo.in/][MoinMoin]]
-   - *RSS:* [[https://freshrss.github.io/FreshRSS/en/][FreshRSS]] with [[https://github.com/RSS-Bridge/rss-bridge/wiki][RSS-bridge]]
+   - *RSS:* [[https://freshrss.github.io/FreshRSS/en/][FreshRSS]] with [[https://github.com/RSS-Bridge/rss-bridge/wiki][RSS-bridge]] and currently also testing [[https://miniflux.app/][Miniflux]]
    - *Cloud:* Nextcloud
    - *Git web interface:* [[https://gitea.io/][Gitea]]
    - *XMPP:* [[https://prosody.im/][Prosody]]
-   - *Analytics:* Plausible
    - *IRC Bouncer:* [[https://wiki.znc.in/ZNC][ZNC]]
    - *Search engine:* [[https://searx.github.io/searx/][Searx]]
+   - *Web analytics*: [[https://plausible.io/][Plausible]]
+   - *Recipe management*: [[https://tandoor.dev/][Tandoor]]
+   - *Online file browser*: [[https://filebrowser.org/][File Browser]]
+   - *Photo gallery*: [[https://bpatrik.github.io/pigallery2/][PiGallery 2]]
 
 * Blog
   :PROPERTIES:
