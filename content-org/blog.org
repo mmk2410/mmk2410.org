@@ -2,6 +2,24 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* How this post is brought to you...   :@100DaysToOffload:emacs:orgmode:hugo:
+:PROPERTIES:
+:EXPORT_DATE: [2022-01-12 Wed 18:23]
+:EXPORT_FILE_NAME: 100dto-how-this-post-is-brought-to-you.md
+:END:
+
+The #100DaysToOffload challenge starts very well. I'm sitting here at my desk with the to-do in front of me to write post number two. And I have absolutely no idea what to write! Well, there are some topics I want to cover on the blog during the next months and the can be part of the #100DaysToOffload but I currently don't know where to start. So what's left then to tell you, dear reader, is how this blog post is brought to you and thereby also include a few hints about what I will write during the next months!
+
+So about that workflow. Let's start the same way that I work with it. Currently I'm running my [[/uses][older Lenovo Y50-70 laptop]] with Windows 10 since I like to do creative stuff like graphic design or editing photos and therefore rely on software that is not available on UNIX/Linux. However I'm mostly a Linux user and a few years back I fell in the large Emacs rabbit hole and can't get out. So for starting this post I open my Debian WSL2 instance in Windows Terminal and fire up that old editor with ~setsid emacs~. A few seconds later a white rectangle pops up on my screen (I have VcXsrv installed) and I can navigate to my =blog.org= file in my [[https://git.mmk2410.org/mmk2410/mmk2410.org][website repo]].
+
+Once I'm there I create a new headline, set two properties: an export file name and an export date, add the #100DaysToOffload category and start writing (or at  least I would if I knew what to write). Once that is done I need to manually run ~(require 'ox-hugo)~ since I'm quite lazy and never took the time to load this automatically using my [[https://git.mmk2410.org/mmk2410/dot-emacs][Emacs config]]. But what is =ox-hugo=? Well, =ox= is short for [[https://orgmode.org/][org]] export and [[https://gohugo.io/][hugo]] is a well-known static site generator. So =ox-hugo= lets me export my large =blog.org= file containing all my blog posts to files that =hugo= can understand. If I'm done writing I exported the new post, run =hugo serve= in the terminal, visit localhost:1313 in my browser and verify that the content and markup is to my liking. Once I'm satisfied I can upload the changes I made to my website using a [[https://git.mmk2410.org/mmk2410/mmk2410.org/src/branch/main/publish.sh][hacky script I wrote]] and spread the word on [[https://fosstodon.org/@mmk2410][Fosstodon]].
+
+But there are somethings that I would like to optimize. Adjusting my Emacs configuration like written above is just one thing. Another is that it is currently quite cumbersome to create a new blog post. A template, e.g. using org-capture or similar is something I want to investigate in. And I really need to put some time in the publish script...
+
+If you made it this far: Congratulations! You survived this quite technical overview and are ready to read more about my workflow in the future! If you just scrolled to the end: that's also fine. While I can't promise it, I don't think that all of the 98 blog posts that are left will be that technical. And if they are they will explain the stuff I write about.
+
+/Day 2 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * 100 Days To Offload                                     :@100DaysToOffload:
 :PROPERTIES:
 :EXPORT_DATE: [2022-01-09 Sun 17:03]
@@ -194,55 +212,6 @@ git push --mirror "$downstream_repo"
    Given the security concerns explained in my previous update and the simplicity of the new feature it is IMO highly preferable over my hacky workaround.
    I myself are currently in process of switching the mirroring of my repositories to the new method and thereby also start mirroring them again to [[https://github.com/mmk2410][GitHub]] for better discoverability.
    First tests already passed successfully.
-
-* TODO Während dem Schreiben dieses Artikels wurden zwei Frauen ermordert
-  :PROPERTIES:
-  :CREATED: [2020-08-19 Wed 23:10]
-  :END:
-
-  Nicht etwa, weil sie Opfer eines Anschlags wurden oder bei einem
-  tragischen Unfall ums Leben kamen. Auch nicht, weil sie sich selbst
-  das Leben nahmen oder einer schweren Krankheit erlegen sind. Nein,
-  diese beiden Frauen starben, weil sie Frauen waren. Aus dem selben
-  Grund, warum jedes Jahr allein in Deutschland 100 Frauen ermordet
-  werden. In der Zeit, welche zum Schreiben dieses Artikels benötigte,
-  sechs Tage, umgerechnet also zwei Frauen. 100 ist übrigens nur die
-  Zahl der „erfolgreichen“ (wenn man das so nennen möchte)
-  Mordversuche die (Ex-)Partner an deren (Ex-)Partnerinnen verüben.
-  300 Versuche im Jahr sind es insgesamt. Oder vielleicht sogar noch
-  viel mehr. Denn das sind nur die, die bekannt sind. Wie hoch die
-  Dunkelziffer ist, weiß wohl niemand. Und ein Mordversuch geschieht
-  nicht von heute auf morgen. Spätestens bei dem Gedanken wie viel
-  Gewalt (vollkommen egal ob psychisch oder physisch) von Männern
-  gegenüber ihren (Ex-)Partnerinnen verübt wird, kann einem nur noch
-  schlecht werden.
-
-  Ich möchte allerdings an dieser Stelle keine Abhandlung über diese
-  unzähligen sinnlosen und unbegründbaren Verbrechen schreiben, die
-  wohl zumeist deshalb entstanden sind, da manche Männer meinen, dass
-  Frauen ihr „Eigentum“ sind, über welches sie mehr oder weniger frei
-  „verfügen“ können. Den Fokus in diesem Artikel lege ich darauf, wie
-  ich selbst für dieses Thema sensibilisiert wurde und durch welche
-  Medien ich mehr über dieses Grauen lernte. Denn diese Quellen, die
-  auf die ich in den folgenden Abschnitten eingehen, gehen an das
-  Thema deutlich professioneller heran, als ich es könnte. Mir ist es
-  an dieser Stelle wichtig, Sichtbarkeit und Awareness zu schaffen,
-  sowie zum Nachdenken anzuregen.
-
-  - Von wegen Familiendrama - was wir über Femizide wissen müssen
-    - Sendung: Zündfunk Generator
-    - Produzent: Bayrischer Rundfunk / Bayern 2
-    - [[https://www.br.de/radio/bayern2/sendungen/zuendfunk/generator-podcast-was-wir-ueber-femizide-wissen-muessen-100.html][Bayern 2 Sendungsseite]]
-    - [[https://www.br.de/mediathek/podcast/zuendfunk-generator/von-wegen-familiendrama-was-wir-ueber-femizide-wissen-muessen/1798926][BR  Mediathek Podcast]]
-  - Der Mörder und meine Cousine
-    - Sendungs-Typ: True Crime Podcast
-    - Produzent: Bayrischer Rundfunk / Bayern 2
-    - [[https://www.br.de/radio/bayern2/der-moerder-und-meine-cousine104.html][Bayern 2 Sendungsseite]]
-    - [[https://www.br.de/mediathek/podcast/der-moerder-und-meine-cousine/833][BR Mediathek Podcast]]
-  - Kein Mord aus Liebe - warum Femizide verharmlost werden
-    - Sendung: 1 Thema, 3 Köpfe
-    - Produzent: Bayrischer Rundfunk / B5 aktuell
-    - [[https://www.br.de/mediathek/podcast/1-thema-3-koepfe/kein-mord-aus-liebe-warum-femizide-verharmlost-werden/1801849][BR Mediathek Podcast]]
 
 * DONE Switching my Website to Hugo using ox-hugo   :emacs:orgmode:hugo:@web:
   CLOSED: [2020-05-15 Fri 18:50]
