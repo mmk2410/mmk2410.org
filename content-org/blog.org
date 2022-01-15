@@ -2,6 +2,53 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* Improving my new blog post creation :@100DaysToOffload:emacs:orgmode:hugo:
+:PROPERTIES:
+:EXPORT_DATE: [2022-01-15 Sat 18:35]
+:EXPORT_FILE_NAME: improving-my-new-blog-post-creation.md
+:END:
+
+In my [[*How this post is brought to you...][last post]] I wrote that it is currently quite cumbersome for me to start writing a new blog post. There are mainly two reasons for that. The first is opening the file. While this sounds quite unimpressive it does not make fun to navigate three directories from my home until I can open it. At least not if you can avoid it. The more annoying part is that I need to define the complete structure and metadata information by myself. For a standard blog post this looks like that:
+
+#+begin_src org
+,* My new blog post :@mycategory:mytag1:mytag2:
+  :PROPERTIES:
+  :EXPORT_DATE: [2022-01-15 Sat 17:24]
+  :EXPORT_FILE_NAME: my-nifty-title.md
+  :END:
+
+  Finally I can start write!
+#+end_src
+
+To be honest I don't have to type everything by hand. I can use =CTRL + ENTER= at the top of my file to create a new headline and then use =C-c C-q= (that is =CTRL+c CTRL+q= for normal people) to set the category and the tags. Additionally I have some help for settings the =EXPORT_DATE= and =EXPORT_FILE_NAME= using the =org-set-property= command which is bound to =C-c C-x p= and gives me a list of common options to choose from.
+
+Even using these helpers it does not quite feel that great. But [[https://orgmode.org/][org mode]] has another feature which makes this a breeze: [[https://orgmode.org/manual/Capture-templates.html][capture templates]]. These are templates that one can define in the personal Emacs configuration and access using another keyboard shortcut. I have configured org to present me a list of my capture templates by pressing =C-c c= and then the letter of the corresponding template.
+
+[[file:../static/2022/2022-01-15-org-capture-select.png]]
+
+What I want to do now is to create a new capture template just for starting a new blog post. After some playing around I got the correct cryptic combination that works for me.
+
+#+begin_src emacs-lisp
+(defconst mmk2410/blog-posts-file
+  "~/projects/mmk2410.org/content-org/blog.org"
+  "Position of my org file containing all blog posts.")
+(add-to-list 'org-capture-templates
+             '("b" "Blog post" entry (file mmk2410/blog-posts-file)
+               "* %^{Title} %^g\n:PROPERTIES:\n:EXPORT_DATE: %^{EXPORT_DATE}U%^{EXPORT_FILE_NAME}p\n:END:"
+               :prepend t :empty-lines 1
+               :immediate-finish t :jump-to-captured t))
+#+end_src
+
+But what exactly does it do? I think the first three lines are still very obvious, even if you have no prior experience in Emacs Lisp: I define a constant to hold the path to the org mode file which contains my blog posts. But then it gets a little bit more difficult. I add a new entry to the list =org-capture-templates= with the key =b= and the description /Blog post/. This will show up in the org capture template select dialog you saw in the image above. Then I state that I want to create a new entry (that means a heading in this context) in the file which path I defined. Still quite easy.
+
+But what about that ugly string? That is the template itself and quite hard to read (and write)! Let's break it apart. The =*= is just the org syntax for a first-level headline. Following that we have =%^{Title}=. When I use the template org expands all elements in the template string that start with a =%=. With the first expansion I tell org to display me a prompt asking for a title. Following that I have =%^g=. This is also a prompt, but a predefined one! It will ask for keywords, i.e. my category and my tags, giving me some completion options using the already existing ones. The =\nPROPERTIES:\n:EXPORT_DATE:= is just a literal string which starts the properties block and adds necessary line breaks. Similar as the title prompt =%^{EXPORT_DATE}U= asks for a export date and the =U= tells org to expect a date time and it presents a nice prompt with helpful completions. Following that there is a =%^{EXPORT_FILE_NAME}p=. This time the string inside the curly braces is not only the name of the prompt to display but also the name of the property to set. Why a property? Because of the =p= at the end! I would have liked to also set the date with such a =p= prompt and to automatically generate the export file name based on the title but for neither of them I found a solution quickly. The template string ends now with a line break and closes the properties block with =:END:=. What is generated then looks exactly like my example from above (of course only I if put the same information in...)!
+
+There are still four things to explain. =:prepend t= tells org to put the new entry at the top of the file (the bottom would be the default but I like to have my blog post sorted descending). =empty-lines 1= keeps an empty line above and below the entry. I like this to have a little bit separation between all the headlines. =:immediate-finish t= and =:jump-to-captured t= are kind of a combination here. Normally org mode presents the capture process completely isolated from any content and afterwards returns to the file you edited before choosing the template. In this case I would like to see all other blog posts (e.g. for referencing or copying). So I request to immediately finish the capture process after filling out all prompts, open the file where the new entry was created and put my cursor at the headline of the new post.
+
+That's it! So I could fulfill  both my wishes that I wrote at the start of the blog and I'm now able to more quickly start writing (or drafting) a blog post.
+
+/Day 3 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * How this post is brought to you...   :@100DaysToOffload:emacs:orgmode:hugo:
 :PROPERTIES:
 :EXPORT_DATE: [2022-01-12 Wed 18:23]
