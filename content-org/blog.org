@@ -17,10 +17,10 @@ In my [[*How this post is brought to you...][last post]] I wrote that it is curr
   :EXPORT_FILE_NAME: my-nifty-title.md
   :END:
 
-  Finally I can start write!
+  Finally I can start writing!
 #+end_src
 
-To be honest I don't have to type everything by hand. I can use =CTRL + ENTER= at the top of my file to create a new headline and then use =C-c C-q= (that is =CTRL+c CTRL+q= for normal people) to set the category and the tags. Additionally I have some help for settings the =EXPORT_DATE= and =EXPORT_FILE_NAME= using the =org-set-property= command which is bound to =C-c C-x p= and gives me a list of common options to choose from.
+To be honest I don't have to type everything by hand. I can use =ALT + ENTER= at the top of my file to create a new headline and then use =C-c C-q= (that is =CTRL+c CTRL+q= for normal people) to set the category and the tags. Additionally I have some help for settings the =EXPORT_DATE= and =EXPORT_FILE_NAME= using the =org-set-property= command which is bound to =C-c C-x p= and gives me a list of common options to choose from.
 
 Even using these helpers it does not quite feel that great. But [[https://orgmode.org/][org mode]] has another feature which makes this a breeze: [[https://orgmode.org/manual/Capture-templates.html][capture templates]]. These are templates that one can define in the personal Emacs configuration and access using another keyboard shortcut. I have configured org to present me a list of my capture templates by pressing =C-c c= and then the letter of the corresponding template.
 
@@ -48,6 +48,10 @@ There are still four things to explain. =:prepend t= tells org to put the new en
 That's it! So I could fulfill  both my wishes that I wrote at the start of the blog and I'm now able to more quickly start writing (or drafting) a blog post.
 
 /Day 3 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
+** Update 2022-01-16
+
+After posting a link to this post on my [[https://fosstodon.org/@mmk2410][Mastodon]] account the creator of =ox-hugo= [[https://mastodon.technology/@kaushalmodi/107628728895838695][replied]] and pointed me to the documentation which [[https://ox-hugo.scripter.co/doc/org-capture-setup/#org-capture-template-export-date][includes an org caputer template]] or---to be more precise---a generator for an org capture template which automatically generates the =EXPORT_FILE_NAME=. He also mentioned that =ox-hugo= uses the =CLOSED= property of an org entry (e.g. a blog post) for automatically setting the date. This =CLOSED: <date>= line is added when a org mode entry is set to =DONE= using the =org-todo= command (bound to =C-c C-t= for me) as long as the variable =org-log-done= is set to =time=. Both things are really great and I will switch to them! I should have read the documentation more carefully in the beginning...
 
 * How this post is brought to you...   :@100DaysToOffload:emacs:orgmode:hugo:
 :PROPERTIES:
