@@ -2,6 +2,36 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE New Project: Accessing my Org-roam notes everywhere :@100DaysToOffload:pim:orgmode:emacs:
+CLOSED: [2022-01-18 Tue 20:10]
+:PROPERTIES:
+:EXPORT_FILE_NAME: new-project-accessing-my-org-roam-notes-everywhere
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-01-18 Tue 20:10]
+:END:
+
+Currently my information storage "strategy" is a disaster. I have four (at least I think so, maybe even more) places where I write down information:
+
+- A single [[https://orgmode.org/][org]] file called =notes.org= which is synchronized across my devices (including mobile) using [[https://syncthing.net/][Syncthing]]. This contains 14 first-level Org headings and apparently 617 headings in total.
+- A [[https://www.orgroam.com/][Org-roam]] directory which  is also synchronized across all devices using Syncthing. Currently it contains 266 notes.
+- A private [[http://moinmo.in/][MoinMoin]] wiki running on my [[https://en.wikipedia.org/wiki/Virtual_private_server][VPS]]. Most of the pages there I have not touched in a long time and the only thing I still actively use it for is storing recipes (where I also will move to another solution, but not org based since multiple people need to work with it) and the documentation for my self-hosted services.
+-  The [[https://apps.nextcloud.com/apps/notes][Notes]] app in my Nextcloud instance. There is one shared note and five other more or less useful ones.
+
+Sounds funny? Well... There is a tiny problem: I have no good structure where I put or find what kind of information. While I started using Org-roam for my bachelor thesis I added also various other things in there afterwards. The =notes.org= file contains something from nearly every possible topic: from cocktail recipes over server administration to conference notes. A similar interesting collection of randomness is also presented in my wiki. Only the Notes app is quite empty. There is one shared note that perhaps won't go anywhere else and a few other notes that I created there for perhaps no reason at all and that I should move to one of the other three blackboxes sooner or later.
+
+But even with "only" three systems this is not something to work with. That is why I set myself the goal to move every note into Org-roam. Why? Mainly because I quite like the approach to only store and link stuff without thinking too much about hierarchy. Time that is invested into thinking /where/ to store the note instead of writing it is IMO wasted.
+
+There is only one problem that I need to solve before I migrate everything. Although the notes are (in theory) also available on my tablet and my smartphone I cannot really access them. Importing all the files into [[http://www.orgzly.com/][Orgzly]] would either not work or would make the app useless for its original purpose (agenda and todos). Accessing them via an Emacs instance in [[https://termux.com/][Termux]] would work but is much too cumbersome and also not usable with touch gestures. To make it short: I need some other way.
+
+I looked a bit around yesterday and found some solutions like [[https://www.orgroam.com/manual.html#Configure-org_002dmode-for-publishing][using org-publish]], [[https://github.com/jethrokuan/braindump][doing crazy shit with ox-hugo]] or [[https://www.amoradi.org/20210730173543.html][other]] [[https://hugocisneros.com/blog/my-org-roam-notes-workflow/][dark]] [[https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/][magic]]. I also had the idea to use [[https://github.com/org-roam/org-roam-ui][org-roam-ui]], the frontend for working directly with the notes made by the [[https://github.com/org-roam][Org-roam team]]. While these are certainly really good solutions especially for a research knowledge base I think that my requirements are a little bit different. I currently don't plan to put my notes in Git (I think that I would be too impractical) and I expect that I have at least some regular situations where I need the notes that I wrote at my computer nearly instantly available from a mobile device. These two requirements together rule out the usage of any continuous integration system, be it based on org-publish, ox-hugo or something else. Besides that my requirements are not that high. In beginning I don't need a graph and even backlinks are something that I don't think are too important when viewing the notes on the go. What I want is a lightweight web application with a search (filename/title and fulltext), potentially filters for filetags and a nice display of a note.
+
+After I searched and my requirements were clear I decided to start building something myself. So yesterday evening I started developing a proof-of-concept app. As a techstack I plan to use [[https://go.dev/][Go]] for the backend and perhaps [[https://alpinejs.dev/][Alpine.js]] for the frontend, combined with some CSS framework (at least for the start, at the end I will do a complete custom design as always) which I did not choose yet. Maybe I will try [[https://tailwindcss.com/][tailwindcss]] for this. The part of the backend I already wrote is currently more or less just a bare Go HTTP server as a wrapper around some bash commands, e.g. =ls /my/roam/dir/*.org= or =grep -rl search /my/roam/dir=. I have my doubts that this will function well if I want more features and that I need to switch to some indexing sooner or later but for the proof-of-concept it should be enough.
+
+Sadly as of now the project is way too crappy to publish it somewhere but during the next weeks I will continue working on it and hope to have something ready to use and show at the end of February (there's no year mentioned for a reason... ;) ). I'll keep you posted!
+
+/Day 4 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * Improving my new blog post creation :@100DaysToOffload:emacs:orgmode:hugo:
 :PROPERTIES:
 :EXPORT_DATE: [2022-01-15 Sat 18:35]
