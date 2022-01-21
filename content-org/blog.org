@@ -2,6 +2,60 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE My Emacs package of the week: orgit :@100DaysToOffload:git:emacs:orgmode:
+CLOSED: [2022-01-21 Fri 18:42]
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-emacs-package-of-the-week-orgit
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-01-21 Fri 17:53]
+:END:
+
+As you may now I [[*100 Days To Offload][joined the 100 Days To Offload challenge]] and therefore need some content. Since it seems that I always write about stuff that is more or less connected with Emacs anyway I though I could start a series called "My Emacs package of the week" where I present some package I stumbled upon recently or I used for quite some time but is interesting enough to show. I intend to do this weekly (at least during the challenge) but I cannot promise that I find a package every week that I want to present.
+
+However, this weeks package is *[[https://github.com/magit/orgit][orgit]]* by [[https://github.com/tarsius][Jonas Bernoulli]] (the guy that also maintains [[https://magit.vc/][Magit]], the one and only Git interface). What does it? It defines Org link types for linking to Magit buffers from Org mode.
+
+So, why is it may favorite package of the week? When I develop software I like to keep track of the tasks I would like to achieve (of course using Org) and I found out that I also really like to write down my thoughts on tasks that come to me over time. So when I finish a chore the Org entry sometimes resemble more a story than just a todo. Since it is still software development "behind"" the scenes, Git plays an important role. In the past when I pasted commit SHAs I usually linked to the corresponding commit in the remote but I would prefer it, if takes me to my local clone instead. So I searched quickly earlier this week and was quite surprised and happy that the first result was from the Magit GitHub organization.
+
+Since the last days were a little bit busy I first had no time to try the package and later decided that I could combined this with a blog post. So lets start by loading it with [[https://github.com/jwiegley/use-package][use-package]] (I have [[https://melpa.org/#/][Melpa]] configured but it is also available on [[https://elpa.nongnu.org/nongnu/orgit.html][NonGNU ELPA]]).
+
+#+begin_src emacs-lisp
+(use-package orgit
+  :after (magit org))
+#+end_src
+
+The package itself provides only one command which may be interesting further down the road: =orgit-store-link=. Reading the documentation it acts the same as the =org-store-link= function but not storing a link to one commit but to all selected commits. For now I only want to link to one commit. Since the file I'm writing this very blog post into is actually stored in a Git repository this is obviously the best example to start. After opening my Magit status buffer with =C-x g= (that is holding the control key while pressing =x=, letting go of both and pressing just the =g= letter).I went to the "recent commits" section, open the commit of my [[*New Project: Accessing my Org-roam notes everywhere][previous post]]  and got the link to it using =org-store-link= (I have it bound to =C-c l= but not sure if I or Org did this). Afterwards I can insert the link using =org-insert-link= (=C-c C-l=)  and here it is:
+
+#+begin_src org
+[[orgit-rev:~/projects/mmk2410.org/::e1b5ee5496fe7147c77985ac5f49e8bb7f4d4725][~/projects/mmk2410.org/ (magit-rev e1b5ee5)]]
+#+end_src
+
+Opening this link using =org-open-at-point= (=C-c C-o=) brought me directly to the Magit buffer for the revision. For just linking to the Magit status buffer of my project I can execute the =org-store-link= command right after opening it.
+
+#+begin_src org
+[[orgit:~/projects/mmk2410.org/][~/projects/mmk2410.org/ (magit-status)]]
+#+end_src
+
+And visiting it works just the same!
+
+But there is currently a problem. When exporting an Org buffer e.g. to Markdown to upload it to a team wiki or something else, Org checks whether the links are resolvable and fails for the orgit ones. Makes sense since nobody else can open my Magit buffer from a Wiki (at least I hope so!). But this is where orgit gets really good: it has built-in support for exporting these links and this is also enabled by default. There is just one catch why it does not work for me. orgit uses by default the remote named =origin= (this can be customized by setting =orgit-remote=) and creates the real HTTP links using the predefined forges and their base URLs. Since I use my own self-hosted [[https://gitea.io/en-us/][Gitea]] instance it is clear that Orgit dos not know a base URL for it. So lets adjust the =orgit-export-alist= variable that stores this configurations by adding a definition for my Gitea instance.
+
+#+begin_src emacs-lisp
+(add-to-list 'orgit-export-alist
+             '("git.mmk2410.org[:/]\\(.+?\\)\\(?:\\.git\\)?$" ;; the regex to match the remote
+               "https://git.mmk2410.org/%n" ;; The link to the status
+               "https://git.mmk2410.org/%n/commits/commit/%r" ;; The link to the log.
+               "https://git.mmk2410.org/%n/commit/%r")) ;; The link to the revision
+#+end_src
+
+As written in the documentation for =orgit-export-alist= it is also possible to set these values using the =git config= command with the keys =orgit.status=, =orgit.log= and =orgit.commit=. Thereby only the =%r= (the revision) must appear in the string of the last two keys. The =%n= in the code above will get expanded to the path of the project. Using this configuration the exporting works and I can now also link here to my projects overview page ([[orgit:~/projects/mmk2410.org/][projects overview page]]) and the commit of my last blog post ([[orgit-rev:~/projects/mmk2410.org/::e1b5ee5496fe7147c77985ac5f49e8bb7f4d4725][commit of my last blog post]] ).
+
+That's it! I sure will integrate this package into my workflow and Emacs configuration and I hope you enjoyed this brief presentation.
+
+P.S.: If you 're already a heavy user of Magit then I would like you to consider [[https://github.com/sponsors/tarsius][sponsoring Jonas]].
+
+/Day 5 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE New Project: Accessing my Org-roam notes everywhere :@100DaysToOffload:pim:orgmode:emacs:
 CLOSED: [2022-01-18 Tue 20:10]
 :PROPERTIES:
