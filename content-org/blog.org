@@ -2,6 +2,75 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE RSS aggregators and a hard decision :@100DaysToOffload:programs:selfhosting:
+CLOSED: [2022-01-24 Mon 21:17]
+:PROPERTIES:
+:EXPORT_FILE_NAME: rss-aggregators-and-a-hard-decision
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-01-24 Mon 21:17]
+:END:
+
+If you read my previous blog posts you may think “Boy, what a nerd. Only writes about Emacs. Doesn't he have a life???” and honestly I couldn't even be mad on you. But---jokes aside---as a matter of fact there is more. And so I though I should also write some blog posts about other stuff. For a totally unrelated topic I decided to write about my usage of RSS aggregators today (and no, although I use [[https://github.com/skeeto/elfeed][elfeed]] with [[https://github.com/fasheng/elfeed-protocol][elfeed-protocol]] from time to time there won't be any further mentions of Emacs in this post...).
+
+The thing is that I soon or later need to make a difficult decision about which RSS aggregator/reader I should use. Currently I'm running two of them but let me start from the beginning.
+
+** The long and boring background
+
+I started using RSS quite some time ago, I think it was 2013 or 2014 and initially used some kind of desktop program (I don't remember what it was, perhaps [[https://lzone.de/liferea/][Liferea]] but I'm not entirely sure).
+
+This worked quite well until I've gone travelling for a few days and needed another solution for reading my feeds during that time. Back then I had no idea about self-hosting and also didn't have an own VPS or similar (and also not the money for it). So I looked around and settled for /feedly/ which worked quite well on desktop and mobile if I remember correctly.
+
+I kept using it for a long time until maybe around 2015 or 2016 when I became more interested in privacy and self-hosting. Back then I found [[https://tt-rss.org/][Tiny Tiny RSS]], setup my own instance and lived with it for quite some time. It was a long time ago but I cannot remember any larger problems I experienced with it I only know that I found the design quite underwhelming. I remember centering the login form because I found it that off-putting...
+
+At some later point (I think late 2017) I had less and less time available for managing my self-hosted services and moved many things into my Nextcloud instance and the [[https://apps.nextcloud.com/apps/news][Nextcloud News App]] became my replacement for TT-RSS. In the beginning it worked quite well but over the years many problems occurred: from random feeds that stopped updating to a bug that regularly showed already read items from various feeds (and also a large amount of entries). Nevertheless, for completeness sake I want to add that the Android app is quite well done! Better than anything else I have used (except the feedly app which also was not bad).
+
+In the end the later problem became that annoying that I really wanted to switch away. Sorting out an unknown number of already read items from the far past up to yesterday became more and more frustrating. As a result I finally started to earch for alternatives in the first half 2021. I tried a few and at the end only [[https://miniflux.app/][Miniflux]] and [[https://freshrss.org/][FreshRSS]] fitted my needs. I first tried out Miniflux but could not get the feed updating configured correctly, experienced a (relatively)high CPU load from it and finally gave up. FreshRSS on the other hand was easy to setup and suited me quite well and so I switched to it.
+
+What annoyed me about FreshRSS was always the really outdated design and since some other people on [[https://fosstodon.org/about][Fosstodon]] (btw. a great place to be) where quite happy with Miniflux I decided to give it another shot and set it up again in early October 2021. My primary purpose was just to try it out but somehow I got stuck with it. Because another person is also using my RSS aggregator “hosting” I didn't shut down FreshRSS back then.
+
+** The difficult problem
+
+So since October last year *both* are running: FreshRSS and Miniflux. After a few months with Miniflux I quickly went back to FreshRSS about a week ago and I have to say: I don't have a problem with either one! I just know one thing: I don't want to keep hosting two services of the same type. Not because I run out of resources but I like to keep my setup clean and not have any unused services lying around. Therefore, I need to decide which to keep and which to throw away. And that's the point where it gets really difficult! Let's start a highly opinionated comparison.
+
+** Miniflux
+
+First the *good* things. Miniflux has a really clean design which enables reading the news without any distractions and, thanks to the gesture support, its also a joy to use it on mobile since I don't use any apps (neither for Miniflux nor for FreshRSS, because there are no good ones IMO). Due to the design choices the load time are also great.
+
+But the best feature that Miniflux has for me is the Pocket integration. I use Pocket a lot to save articles for reading them later and it is that well integrated that I only need to type one letter or press one button and then its saved. No other windows that opens, no other action that I need to do.
+
+But not every is good, there are also some things I quite *dislike*. While the design is very clean I'm not completely satisfied. I think its a little bit to bleak and looks kind of unfinished to me. I can live with it but I realize it often.
+
+A bigger annoyance is the feed management. There is no clear overview of all feeds but only a long list with an interesting sorting (the only way to find something is by using the browser search) and this is kind of important to me since I currently follow 205 feeds (I get nearly exclusively all my news using RSS and the number only goes up). I also have one feed that works flawlessly in FreshRSS (and also earlier in every other tool that I used) but constantly fails for Miniflux.
+
+No longer an issue since I resolved it somehow but still something that wonders me is the polling algorithm. There are quite a few different settings for configuring this. The default scheduler sounds interesting: the feeds that are updated the most are pulled more often. While this makes sense I was never able go get it working: no matter what configuration (except the following one) I tried I was never able to get my feeds updated, some where always updated and other never (and I let it run for a few days to test). I currently have it setup with a =BATCH_SIZE= of 250 and a polling frequency of 15 minutes to have my feeds regularly updated. This apparently also makes it necessary to adjust the =POLLING_PARSING_ERROR_LIMIT= (or just disable it since a feed failing for an hour is not some that unusual). My mistake that I found out about this just now and not earlier. However, I'm really curious how these default values where chosen and how the hosted Miniflux service is configured to work for the clients.
+
+** FreshRSS
+
+FreshRSS is also not perfect, but there are some *good* parts anyway. One thing where its IMO better is the subscription management. I have a good overview of all feeds in their respective category and can easily reorder them using drag and drop (or by using a dropdown menu, of course). Another welcoming feature that I don't use that often but which comes in handy from time to time is the display of idle feeds.
+
+Really personal but nevertheless important: the "normal view" that combines what Miniflux splits as a list and a detail view is combined. I see the current list of entries and the excerpt of the one I'm currently focused on. Since I get quite some news (around 270 per day, on weekdays normally over 350) I cannot read all of them completely (or even the excerpt) and therefore just skim over them. Since the skimming is sometimes faster than me pressing "j" (and always faster than pressing the "next" button on mobile) for the next article to focus the combined list but helps me to get more quickly through the list.
+
+On the *bad* side there are obviously some things. All included designs really look dated and this bugs me. I have less and less energy (or perhaps patience) to look at ugly things over and over. I currently use the Ansum theme and this is at least somewhat OKish.
+
+What I also dislike is that the interface as a whole is more convoluted and harder to use. Gladly I don't need to go through the menus that often. Concerning the user interface I also miss the gesture support on mobile devices that Miniflux has.
+
+Something that might play a role in the future although I currently don't care much are the feed item filtering capabilities: Miniflux seems to be more advanced in this area.
+
+Finally I'm not that happy with the sharing capabilities. As I wrote earlier I use Pocket a lot and really would need some way to add articles there with just one click or keyboard shortcut. Currently I'm opening them all in tabs while skimming and add them manually later which is obviously quite annoying.
+
+** Conclusion
+
+First of all I need to say that both tools (and also all the others I mentioned) are great! I'm extremely grateful for all maintainers, developers and contributors behind these projects. Most, if not all, problems described here most likely exist due to personal preferences or perhaps misconfigurations. That's why I will not search for yet another tool that might handle some of my problems better.
+
+But the problem still exists: Which tool to keep and which to get rid off?
+
+While perhaps I could solve the theming problem and the Pocket integration in FreshRSS quite easily it would still mean more work and maintenance than just living with Miniflux. Right now I'm a little bit more for sticking with FreshRSS but I didn't decide yet.
+
+I'll keep you posted!
+
+/Day 6 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE My Emacs package of the week: orgit :@100DaysToOffload:git:emacs:orgmode:
 CLOSED: [2022-01-21 Fri 18:42]
 :PROPERTIES:
