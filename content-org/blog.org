@@ -2,6 +2,42 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Update on my Org-roam web viewer :@100DaysToOffload:emacs:orgmode:dev:
+CLOSED: [2022-01-27 Thu 22:51]
+:PROPERTIES:
+:EXPORT_FILE_NAME: update-on-my-org-roam-web-viewer
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-01-27 Thu 22:51]
+:END:
+
+About one and a half weeks ago I [[*New Project: Accessing my Org-roam notes everywhere][announced]] that I'm going to start a new (code) project for viewing my Org-roam files over the web (especially on mobile devices). Since then surprisingly much happened and so I want to give a short status update.
+
+First of all I chose a working title for the software: /brainengine/. However, I'm not quite sure why. Especially the /engine/ part since it doesn't power anything. Though the /brain/ makes sense since some people (myself included) refer to Org-roam and similar software as their second brain. But the name may change.
+
+Concerning the perhaps more interesting stuff: I made at lot more progress during last and this week that I expected. To be precise: as of know nearly ever core functionality works. Although I went a different route in the end.
+
+My initial goal was to create a “classic” client-server application using [[https://go.dev/][Go]] for the backend and [[https://alpinejs.dev/][Alpine.js]] with [[https://tailwindcss.com/][tailwindcss]] for the frontend. That's why I started writing an API with Go in the first place. Parallel (and initially completely unrelated) I worked through the new [[https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/html-templates][Templating tutorial]] of [[https://quii.gitbook.io/learn-go-with-tests/][Learn Go with tests]] by [[https://quii.dev/][Chris James]] and started thinking if I maybe should use this for a start. And so I started playing around wit Go's HTML templating and as of this evening I not only have a API (that I don't use and perhaps not even need) but also an HTML representation to my Org-roam files. Both have the same feature set:
+
+- Get a list of all notes (with title)
+- Search through all notes (full-text)
+- View a note (with rendered Org content)
+
+And I did neither use Alpine.js nor tailwindcss in the end but only Go and [[https://bulma.io/][Bulma]] for some basic styling.
+
+Concerning the underlying concept nothing has changed compared to the original idea. Every single function (except reading a file) uses some Linux/UNIX command line tool in the end. =bash + ls= (with globbing) is used for getting a list of all Org-roam file (this will be the first thing for which I want write a Go-only solution) and =grep= for searching through the files and the getting the title of a node as well. Sadly the code is currently still that crappy that I'm not willing to share it yet. Perhaps I will only open-source the final application since the current implementation is only a proof-of-concept (I wanted to see where this approach might fail and I have to say: nowhere! Even the load times are by far fast enough for now).
+
+Of course there are currently still some things that do not work or are not yet implemented:
+
+- Currently the links in the parsed org content are working. This is perhaps the biggest bug currently and the one which I want to fix next.
+- The potential source or reference of a node that is stored as a =ROAM_REFS= property is not shown. This is needed since I sometimes have a need to visit the source or reference of a note.
+- The information that is put in the =+filetags= field in the sources files is not display. Since I separated my notes using this I need it. Perhaps even with a filter  or a search option.
+- I have quite some notes with LaTeX formulas that are not rendered. I need to search for a solution for this at some point.
+
+Besides these four points there are certainly many other things that I need to improve. I'll write again a blog post once there are new things to tell.
+
+/Day 7 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE RSS aggregators and a hard decision :@100DaysToOffload:programs:selfhosting:
 CLOSED: [2022-01-24 Mon 21:17]
 :PROPERTIES:
