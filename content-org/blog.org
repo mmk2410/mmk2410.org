@@ -2,6 +2,158 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Publishing My Emacs Configuration
+CLOSED: [2022-01-30 Sun 20:19]
+:PROPERTIES:
+:EXPORT_FILE_NAME: publishing-my-emacs-configuration
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-01-30 Sun 20:19]
+:END:
+
+** Introduction
+
+As you may know, I'm using Emacs for various task and I have a [[https://git.mmk2410.org/mmk2410/dot-emacs][configuration]] for doing so. I think that /documentation/ is an important part of a configuration, especially if it is not something I read or work with every day and I want to read up on certain things and decisions after a long time. That's why I chose to write my Emacs configuration using [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] by using [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]]. This means that I have one large Org-mode file (currently 2265 lines) with headings, texts and Emacs Lisp source code blocks which are my actual configuration and which will get read and evaluated on Emacs startup. There are multiple ways for achiving this and I adopted the approach taken by [[https://github.com/novoid/dot-emacs#literate-configuration-my-tangling-approach][Karl Voit]].
+
+Writing such a configuration is not done on the first day of using Emacs and so during the past years I have probably learned most things I know about Emacs by reading config files of other users and I'm really grateful for all the people who made their responding Git repository public.
+
+[[https://config.daviwil.com/emacs][There]] [[https://tecosaur.github.io/emacs-config/config.html][are]] [[https://sachachua.com/dotemacs/][some]] [[https://config.phundrak.com/emacs.html][people]] with a literate configuration who didn't stop at this point and even made a website from their config. The funny thing about this is that it is actually quite easy to achieve. The four people I've linked and many more all have their config file written in Org mode and Org mode allows for [[https://orgmode.org/manual/Exporting.html][exporting]] to various formats (there are a few built-in and many more available as additional packages). For a more advanced exporting functionality it is possible to configure a project for [[https://orgmode.org/manual/Publishing.html][publishing]]. This is not limited to a configuration file! It's also possible to write a blog just using the Org-mode publishing feature, or a thesis or a novel or something entirely different. The sky is the limit. And so I also fell down further in the Emacs rabbit hole and wrote a configuration to publish my configuration as an HTML website.
+
+** How it works
+
+/Note: I will discuss the implementation/configuration in parts (and not everything). You can find the complete code in my [[https://git.mmk2410.org/mmk2410/dot-emacs/src/branch/main/publish][Emacs config repo]]./
+
+Starting off was easy because conceptually it was quite clear how it should work and what I need (I also looked into the [[https://github.com/SystemCrafters/org-website-example][SystemCrafters Org Website Example repo]] and the [[https://github.com/SystemCrafters/wiki-site][SystemCrafters Wiki repo]] a while back):
+
+- *An =org-publish= configuration* that defines how the HTML page should be build given the =config.org= Emacs configuration.
+- A small *Emacs Lisp file for running the build process* since I prefer it to export from an own headless Emacs instance with own variables and perhaps even packages that I don't need (or even want) in my main Emacs instance. The file is also needed for running Emacs in a way that it doesn't show up but only processes the instructions.
+- A *shell wrapper script* that starts Emacs and tells it to only run the Emacs Lisp file containing the =org-publish= configuration and its execution.
+- Some *style sheets* so that the result looks at least half-way decent.
+- A *shell script for uploading* the outputted files to my VPS.
+
+*** Shell Wrapper Script
+
+I started with the easy part: the shell wrapper script:
+
+#+begin_src shell
+#!/bin/sh
+emacs -Q --script ./publish.el
+#+end_src
+
+The =-Q= flag tells Emacs to ignore all system or user configuration so it starts as a blank slate. The =--script ./publish.el= option tell Emacs to load and process the =publish.el= file. That's it!
+
+*** Emacs Lisp File and Org-publish Configuration
+
+Now let's focus on this file which contains the =org-publish= configuration as well as some supporting code.
+
+First of all I define some variables, like additional HTML-Head entries, the directory where to write the output and the header (which only includes my name with a link to my website). Then I re-create the output directory:
+
+#+begin_src emacs-lisp
+;; Note: I'm using a variable for the path in the code.
+;; But since this is an excerpt I find the explicit notation clearer.
+(when (file-directory-p "/tmp/dot-emacs-publish/")
+  (delete-directory "/tmp/dot-emacs-publish/" t))
+(mkdir "/tmp/dot-emacs-publish/")
+#+end_src
+
+Next the more annoying part of the config. Since I run Emacs with the =-Q= flag none of the already installed packages are used and also my config file is not parsed. While this is what I want I need to configure the package management myself.
+
+#+begin_src emacs-lisp
+(setq-default load-prefer-newer t)
+(setq package-user-dir (expand-file-name "./.packages"))
+(package-initialize)
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+(package-refresh-contents)
+(package-install 'htmlize)
+(add-to-list 'load-path package-user-dir)
+
+(require 'org)
+(require 'ox-publish)
+(require 'htmlize)
+#+end_src
+
+Org and =ox-publish= are already part of Emacs and the included version is enough for my needs. So I only need to install =htmlize= which I will use later for source code highlighting.
+
+After this more basic stuff I can now define my =org-publish-project-alist= containing the definition for the export.
+
+#+begin_src emacs-lisp
+(setq org-publish-project-alist
+      `(("dot-emacs:org"
+         :base-directory "~/.emacs.d"
+         :publishing-directory ,mmk2410/dot-emacs-publish-publishing-dir
+         :exclude ".*"
+         :include ("config.org")
+         :publishing-function org-html-publish-to-html
+         :section-numbers nil
+         :html-doctype "html5"
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-head-extra ,mmk2410/dot-emacs-publish-html-head-extra
+         :html-html5-fancy t
+         :html-preamble ,mmk2410/dot-emacs-publish-html-preamble
+         :html-self-link-headlines t
+         :html-validation-link nil
+         )
+        ("dot-emacs:static"
+         :base-directory "~/.emacs.d/publish/assets"
+         :publishing-directory ,mmk2410/dot-emacs-publish-publishing-dir
+         :base-extension "css\\|woff\\|woff2\\|ico"
+         :publishing-function org-publish-attachment
+         :recursive t)))
+#+end_src
+
+I declare two “projects”. The =dot-emacs:org= is the one that handles the export of the Emacs configuration. Using the combination of =:exclude= and =:include= allows me to first exclude /all/ files and then re-include only my =config.org=. Thereby, I can ignore my =README.org= and potentially other files ending with =.org= that I create in the future unless I add them explicitly. The other definitions are not that interesting and their meaning is already well explained in the Org mode documentation. The =dot-emacs:static= project just copies (that's what the =org-publish-attachment= function does) all file in the base directory with the given extensions to my output directory. One thing I learned while writing this part (since my only experience with Emacs lisp is writing configurations) was the way to use variables in this definition. Apparently they need to get prefixed with a comma and the list with a backtick. Just using an apostrophe won't do it.
+
+That's all the configuration that Is need for running the Org publisher. So we can run it!
+
+#+begin_src emacs-lisp
+(org-publish-all t)
+#+end_src
+
+The final bit of the script is a little difficult (not the implementation but the future impact). By default Org-mode outputs the files with the same filename except the extension, of course. At the moment my config page only has one configuration and therefore I rename the outputted =config.html= to =index.html=. But this may change in the future and thereby may result in broken links... I apologize in advance but at this point I don't want to invest time in creating a landing page that just has this one item for the foreseeable future.
+
+*** Style Sheets
+
+But I'm not done at this point! While the output works it does not look that nice. Org-mode brings a little bit of styling but that is extremely basic. So I needed a solution for this. Since I'm currently more or less satisfied with the design of this blog I decided to use the style sheets and adjust them to work with the output of Org. Only a few search-and-replaces (and a slight change to the =h3= style) later the config page looked like this blog post.
+
+Including the necessary fonts and a normalization style sheet was also very easy. I just copied the corresponding files from [[https://git.mmk2410.org/mmk2410/nextDESIGN/][my Hugo theme]].
+
+*** Source Code Highlighting
+
+As it turned out getting the syntax highlighting to work was the hardest part (since I didn't want to use a JavaScript library to handle that). There is the [[https://github.com/hniksic/emacs-htmlize][emacs-htmlize]] package which is capable of doing this and it has also an integration to Org-mode (and also the other way around). The problem is that it is intended to use it when Emacs is already running as a full instance since it uses the font definitions for generating the theme. And these are not available when running Emacs headless.
+
+Normally =htmlize= outputs inline CSS when using. But for solving my problem it is better to tell it to only write the class names to the HTML file. This will also work for the build process. The following code snipped does exactly that and I added that in before my =org-publish-project-alist= definition in =publish.el=.
+
+#+begin_src emacs-lisp
+(setq org-html-htmlize-output-type 'css)
+#+end_src
+
+This part works. But where to get the CSS definitions? There's a function for that! =org-html-htmlize-generate-css= opens a new buffer with all CSS definitions necessary for syntax highlighting. But that would be too easy, wouldn't it? Well, =htmlize= thought the same way and aborted with the message: =face-attribute: Invalid face: tab-line-tab=. Searching the internet yielded no results and so I started “debugging” it: open a new Emacs instance with the =-Q= flag, install and load =emacs-htmlize= and run the function. To my surprise it worked. After some fiddling around I found out that the doom themes caused this problem. When using the Gruvbox themes it worked! Since using the Gruvbox color scheme was my goal anyway this problem was solved and I generated two CSS files: one using Gruvbox Light and one using Gruvbox Dark. I then combined the two files into one with =prefers-color-scheme= media queries. Only the background color was missing for some reason. After adding that definition the source code highlighting for the config export also worked.
+
+*** Upload shell script
+
+As of now all files are generated locally and I need some way to upload them. Since I already have a upload script for my blog I took that and deleted the Hugo related parts. Now the file only contains a =rsync= execution.
+
+** Next Steps
+
+The complete configuration and publishing setup took an evening and at the end I wanted to go to sleep. So there are a few things that I want to do if I have the time.
+
+First of all I want to *automate* the publishing and upload process. After each time I push a new commit to my Emacs config repo the HTML publishing should run automatically and also deploy the new files. Some folks use GitLab or GitHub Pages for this but I like to host it myself. Others may use something like GitLab Pipelines or GitHub Actions to build and publish a Docker container containing the exported files and a lightweight webserver. But I don't like that approach either (I don't dislike Docker in general but I think its overkill for this).
+
+This means I need another solution, at least for deployment. For the build process I know that at least the GitLab CI can output artifacts. I could store the exported files there. Since I currently don't have an own CI instance I would perhaps use GitLab for this. For deployment I would need to configure a webhook that is triggerd once the pipeline is finished and the build artifacts are ready. I don't know if GitLab has such a feature but I think that its possible. The rest would be easy. A small PHP script could get triggered by the webhook and trigger a bash script for downloading, extracting and replacing the files (or the PHP script could do this).
+
+Another solution would be to run the publish script on the VPS where also my web server is running. This would make the deployment extremely easy and the build could be triggerd by a webhook from my Gitea instance. A small PHP script could then trigger the build process. Why PHP? I could write it in one file and my Apache webserver takes care of running it. I don't need a reverse proxy, another open port or some other crazy stuff. After all I only want to check some token and execute a shell script!
+
+Another thing that needs improvement is the *navigation* on the page. Currently on top there is a long table of contents (TOC) and then the contents themselves follow without any way to look at the TOC again. This is not very good UX (actually the GitHub rendering of the =config.org= file currently does a better job at this than the website to be honest).
+
+** Conclusion
+
+Now for the long awaited link to my configuration: [[https://config.mmk2410.org][config.mmk2410.org]]
+
+I'm really curious if the new published form will help someone but even if not it was fun to create it! It will also be fun to deal with the next steps and if I get to a point where I don't even need to do anything and it keeps working I don't see any reason to abandon the HTML publication even if no one uses it...
+
+/Day 8 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Update on my Org-roam web viewer :@100DaysToOffload:emacs:orgmode:dev:
 CLOSED: [2022-01-27 Thu 22:51]
 :PROPERTIES:
