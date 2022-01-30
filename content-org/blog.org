@@ -2,7 +2,7 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
-* DONE Publishing My Emacs Configuration
+* DONE Publishing My Emacs Configuration :@100DaysToOffload:web:emacs:orgmode:
 CLOSED: [2022-01-30 Sun 20:19]
 :PROPERTIES:
 :EXPORT_FILE_NAME: publishing-my-emacs-configuration
