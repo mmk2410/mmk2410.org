@@ -2,6 +2,34 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Update on Publishing my Emacs Configuration :@100DaysToOffload:emacs:orgmode:hugo:web:
+CLOSED: [2022-02-02 Wed 20:42]
+:PROPERTIES:
+:EXPORT_FILE_NAME: update-on-publishing-my-emacs-configuration
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-02 Wed 20:42]
+:END:
+
+After posting [[*Publishing My Emacs Configuration][my last blog article]] about [[https://config.mmk2410.org][publishing my Emacs configuration]] on [[https://fosstodon.org/@mmk2410/107713146343224636][Fosstodon]], [[https://scripter.co/][Kaushal Modi]] (the maintainer of [[https://ox-hugo.scripter.co/][ox-hugo]] the org mode to hugo exporter that I use for my Blog) [[https://mastodon.technology/@kaushalmodi/107713857727538025][wrote me]] and brought the idea up to publish my Emacs configuration using =ox-hugo= and hugo. I didn't even think about that and so the same evening I tried it. If you've read my previous blog post you know the amount of code and work that is necessary to get [[https://orgmode.org/manual/Publishing.html][org-publish]] running, with =ox-hugo= I need to add the following three lines on top of my =config.org= file.
+
+#+begin_src org
+,#+HUGO_SECTION: config
+,#+HUGO_BASE_DIR: ~/projects/mmk2410.org/
+,#+EXPORT_FILE_NAME: index
+#+end_src
+
+That's all, you may wonder? Well... I also need to export the file. For me these are the keys: =C-e H H= (If you're normal that is: =CTRL+e= followed by =H= and again followed by =H=). *That's it*. Crazy, isn't it! Running =hugo serve= and navigating to =http://localhost:1313/config= (yes, you currently (as of 2022-02-02) find this version of the config at [[https://mmk2410.org/config][mmk2410.org/config]], but don't share or save this link as I may or may not remove the page soon, use [[https://config.mmk2410.org][config.mmk2410.org]] for this) showed my complete configuration nearly the same as by using org-publish. The only difference is that the slight theme adjustments I made for the org-publish configuration are not there (duh...) and there is no table of contents. But the TOC is another problem anyway since it is in my opinion too large to
+display directly on the page, as I already wrote in the other post.
+
+The other "next step" I mentioned there was to automatically run the org-publish configuration and publish the new config page after pushing a change. This is also something I need to do with my blog. I currently write blog posts from two different machines and three different operating system installations and remembering to run a =git pull= via Magit before starting to write is already hard enough for me. Since my hugo publish script only runs =hugo= to build the site but not Emacs and =ox-hugo= in advance to export the latest state of the posts I uploaded an incomplete website more than once last month. So either I adjust the script to run some Emacs snippet for running =ox-hugo= (and including the config export would be easy there) or I go the “DevOps” way and configure a pipeline that runs on every commit, exports the articles, builds the page and publishes it somehow. So the automating task is also something that I need to do anyway.
+
+This puts me in a difficult position: what should I do? On the one hand org-publish approach is very "emacsy" and therefore fits the project of publishing a Emacs configuration really well, on the other hand it is by far easier to use ox-hugo for this. I'm still not sure what to do but I want to decide quite soon since the current workflow of manually publishing two websites slowly starts to annoy me. Especially since I do edits on both quite often.
+
+I'll keep you posted!
+
+/Day 9 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Publishing My Emacs Configuration :@100DaysToOffload:web:emacs:orgmode:
 CLOSED: [2022-01-30 Sun 20:19]
 :PROPERTIES:
