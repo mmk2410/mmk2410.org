@@ -1,0 +1,13 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build:
+    image: silex/emacs:27.2-alpine-ci
+    stage: build
+    script:
+        - emacs -Q --script .build/ox-hugo-build.el
+        - apk add --no-cache hugo
+        - hugo
+    artifacts:
+        paths:
+            - public

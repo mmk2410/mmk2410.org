@@ -333,7 +333,7 @@ But there is currently a problem. When exporting an Org buffer e.g. to Markdown 
                "https://git.mmk2410.org/%n/commit/%r")) ;; The link to the revision
 #+end_src
 
-As written in the documentation for =orgit-export-alist= it is also possible to set these values using the =git config= command with the keys =orgit.status=, =orgit.log= and =orgit.commit=. Thereby only the =%r= (the revision) must appear in the string of the last two keys. The =%n= in the code above will get expanded to the path of the project. Using this configuration the exporting works and I can now also link here to my projects overview page ([[orgit:~/projects/mmk2410.org/][projects overview page]]) and the commit of my last blog post ([[orgit-rev:~/projects/mmk2410.org/::e1b5ee5496fe7147c77985ac5f49e8bb7f4d4725][commit of my last blog post]] ).
+As written in the documentation for =orgit-export-alist= it is also possible to set these values using the =git config= command with the keys =orgit.status=, =orgit.log= and =orgit.commit=. Thereby only the =%r= (the revision) must appear in the string of the last two keys. The =%n= in the code above will get expanded to the path of the project. Using this configuration the exporting works and I can now also link here to my projects overview page and the commit of my last blog post (/Update 2021-02-03: Well, at least in theory and also locally. But since I'm now probably building my block using a GitLab CI pipeline the links to not work since Orgit cannot find the directory in the link location. Therefore I needed to remove the links./).
 
 That's it! I sure will integrate this package into my workflow and Emacs configuration and I hope you enjoyed this brief presentation.
 

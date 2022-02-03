@@ -1,3 +1,3 @@
 [submodule "nextDESIGN"]
 	path = themes/nextDESIGN
-	url = git@git.mmk2410.org:mmk2410/nextDESIGN
+	url = ../nextDESIGN
