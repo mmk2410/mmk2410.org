@@ -2,6 +2,67 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE My Emacs package of the week: org-appear :@100DaysToOffload:emacs:orgmode:
+CLOSED: [2022-02-05 Sat 08:37]
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-emacs-package-of-the-week-org-appear
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-05 Sat 08:37]
+:END:
+
+It may be a little boring for some, but the second post in my “My Emacs package of the week” series is again about an Org-mode package (well, if you follow my blog you shoudn't be surprised). I use org mode a lot (though I used to use it more (a blog post about this is coming soonish)) and so from time to time I notice some things that I would like to be a little bit different or I stumble upon packages (either because I see someone else using it, by browsing some social networks or by reading my RSS feed, e.g. [[https://sachachua.com/blog/category/emacs-news][Sacha Chua weekly Emacs news]]; This one I found in the [[https://config.daviwil.com/emacs][Emacs configuration of David Wilson]]).
+
+Next to functionality I also like to have a somewhat comfortable editing environment. Therefore I'm trying to use =variable-pitch-mode= since a few months (for those who don't know what this is: it changes the font to something that is not fixed width, in my case currently Open Sans) and also the [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] to display nice UTF-8 bullets instead of just some raw stars =*=. Using ▼ for collapsed sections instead of the default =...= also makes the view a little bit nicer.
+
+Additionally I took a bit of configuration from the [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org#center-org-buffers][System Crafters' Emacs from Scratch config]] for narrowing the text width so that I can also edit my text with Emacs being maximized or displayed full screen.
+
+#+begin_src emacs-lisp
+(defun efs/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . efs/org-mode-visual-fill))
+
+(add-hook 'org-mode-hook (lambda ()
+                           (display-line-numbers-mode -1)
+                           (variable-pitch-mode)))
+#+end_src
+
+Finally I'm hiding the all emphasis markers such as =*, /, ==:
+
+#+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)
+#+end_src
+
+Now what I see looks quite clean and makes writing at bit nicer (or at least I think so...). For e.g. writing blog posts I use Emacs in full screen and additionally narrow the buffer using =org-narrow-to-subtree= which makes the whole process quite distraction free.
+
+Although this may sound very nice, *there is some part about this that regularly drives me nuts!* Can you spot it?
+
+It is the hidden emphasis markers! While it really looks clean when they are hidden It makes emphasised content hard to edit. Especially if I need to change something at the beginning or end or even delete the markers. This is a constant play of "Well, lets try starting to delete here... Hmm, no didn't work... What about here?... Still not... Here? Aaah, finally!!!". As you can image there are better things in life. [[https://github.com/awth13/][awth13]] apparently thought the same and created a package to solve this annoyance: [[https://github.com/awth13/org-appear][org-appear]].
+
+What =org-appear= does is showing the emphasis marker only when needed. This means when my cursor is at the emphasised content. Therefore the problem of finding the markers or editing the content at the beginning or end of the emphasised section becomes easy again.
+
+Therefore I decided to install the package and enable it for all =org-mode= buffers. The package is available on Melpa.
+
+#+begin_src emacs-lisp
+(use-package org-appear
+  :after org
+  :hook (org-mode . org-appear-mode))
+#+end_src
+
+If I open a new Org file now I see it (more or less) nicely formatted but I'm still able to edit my document effortlessly without any annoyances (or at least without any annoying hidden or shown emphasis markers).
+
+Though =org-apper= offers some more options than displaying  the emphasis markers on “hover”. It is also possible to toggle the full display of links (URL + description with the brackets instead of just the description) by setting ~org-appear-autolinks~ to ~t~. Other toggling possibilities include keywords (as defined in ~org-hidden-keywords~), entities and submarkes (i.e. subscripts and superscripts) toggling.
+
+The customization options don't stop there. It is also possible to customize a delay for the markers to appear after the cursor entered the emphasised part by defining ~org-appear-deplay~ and/or to only toggle in certain circumstances e.g. after a change was made. It is even possible to take the complete control over the “toggling” by setting ~org-appear-trigger~ to ~manual~ and using the ~org-appear-manual-start~ and ~org-appear-manual-stop~ functions (perhaps by binding them to some key(s)).
+
+For me personally the default settings are perfect. I don't want to configure a delay since this may be too slow in certain situations and I prefer the default behaviour of =org-insert-link= for setting or updating links. All in all the package is a very good addition to my workflow and I can only recommend it to everyone in need for a similar solution.
+
+/Day 10 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Update on Publishing my Emacs Configuration :@100DaysToOffload:emacs:orgmode:hugo:web:
 CLOSED: [2022-02-02 Wed 20:42]
 :PROPERTIES:
