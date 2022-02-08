@@ -2,6 +2,157 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Publishing my Website using GitLab CI Pipelines
+CLOSED: [2022-02-08 Tue 22:05]
+:PROPERTIES:
+:EXPORT_FILE_NAME: publish-website-gitlab-ci-pipelines
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-08 Tue 22:05]
+:END:
+
+I wrote some posts recently, like [[*Update on Publishing my Emacs Configuration][“Update on Publishing my Emacs Configuration”]], where I mention that my current workflow of deploying changes to my website can be improved. Well, I could /always/ improve it, but this is one of the more urgent things.
+
+** The Status Quo
+
+Currently after I writing some blog post or changing a page I export it by calling the relevant =ox-hugo= exporter using the Org export dispatcher. This places the exported files in the =content= directory. When I'm ready to publish I run my “trusty” script which removes the current public folder (the place where hugo dumps all its files), runs hugo to generate all files from scratch and uploads it with rsync.
+
+There is just on problem with this approach. I'm often using a different environment than the last time to edit the site. Sometimes I use another laptop, sometimes another operating systems and sometimes even both. I don't want to switch them /just/ for writing a blog post but I want to use what's currently running. For publishing the source code, working with multiple environments and not at last to have some version control keep my website in a Git repository. If you ever used Git with more than one machine you know that forgetting to pull before starting to work on something (or in even worse situations after making a commit) happens almost on a regular basis. While its no fun to deal with this, at least you realize it. Git /will/ scream at you until you get it right.
+
+But there's another thing that doesn't scream. That doesn't say one word: Blog posts and updated sites that are *not* exported don't scream. They are /that/ quiet that I only notice it by chance if they are missing on the website after uploading my page. And belief me: this did not happen only once!
+
+“But why don't you just include a script to export everything before publishing?”
+
+Because it takes horribly long. I have over 100 blog posts and 366 posts from my Project 365 in 2015. So some other solution is obviously needed!
+
+** The new workflow
+
+This “other solution” is called *continuous deployment*. Let me outline shortly what I want. While I host my Git repositories on my [[https://git.mmk2410.org][Gitea]] instance and only mirror to [[https://github.com/mmk2410][GitHub]] and [[https://gitlab.com/mmk2410][GitLab]] I currently have no own continuous integration / pipeline runner (I tried [[https://woodpecker-ci.org/][Woodpecker]] but don't want to run it on my main server and I don't need it that much that it is worth renting another VPS). So I decided to use GitLab Pipelines for this. The pipeline will run on every push and thereby build and deploy the website.
+
+*** The Export Script
+
+For the build step I wrote a short Emacs Lisp script that I'll discuss in parts.
+
+#+begin_src emacs-lisp
+(package-initialize)
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+(setq-default load-prefer-newer t)
+(setq-default package-enable-at-startup nil)
+
+(package-refresh-contents)
+(package-install 'use-package)
+(setq package-user-dir (expand-file-name "./.packages"))
+(add-to-list 'load-path package-user-dir)
+(require 'use-package)
+(setq use-package-always-ensure t)
+#+end_src
+
+The first part (well, nearly half the script) installs and loads the necessary packages. I added the Non-GNU ELPA and MELPA as package archives since I most likely need packages from them in the future, although currently only need [[https://ox-hugo.scripter.co/][ox-hugo]] which is available on MELPA. I install and load the packages using [[https://github.com/jwiegley/use-package][use-package]] since in my opinion this provides a clean structure.
+
+#+begin_src emacs-lisp
+(use-package org
+  :pin gnu
+  :config
+  (setq org-todo-keywords '((sequence
+                             "TODO(t!)" "NEXT(n!)" "STARTED(a!)" "WAIT(w@/!)" "SOMEDAY(s)"
+                             "|" "DONE(d!)" "CANCELLED(c@/!)"))))
+#+end_src
+
+Of course I load [[https://orgmode.org/][Org]] and also define my =org-todo-keywords= list. =ox-hugo= will respect this and only export posts that don't have a keyword or have a keyword from the done part (the entries after the =|= (pipe)). To be honest I'm currently not using this feature for published blog posts since posts with a to-do-state would be visible in the public repos anyway. But I wanted to write the script as general as possible.
+
+#+begin_src emacs-lisp
+(use-package ox-hugo
+  :after org)
+#+end_src
+
+For using =ox-hugo= I'm using =ox-hugo=, duh...
+
+#+begin_src emacs-lisp
+(defun mmk2410/export (file)
+  (save-excursion
+    (find-file file)
+    (org-hugo-export-wim-to-md t)))
+#+end_src
+
+Then I define a small function that opens a given file and calls the =ox-hugo= exporter which exports the complete content (all posts/pages) of the current file.
+
+#+begin_src emacs-lisp
+(mapcar (lambda (file) (mmk2410/export file))
+        (directory-files (expand-file-name "./content-org/") t "\\.org$"))
+#+end_src
+
+And finally I run this function for every file in my =content-org= directory. Currently there are only three but who knows what will happen in the future.
+
+*** The Pipeline Configuration
+
+For the upload SSH configuration I followed the [[https://docs.gitlab.com/ee/ci/ssh_keys/][corresponding GitLab documentation]].
+
+I started by creating a new user on my server and—using that user—a new SSH ed25519 key pair. Then I added the public key to the =~.ssh/authorized_hosts= file and granted the user rights to write to the root directory of my website. Afterwards I defined some necessary CI variables in GitLab for connecting with this user.
+
+- =$SSH_PRIVATE_KEY=: The private key for uploading to the server.
+- =$SSH_KNOWN_HOSTS=: The servers public keys for host authentication. These can be found by executing =ssh-keyscan [-p $MY_PORT] $MY_DOMAIN= (from a trusted environment, if possible from the server itself).
+- =$SSH_PORT=: The port at which the SSH server on my server listens
+- =$SSH_USER=: The user as which the GitLab CI runner should upload the files.
+
+Using these variables I can now write my =.gitlab-ci.yml= pipeline configuration.
+
+#+begin_src yaml
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+#+end_src
+
+Since I keep [[https://gitlab.com/mmk2410/nextdesign/][my own hugo theme]] in an own repository and import it as a Git submodule I can ask GitLab to by nice and clone it for me.
+
+#+begin_src yaml
+before_script:
+  - apk add --no-cache openssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" | tr -d '\r' >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+#+end_src
+
+The script then continues with a lot of SSH voodoo. After installing OpenSSH and starting the =ssh-agent= I add the private key and the public server key as a known host.
+
+#+begin_src yaml
+build:
+  image: silex/emacs:27.2-alpine-ci
+  stage: build
+  script:
+    - emacs -Q --script .build/ox-hugo-build.el
+    - apk add --no-cache hugo rsync
+    - hugo
+    - rsync --archive --verbose --chown=gitlab-ci:www-data --delete --progress -e"ssh -p "$SSH_PORT"" public/ "$SSH_USER"@mmk2410.org:/var/www/mmk2410.org/
+#+end_src
+
+Then it gets a little bit more obvious. Using the [[https://hub.docker.com/r/silex/emacs][Emacs 27.2 Alpine Image by silex]] I already get the necessary Emacs installation and just need to run the Emacs Lisp script from above with it. Then I install the necessary dependencies for the next steps. First I build the page with =hugo= and finally upload the resulting =public/= directory to my server using =rsync=. Thereby I define the ssh command with =-e= since there seems to be no other way to set a SSH port. Using the =--delete= option I also remove posts and files that I removed from the repo or that are no longer build.
+
+#+begin_src yaml
+  artifacts:
+    paths:
+      - public
+#+end_src
+
+As a small gimmick I also publish the =public= directory of my website as a build artifact. There is no reason at all for this but I first started only building the blog a few days ago and didn't implement the deploy part until today. Maybe it will come in handy some day or I delete that part sooner or later.
+
+You can find the complete files [[https://gitlab.com/mmk2410/mmk2410.org][in my repository]].
+
+** Next Steps
+
+While Gitea currently has a mirror feature it runs on a timer and not after each push. This means that I would either wait quite some time for Gitea to push the changes to GitLab or trigger the sync manually using the web frontend. Currently I'm doing the second one but this is not a good solution. I currently think about going back to my own workflow by declaring a server-side Git post-receive hook for mirroring.
+
+Another step is improving the =gitlab-ci.yml= file. Adding rules to only run the pipeline on pushes to the main branch and splitting the one step into a build and a deploy step are things that I want to do quite soon.
+
+Finally I also need to decide whether to continue publishing my Emacs config using Org publish and the config.mmk2410.org subdomain or whether I want to use =ox-hugo= for exporting to the =/config= path. In the later case I would need to further adjust the pipeline configuration and otherwise I would need to write an own pipeline.
+
+As always, I'll keep you posted!
+
+/Day 11 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE My Emacs package of the week: org-appear :@100DaysToOffload:emacs:orgmode:
 CLOSED: [2022-02-05 Sat 08:37]
 :PROPERTIES:
