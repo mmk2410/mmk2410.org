@@ -1,13 +1,23 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+before_script:
+  - apk add --no-cache openssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" | tr -d '\r' >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
 build:
-    image: silex/emacs:27.2-alpine-ci
-    stage: build
-    script:
-        - emacs -Q --script .build/ox-hugo-build.el
-        - apk add --no-cache hugo
-        - hugo
-    artifacts:
-        paths:
-            - public
+  image: silex/emacs:27.2-alpine-ci
+  stage: build
+  script:
+    - emacs -Q --script .build/ox-hugo-build.el
+    - apk add --no-cache hugo rsync
+    - hugo
+    - rsync --archive --verbose --chown=gitlab-ci:www-data --delete --progress -e"ssh -p "$SSH_PORT"" public/ "$SSH_USER"@mmk2410.org:/var/www/mmk2410.org/
+  artifacts:
+    paths:
+      - public
