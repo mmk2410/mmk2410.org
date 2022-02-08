@@ -2,10 +2,10 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
-* DONE Publishing my Website using GitLab CI Pipelines
-CLOSED: [2022-02-08 Tue 22:05]
+* Publishing my Website using GitLab CI Pipelines :@100DaysToOffload:hugo:emacs:orgmode:
 :PROPERTIES:
 :EXPORT_FILE_NAME: publish-website-gitlab-ci-pipelines
+:EXPORT_DATE: [2022-01-15 Sat 18:35]
 :END:
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2022-02-08 Tue 22:05]
