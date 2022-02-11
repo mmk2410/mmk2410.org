@@ -2,6 +2,133 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Using Emacs tab-bar-mode                     :@100DaysToOffload:emacs:
+CLOSED: [2022-02-11 Fri 23:04]
+:PROPERTIES:
+:EXPORT_FILE_NAME: using-emacs-tab-bar-mode
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-11 Fri 23:04]
+:END:
+
+Everyone knows tabs. From your favorite web browser, your file manager, your terminal emulator and perhaps many other programs. And if you know Emacs or heard anything about it you perhaps wouldn't be surprised if I told you the it has not one, but *two* tab modes. There is =tab-line-mode= which is equivalent to what we know from other editors or the browser: one "thing", file, windows, buffer, whatever per tab.
+
+But there is also =tab-bar-mode= which works a little bit different: instead of having one file per tab you have one window configuration per tab. Let's say we're working on three different projects at a time. Then we could have one tab (let's give it the name /dotfiles/) which has two windows (e.g. my zsh and fish configurations), split equally horizontally. Our next tab is named /API/ and contains three windows, two files and an eshell buffer (e.g. one horizonal split and in the left half an additional vertical split). And in the third tab there are our files corresponding to the frontend project. Let's say there is just one window taking the complete space. With =tab-bar-mode= it is now possible to switch between these tabs,  making adjustments to the window layout going to another tab and still having the same configuration for this tab. For code projects I have exactly this workflow of using the tabs as workspaces.
+
+But I also use =tab-bar-mode= for some more general stuff. Normally I have one Emacs frame open where I actively work with (be it coding or writing or something else where my main attention goes to). And one frame (either on a second monitor, on another virtual desktop or just in the background) where I keep stuff like mail or agenda. To get a good overview and quickly switching between these “meta” buffers I have an own tab for each of them:
+
+- *Mail* with [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]]
+- *Agenda* with [[https://orgmode.org/][Org]]
+- *Journal* with [[https://github.com/bastibe/org-journal][org-journal]]
+- *Random org file* with relevant notes, e.g. my =projects.org= file
+- *IRC* with [[https://www.gnu.org/software/erc/][ERC]]
+- *RSS* with [[https://github.com/skeeto/elfeed][Elfeed]]
+
+Although I don't necessarily have all of them open all the time.
+
+The problem is just that it is quite cumbersome to initially open them. I need to create a new tab with =C-x t 2= and the run the required command, e.g. =C-c m=  for starting mu4e. With about six open tabs switching is also not that efficient. I could tab around using =C-TAB= or =C-SHIFT-TAB= or search with =C-x t RET= (this presents a search field with completion for the open tabs).
+
+*What really would be handy where some keybindings for switching to a certain tab that also creates and runs the necessary commands if the tab doesn't exist yet.*
+
+This itched me already some months ago and initially I wrote a large function which would open all the tabs and start the clients or open buffers. Additionally I had a small command for each of them that would switch to the correct tab and bound them to a keybinding. While it was working somehow at some point I constantly started commenting out parts of the large initial run function because I didn't want to run necessarily everything if I only need a mail client and an agenda.
+
+Yesterday I took some time to find a better solution for this problem and came up with a few handy functions.
+
+#+begin_src emacs-lisp
+(defun mmk2410/tab-bar-switch-or-create (name func)
+  (if (mmk2410/tab-exists name)
+      (tab-bar-switch-to-tab name)
+    (mmk2410/new-tab name func)))
+#+end_src
+
+In working through the problem I though that I essentially need some more or less abstract function that checks whether a tab with a given name already exists and, if not, creates one using a given function. =mmk2410/tab-bar-switch-or-create= does exactly this.
+
+#+begin_src emacs-lisp
+(defun mmk2410/tab-bar-tab-exists (name)
+  (member name
+          (mapcar #'(lambda (tab) (alist-get 'name tab))
+                  (tab-bar-tabs))))
+#+end_src
+
+After browsing the source code of =tab-bar= a bit and reading some Emacs Lisp pages I came up with this little helper for determining if a tab with a given name already exists. It uses the function =(tab-bar-tabs)= which returns all exiting tabs as a list of /attribute lists/ over which I iterate (=mapcar=) and extracted the tab name (=alist-get 'name tab=). The =member= function now tells me if the given name is a member of the list of all names of existing tabs.
+
+#+begin_src emacs-lisp
+(defun mmk2410/tab-bar-new-tab (name func)
+  (when (eq nil tab-bar-mode)
+    (tab-bar-mode))
+  (tab-bar-new-tab)
+  (tab-bar-rename-tab name)
+  (funcall func))
+#+end_src
+
+The tab creation part was a bit easier. I wrote a this simple function which enables =tab-bar-mode= in case it is not already running, creates a new tab with the given name and runs the given function for setting the new tab up.
+
+What's left to do? Writing the specific functions for the different programs or files. Essentially all are interactive (this means that I could also execute them via =M-x=) and call =mmk2410/tab-bar-switch-or-create= with a tab name and either a function name, e.g. =elfeed=, or a lambda function with some instructions. The following blocks show the functions I have currently configured.
+
+#+begin_src emacs-lisp
+(defun mmk2410/tab-bar-run-elfeed ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create "RSS" #'elfeed))
+
+(defun mmk2410/tab-bar-run-mail ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create
+   "Mail"
+   #'(lambda ()
+       (mu4e-context-switch :name "Private") ;; If not set then mu4e will ask for it.
+       (mu4e))))
+
+(defun mmk2410/tab-bar-run-irc ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create
+   "IRC"
+   #'(lambda ()
+       (mmk2410/erc-connect)
+       (sit-for 1) ;; ERC connect takes a while to load and doesn't switch to a buffer itself.
+       (switch-to-buffer "Libera.Chat"))))
+
+(defun mmk2410/tab-bar-run-agenda ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create
+   "Agenda"
+   #'(lambda ()
+       (org-agenda nil "a")))) ;; 'a' is the key of the agenda configuration I currently use.
+
+(defun mmk2410/tab-bar-run-journal ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create
+   "Journal"
+   #'org-journal-open-current-journal-file))
+
+(defun mmk2410/tab-bar-run-projects ()
+  (interactive)
+  (mmk2410/tab-bar-switch-or-create
+   "Projects"
+   #'(lambda ()
+       (find-file "~/org/projects.org"))))
+#+end_src
+
+I also wrote, that I want to have these functions available with some keybinding. A few days ago I first dealt with [[https://github.com/abo-abo/hydra][hydra]] and I have to say, that I really like it! Therefore I chose to define a hydra configuration for these functions that are accessible with =C-c f=.
+
+#+begin_src emacs-lisp
+(defhydra mmk2410/tab-bar (:color teal)
+  "My tab-bar helpers"
+  ("a" mmk2410/tab-bar-run-agenda "Agenda")
+  ("e" mmk2410/tab-bar-run-elfeed "RSS (Elfeed)")
+  ("i" mmk2410/tab-bar-run-irc "IRC (erc)")
+  ("j" mmk2410/tab-bar-run-journal "Journal")
+  ("m" mmk2410/tab-bar-run-mail "Mail")
+  ("p" mmk2410/tab-bar-run-projects "Projects"))
+
+(global-set-key (kbd "C-c f") 'mmk2410/tab-bar/body)
+#+end_src
+
+After using it a little bit today I'm quite satisfied. There are just a few things I would like to change, e.g. I want to have the journal and agenda in the same tab. But I think this will be easy to achieve. Another thing that I may want to add is a possibility to replace or use the current tab instead of creating a new one. But I'm currently not sure how I could do this nicely.
+
+As you may or may not already recognized: I don't have much experience in writing Emacs Lisp code and there are certainly things that could be improved. If you have some suggestions feel write to write me a mail!
+
+/Day 12 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * Publishing my Website using GitLab CI Pipelines :@100DaysToOffload:hugo:emacs:orgmode:
 :PROPERTIES:
 :EXPORT_FILE_NAME: publish-website-gitlab-ci-pipelines
