@@ -3,7 +3,7 @@
 #+startup: indent
 
 * DONE Using Emacs tab-bar-mode                     :@100DaysToOffload:emacs:
-CLOSED: [2022-02-11 Fri 23:04]
+CLOSED: [2022-02-11 Fri 21:04]
 :PROPERTIES:
 :EXPORT_FILE_NAME: using-emacs-tab-bar-mode
 :END:
