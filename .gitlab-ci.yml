@@ -2,7 +2,8 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 before_script:
-  - apk add --no-cache openssh
+  - apk add --no-cache openssh tzdata
+  - cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir ~/.ssh
