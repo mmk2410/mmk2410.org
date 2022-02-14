@@ -2,6 +2,60 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Why I failed using Org-mode for tasks :@100DaysToOffload:orgmode:emacs:pim:
+CLOSED: [2022-02-14 Mon 14:58]
+:PROPERTIES:
+:EXPORT_FILE_NAME: why-i-failed-using-org-mode-for-tasks
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-14 Mon 14:58]
+:END:
+
+
+
+I started using [[https://www.gnu.org/software/emacs/][Emacs]] back in 2016 and shortly after that I discovered [[https://orgmode.org/][Org-mode]] a little while after (I don't know the exact date but I have tasks in my archive going back to 2018 and I know that I used it some time without the archiving functionality). For some time [[https://fosstodon.org/@mmk2410][my bio on Fosstodon]] even contained the line „couldn't survive without Org-mode“ and yet, since two months I haven't used it.
+
+Well, this is not entirely true. I still use Org-mode with its Agenda for tasks at work, I just stopped using it for my out-of-work things. OK... I need to make another slight adjustment to this statement. I didn't stop two months before, it was much earlier. Though I couldn't name an exact date or even a month. It was a gradual process.
+
+** Finding the Perfect Tool
+
+/„But why?”/ you may ask.
+
+There are two answers to be given here. On the one hand why I /stopped/ using it and on the other hand why I /failed/ using it in the first place. When I started using Org-mode it had an interesting effect on me: /it felt right/. I could adjusted it to my needs, I /really/ used it, I worked with the tasks and I could trust it. Storing a note in there was really reliable for me. I could count on the system that it would help me to deal with it and I was sure that it would not get forgotten in there.
+
+** Error: Task Overflow
+
+After some time (I think until 2019) this still worked perfectly but I didn't use it anymore for all my tasks. To be precise it became quite hard to deal with it. I worked with my tasks by scheduling every single one and at one point there were way too many tasks each day. I didn't re-schedule them to a later date, I just let them stay. At the end the list was far too long to deal with it anymore and so my usage slowly decreased. And a to-do system that is not used is not a good to-do system.
+
+A while later (I think it was 2020) I decided to reform the progress to make it usable again. My main decision was to /not/ schedule any tasks at all but using Org Super Agenda for grouping the tasks and make them easily discoverable. Well, this worked a little bit... I mean, it was not a total failure but it quickly became only a task management tool for larger projects and habits. Only a few smaller tasks had the “opportunity” to get added there.
+
+** Fleeing from the Beast
+
+Especially during the last quarter of 2021 I more and more recognized this. It went that far that I decided in early December that I cannot use Org-mode for To-dos anymore. At least not with this configuration and so I made myself a small plan to change this:
+
+1. Use a completely different tool for a limited time (for about one year)
+2. Read up on task and to-do management
+3. Recognize the problems with the old Org-mode configuration
+4. Recognize the requirements for a task management tool
+5. Configure Org-mode to fulfill these requirements
+6. Switch back to Org-mode (after about one year)
+
+** Working from Exil
+
+I started immediately searching a tool that works flawlessly. I tried the tasks features of CalDav with my Nextcloud instance (and the Tasks app) as well with my email hosting provider mailbox.org. I could not work with it. It was much too complicated and UX-unfriendly for me to use this as a to-do-system. And so I finally decided to go with a tool that apparently works for millions: Todoist. Although I'm really not a friend of such centralized more or less privacy respecting companies but after using it for two months now I have to admit that it really works for me. It may be completely subjective but it seems to me as I would get more things done than ever before. At least I add all the to-dos I need to deal with and I always (OK, sometimes I forget to check of already done tasks in the evening) finish my day with all tasks either done or mindfully rescheduled.
+
+In the meantime I already started with the second step. I read a few articles online and bought the [[https://gettingthingsdone.com/][“Gettings Things Done” book from David Allen]]. Although I have not even finished the first chapter I can already get some value from it in how I create and manage my to-dos.
+
+** Diagnosing the Failure
+
+Regarding the third step: why did I *fail* to use it *twice*? Any I mean /fail/ and not /stopped/ since it was me who used and configured the system in a way that makes it unusable.
+
+Although I still don't have much experience I think that the main reason was wrong task management. Having a gigantic list of tasks in front of you is not motivating and doesn't help to actually work on them. Having many tasks (perhaps even the larger part) annotated with a message that the task was already scheduled some months ago and still occurs every day is also no motivation boost. And—regarding my second setup—not scheduling tasks but needing search through them every time I want to have something done is also not helpful at all. The nice and easy tasks get done then but the more difficult ones get lost in endless lists of to-dos.
+
+I'm still just at the beginning of the journey of learning more about task management and setting up my Org-mode in a way that works. Further articles about this will surely follow!
+
+/Day 13 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Using Emacs tab-bar-mode                     :@100DaysToOffload:emacs:
 CLOSED: [2022-02-11 Fri 21:04]
 :PROPERTIES:
