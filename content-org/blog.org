@@ -3,9 +3,9 @@
 #+startup: indent
 
 * DONE Mirroring my Gitea Repos with Git Hooks, again :@100DaysToOffload:git:selfhosting:
-CLOSED: [2022-02-17 Thu 16:37]
+CLOSED: [2022-02-17 Thu 18:37]
 :PROPERTIES:
-n:EXPORT_FILE_NAME: mirroring-my-gitea-repos-with-git-hooks-again
+:EXPORT_FILE_NAME: mirroring-my-gitea-repos-with-git-hooks-again
 :END:
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2022-02-17 Thu 18:37]
