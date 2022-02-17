@@ -2,6 +2,71 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Mirroring my Gitea Repos with Git Hooks, again :@100DaysToOffload:git:selfhosting:
+CLOSED: [2022-02-17 Thu 18:37]
+:PROPERTIES:
+n:EXPORT_FILE_NAME: mirroring-my-gitea-repos-with-git-hooks-again
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-17 Thu 18:37]
+:END:
+
+** My Journey
+
+In August 2020 I started hosting all my Git repositories on my own Gitea instance after previously using it for my private projects for some time. Since a self-hosted Gitea instance is not very discoverable I decided to keep showing my repos on GitLab and GitHub. At this point, all my relevant GitLab (which I used as a main hosting platform before) projects already were mirrored to GitHub directly after each commit. So I decided to keep this part and only search for a solution for bringing the data from Gitea to GitLab. Since Gitea did not have anything built-in I searched a bit and finally found some posts showing a way how to achieve this with Git hooks. I also wrote a blog post about my setup back then.
+
+Last year Gitea 1.15 came out and included support for mirroring repositories and I decided to switch to that solution since it is much cleaner than using a~15 line Bash script for each repository. There's just one catch that didn't bother me until recently. Gitea currently doesn't have a feature to mirror after each push but uses a given interval (by default eight hours). For most projects, this is enough and for some that are a little bit more active, I reduced it to four hours.
+
+** My Problem
+
+A little bit over a week ago this became a little bit problematic since I'm using GitLab Pipelines for building and publishing my blog post. So after pushing to my Gitea instance I would need to wait for up to four or eight hours until the build finally starts. Of course, that's not what I did.
+
+I manually open the settings page for my Gitea repo and pushed the "Synchronize Now" button.
+
+This is clearly not a permanent solution and so I already thought about going back to my Git hook solution some days ago. And today I did it! At least for three repos that are either active and/or have a GitLab Pipeline configuration for publishing.
+
+The requirements are a little bit different this time: when switching from Git hooks to the built-in feature I also moved all GitHub mirror configuration from GitLab to Gitea since it doesn't make any sense to keep this configuration separated (and it's also no fun to configure this in the settings menus for every new project). So it is necessary that my new Git post-receive script pushes to both: GitLab and GitHub.
+
+** My Solution
+
+I initially started using my previous script and adjusted it a bit by using a for loop iterating over a space-separated string of repository URL which worked quite well. But shortly after starting to write this blog post, I had another idea.
+
+/Is it really necessary to put an SSH private key in the Git hook script in each repository?/
+
+Well, the answer is no! It seems that I learned at least a bit during the last time I did this and so I connect to my server using SSH. Since I'm not hosting Gitea using Docker but using the binary it needs to have some "real" user running it. After a =cat /etc/passwd= I found out that it is not even a system user but a normal one with a normal home directory at =/home/git= where also all the repositories are stored. From there on it was quite clear: I switched to the user and created a set of SSH keys.
+
+#+begin_src sh
+sudo -u git -i
+ssh-keygen -t ed25519
+#+end_src
+
+I copied the /public/ key, added it to my GitLab and GitHub profiles and adjusted my post-receive Git Hook scripts to just push and not store a private SSH key.
+
+#+begin_src sh
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+downstream_repos="git@gitlab.com:mmk2410/dotfiles git@github.com:mmk2410/dotfiles"
+
+for repo in $downstream_repos
+do
+    git push --mirror --force "$repo"
+done
+#+end_src
+
+The result is just a script with 10 lines that simply iterates over a list of repository URLs and force-mirror-pushes to each one of them. I don't need to care about any authentication in the scripts since it is executed using the =git= user and thereby authenticates to GitLab and GitHub using the previously generated SSH key.
+
+It's that easy that I'm really wondering why I didn't have this idea the last time.
+
+** And some final warnings
+
+A little note to everyone who wants to try this at home. If you're hosting a Gitea instance that multiple people use then you should *make sure that only you can add Git hooks*. Since *everyone who can define Git hooks can run every command on your system*. There is no additional security layer. That's also the reason why Git hooks are by default disabled in Gitea. Using the correct configuration option you can change this.
+
+Another note on performance, if you care for this: your =git push= executions will take longer since the post-receive hook on the server is run during the execution (at the end, of course, but still) and it may take a little while. I also don't know yet what will happen if one of the remote repositories (or their host) has a temporary outage. Be warned that your push command will probably hang if this happens.
+
+/Day 14 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Why I failed using Org-mode for tasks :@100DaysToOffload:orgmode:emacs:pim:
 CLOSED: [2022-02-14 Mon 14:58]
 :PROPERTIES:
@@ -10,8 +75,6 @@ CLOSED: [2022-02-14 Mon 14:58]
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2022-02-14 Mon 14:58]
 :END:
-
-
 
 I started using [[https://www.gnu.org/software/emacs/][Emacs]] back in 2016 and shortly after that I discovered [[https://orgmode.org/][Org-mode]] a little while after (I don't know the exact date but I have tasks in my archive going back to 2018 and I know that I used it some time without the archiving functionality). For some time [[https://fosstodon.org/@mmk2410][my bio on Fosstodon]] even contained the line „couldn't survive without Org-mode“ and yet, since two months I haven't used it.
 
