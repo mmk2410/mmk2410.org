@@ -2,6 +2,61 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Another Update on Publishing my Emacs Configuration :@100DaysToOffload:gitlab:cicd:emacs:orgmode:
+CLOSED: [2022-02-20 Sun 19:39]
+:PROPERTIES:
+:EXPORT_FILE_NAME: another-update-on-publishing-my-emacs-configuration
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-20 Sun 19:39]
+:END:
+
+A few weeks ago I [[*Publishing My Emacs Configuration][wrote a post]] about how I experimented with publishing my Emacs configuration (which is written in Org) using =org-publish=. [[https://mastodon.technology/@kaushalmodi][Kashual Modi]], the creator of [[https://ox-hugo.scripter.co/][ox-hugo]], replied to me and asked me if I thought about publishing the configuration using =ox-hugo=. I didn't! And it turned out that it was done by just adding three lines at the top of my Emacs configuration file as I wrote in a [[*Update on Publishing my Emacs Configuration][follow-up post]] a few days later. I was really astonished and didn't know what to do. Should I choose the =org-publish= or the =ox-hugo= path?
+
+Well, after writing the blog post I didn't invest much time in thinking about what solution I should use and just got on with other stuff. Until I made some changes to my Emacs configuration last week and wanted to display these changes online. At this point, I wanted some CI/CD solution so that I don't need to take care of the building and publishing manually.
+
+For some reason, it seemed a little bit easier for me to use the solution I wrote using =org-publish= instead of importing my [[https://git.mmk2410.org/mmk2410/dot-emacs][dot-emacs]] repository into the GitLab pipeline (for the sake of completeness: I know that this is not only possible but also quite easy but decisions don't need to be rational all the time ;) ). So I decided to quickly set up my own pipeline for the =dot-emac= repository using a slightly adjusted version of the [[*Publishing my Website using GitLab CI Pipelines][pipeline the builds and publishes my website]].
+
+The resulting GitLab CI pipeline configuration (=.gitlab-ci.yml=) is quite easy (well at least the script for the build stage, admittedly the =before_script= is not that obvious).
+
+#+begin_src yaml
+before_script:
+  - apk add --no-cache openssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" | tr -d '\r' >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+#+end_src
+
+I first define a ~before_script~ for setting up the SSH configuration for uploading the published files to my server.
+
+#+begin_src yaml
+build:
+  image: silex/emacs:27.2-alpine-ci
+  stage: build
+  script:
+    - emacs -Q --script publish/publish.el
+    - apk add --no-cache rsync
+    - rsync --archive --verbose --chown=gitlab-ci:www-data --delete --progress -e"ssh -p "$SSH_PORT"" public/ "$SSH_USER"@mmk2410.org:/var/www/config.mmk2410.org/
+#+end_src
+
+Using the [[https://hub.docker.com/r/silex/emacs][Emacs Docker image from silex]] I run the =publish= Emacs Lisp script I wrote earlier, install =rsync= and upload the resulting website files in the =public= folder to my webserver.
+
+As you can see I again defined four SSH related variables:
+
+- =$SSH_PRIVATE_KEY=: The private key for uploading to the server.
+- =$SSH_KNOWN_HOSTS=: The server public keys for host authentication. These can be found by executing =ssh-keyscan [-p $MY_PORT] $MY_DOMAIN= (from a trusted environment, if possible from the server itself).
+- =$SSH_PORT=: The port at which the SSH server on my server listens
+- =$SSH_USER=: The user as which the GitLab CI runner should upload the files.
+
+After a few stupid mistakes regarding the place of the =publish.el= script, the paths in the script and the =public/= folder I got it running quite fast and now always have my [[https://config.mmk2410.org][config.mmk2410.org]] page up-to-date.
+
+Regarding =ox-hugo=: As long as the scripts I wrote for using =org-publish= work I will probably continue using this solution. But if it fails someday in the future and/or I would need to make some larger adjustments I will more likely switch to =ox-hugo=.
+
+/Day 15 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Mirroring my Gitea Repos with Git Hooks, again :@100DaysToOffload:git:selfhosting:
 CLOSED: [2022-02-17 Thu 18:37]
 :PROPERTIES:
