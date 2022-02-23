@@ -2,6 +2,27 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Small changes to my website design      :@100DaysToOffload:design:web:
+CLOSED: [2022-02-23 Wed 16:29]
+:PROPERTIES:
+:EXPORT_FILE_NAME: small-changes-to-my-blog-design
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-23 Wed 16:29]
+:END:
+
+[[file:../static/2022/2022-02-23-old-website.png]]
+
+For some years until May 2020, I used WordPress for this site with the initial goal to focus more on writing instead of tweaking the templates. If you look in the archive of my blog you may see that this didn't work as intended. So nearly two years ago I decided to [[*Switching my Website to Hugo using ox-hugo][switch]] to a workflow that better suits my needs and set up this page using [[https://ox-hugo.scripter.co/][ox-hugo]] with [[https://gohugo.io/][hugo]] and a custom theme.
+
+Back then I was quite satisfied with how it looked and I didn't even change much regarding the design during the last two years. But since I started writing more and visited my page more often I realized that some parts are starting  to look a bit dated. Currently, I don't want to create a whole new design (that may be a task for 2023) but tweak it in a way that the page looks somewhat modern again.
+
+The main parts that didn't feel right anymore were the large blocks with the solid purple background color (the navigation bar, the footer and the buttons) and I searched for a different solution there. In the end, I decided to cloth the footer in a modest dark gray and remove the background of the navigation bar completely. For the buttons, I went with a "bordered" design and gave them a nice shadow when hovering. Additionally, I took the  sharpness out of the "page" by rounding the corners.
+
+I'm still not completely convinced with the overall appearance since it feels very "dry". What really would help were more images. But that's for another update.
+
+/Day 16 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Another Update on Publishing my Emacs Configuration :@100DaysToOffload:gitlab:cicd:emacs:orgmode:
 CLOSED: [2022-02-20 Sun 19:39]
 :PROPERTIES:
