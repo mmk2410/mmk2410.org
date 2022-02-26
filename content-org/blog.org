@@ -2,6 +2,31 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Using stow for managing my dotfiles          :@100DaysToOffload:linux:
+CLOSED: [2022-02-26 Sat 08:54]
+:PROPERTIES:
+:EXPORT_FILE_NAME: using-stow-for-managing-my-dotfiles
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-02-26 Sat 08:54]
+:END:
+
+For [[https://git.mmk2410.org/mmk2410/dotfiles/commit/44f89359ecea53ba17b412b136a27a8ccd87eb38][more than four years]], I've been using a self-written [[https://git.mmk2410.org/mmk2410/dotfiles/src/commit/685e4dbe8bc6c33c5572f10d1673ca6e9c6a61fa/install.fish][installation script]] for linking my [[https://git.mmk2410.org/mmk2410/dotfiles][dotfiles]]. I didn't search for any pre-made solution back then but instead just tried to automate my workflow of creating a symlink for every file in the repository individually. Since I was a big fan of the [[https://fishshell.com/][fish shell]] back then (and I'm still one) I decided to use it for the script.
+
+The requirements were simple and clear: directories should be created if necessary and files need to get linked from the correct places. Since I didn't want to put all this information in one file (and a programming language is IMO not a good place to store data) I opted for two helpers files: =dirs.list= and =links.list=. The former just contained a list of directories (each on one line) that should get created, relative to the home directory. The links file contained two paths in each line, separated by a space. The first was the path to the actual file, relative to the dotfiles repo, and the second was the place where the symlink should get created, starting from the home directory.
+
+The script then first created the directories and afterwards the links. This worked quite well. OK... It worked well for one use case: the initial creation of the links. For new links, the script also worked but threw an error for each link that already existed. Additionally, there was no way to delete the links. Finally, I also constantly had to fight with some issues.
+
+After seeing and reading some people talk/write about [[https://www.gnu.org/software/stow/][GNU stow]] recently I decided to take a look at it and really liked the workflow. I found that stow is quite easy to use since the program only takes care of managing symlinks and nothing else. Thereby it solves all the shortcomings I had with my custom solutions: I can easily stow new configuration files and also remove all my symlinks.
+
+About my structure: For each application, I have a folder and there the dotfiles are stored in the same directory structure as to where the symlinks will get placed. Additionally, I have three repositories where I keep my dotfiles (a general one for all kinds of configs and two others containing additional sensible information: one for work and one for personal). I clone the general dotfiles repo to =~/.dotfiles= and have the relevant specialized repo inside there. This would mean that "stowing" every folder (aka package) manually would take too much time (and be very boring).
+
+Therefore I created myself a small [[https://git.mmk2410.org/mmk2410/dotfiles/src/commit/ef157712a14cc8da0d2356a133ce1ba97d5d1941/stow.sh][wrapper script]] (this time in bash since that's more universally available) that first iterates over the folders I want, executing =stow= on them. For this, I defined a variable holding a list of folder names that I can overwrite by passing an environment to the script. Afterwards, according to the hostname, either the additional work or private dotfiles are seeded using the same principle.
+
+I just implemented this approach yesterday and didn't have much time to use it thoroughly but until now I'm satisfied.
+
+/Day 17 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Small changes to my website design      :@100DaysToOffload:design:web:
 CLOSED: [2022-02-23 Wed 16:29]
 :PROPERTIES:
