@@ -2,6 +2,35 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE My Emacs Package of the Week: CRUX
+CLOSED: [2022-03-01 Tue 20:05]
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-emacs-package-of-the-week-crux
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-03-01 Tue 20:05]
+:END:
+
+Some packages get mentioned over and over on different blogs and other Emacs related platforms. And other packages do not seem to get the same degree of attention (or at least I don't see it) although they deserve it. IMO one of these is *[[https://github.com/bbatsov/crux][CRUX]]*, which is most fittingly described as "a Collection of Ridiculously Useful eXtensions for Emacs" by its created, [[https://metaredux.com][Bozhidar Batsov]]. It does provide a large collection of helper functions that may assist you in all kinds of situations of your Emacs life. I think I stumbled upon the package when reading an Emacs configuration file of some other fanatic and added it to [[https://config.mmk2410.org][my configuration]] after  some inspection. And I have not regretted it ever since!
+
+As with the functionality of Emacs itself I also only use a very small subset of the commands that CRUX provides. There are currently only five functions that I actively use (or intend to do so) out of the 32 ones that are currently provided. So I won't go into full detail above all of them but only shortly cover the ones that sweeten my daily use.
+
+- =crux-duplicate-current-line-or-region= which (as the name already   says) duplicates the currently selected text or (if nothing is   selected) the current line. I have it bound to =C-c C-.=.
+
+- =crux-duplicate-and-comment-current-line-or-region= is quite similar,   it also does the duplication but also comments the current line or   selection/region out. This helps me quite a lot when developing and   wanting to test something slightly different for the current line. I   bound this one to =C-c C-M-.=.
+
+- =crux-delete-file-and-buffer= is another small helper that not only   deletes the current file but also its buffer inside Emacs leaving no   trace left. Because I know myself and already cursed a lot while   trying to restore completely deleted files and folders (if I remember   correctly the theme of this blog once became the victim of such an   accident during initial development and before the first Git commit) I   deliberately decided to /not/ bind some key to this command. I rather   executed it using =M-x=.
+
+- =crux-rename-file-and-buffer= on the other hand is a completely safe   command that helps to rename a file and its associated buffer. Since I   need to do this quite often I decided  to bind it to =C-c M-r=.
+
+- =crux-top-join-line= is another small helper to join lines. This means   that the line break and all whitespace (except one) is removed. To be   honest, I don't use this yet but I have an urgent need for this   functionality and will bind to some key quite soon.
+
+The funny thing is that the functions defined in =crux.el= are neither that large (or use many helper functions themselves) nor very complex. It would be quite easy to implement most stuff on your own and it would certainly provide a great opportunity for learning a bit of Emacs Lisp (and Emacs). And I'm sure many have implemented at least some functions on their own. While I must admit that from time to time I'm tempted to do the same I am really grateful that this awesome package exists so that I can focus on other things.
+
+If you have not heard, looked or tried CRUX for yourself then I can only recommend it and I encourage you to take a look and see what it can provide for you.
+
+/Day 18 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE Using stow for managing my dotfiles          :@100DaysToOffload:linux:
 CLOSED: [2022-02-26 Sat 08:54]
 :PROPERTIES:
