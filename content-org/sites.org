@@ -7,6 +7,8 @@
   :EXPORT_HUGO_MENU: :menu main :weight 1
   :END:
 
+[[/support-ukraine.svg]]
+
   Hi, I'm Marcel Kapfer, also known as mmk2410. When I have time I invest it in creative work. As part of that I compose music (have a look at [[https://marcel-kapfer.de][marcel-kapfer.de]] for that), train myself in doing graphic design or write text as well as code.
 
   These pages are (currently) focused on the computer-based parts of my life (like software development, operating systems and similar stuff).
