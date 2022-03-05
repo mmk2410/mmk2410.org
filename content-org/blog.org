@@ -2,7 +2,33 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
-* DONE My Emacs Package of the Week: CRUX
+* DONE hledger for personal finances: two months in :@100DaysToOffload:finance:
+CLOSED: [2022-03-05 Sat 07:35]
+:PROPERTIES:
+:EXPORT_FILE_NAME: hledger-for-personal-finances-three-months-in
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-03-05 Sat 07:35]
+:END:
+
+For years I wanted to use some kind of personal accounting system to keep track of where my money goes. This is perhaps mostly founded in some sick interest or based on the idea to better manage my expenses. However, I always failed to successfully implement such a system. I vaguely remember that I used some app once, but only for a short time. I already found some trace of an old Org document where I keep track of my incomes and expenses from January to mid-March of 2018. The last entry there is from March 17th, and I don't remember what happened back then and why I stopped. The most likely reason is, that I had too much to do and forgot to use it.
+
+I also remember that I looked at ledger once or twice and always wondered about the strange format and didn't go any further. Mostly because I didn't know, how to even start. Nevertheless, in early January (probably more or less exactly two months ago) I decided to start again with accounting. I chose to use hledger for this and so I made myself a warm cup of tea, leaned back and started to read the website and related blogs until I knew enough to get started.
+
+And then I did it! I started to add all my current financial belongings and entered all the expenses starting on January 1st. This was now over two months ago and every day since then I at least checked if there were new expenses and added them, if necessary. Since I have a tendency to quickly forget such smaller tasks I created two to-do recurring to-do entries in my system: one that recurring every day to update my ledger file and another one recurring each Sunday re-check the balance of my different accounts (banks as well as cash).
+
+So, did it help me in any way? I /think/ so... Through the book-keeping, I get a clear overview of two things that I could not check easily before:
+
+- How much money did I spend this month? Or: How much of my income is still left?
+- How much money did I spend on /what/?
+
+Especially the answer to the second question gave me a much clearer understanding of my financial actions. Not only where I should cut back but also gave me an understanding that certain expenses are not as high as I thought (relatively speaking). But also the first questions helps me a lot to understand how I could use my money, e.g. by putting it into a savings account.
+
+Therefore, I'm really satisfied with hledger! Even if it doesn't save me money directly (which was never really my goal) it makes me understand my transactions better and therefore maybe save me some bucks indirectly. But also just the insight I get is worth the few minutes that I need every day for maintaining the system.
+
+/Day 19 of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
+* DONE My Emacs Package of the Week: CRUX           :@100DaysToOffload:emacs:
 CLOSED: [2022-03-01 Tue 20:05]
 :PROPERTIES:
 :EXPORT_FILE_NAME: my-emacs-package-of-the-week-crux
