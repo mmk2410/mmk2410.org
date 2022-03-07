@@ -28,7 +28,7 @@ The /outcome/ problem described above is still something that bugs me, even if i
 The "founder" of the 100 Day To Offload project, [[https://kevq.uk/][Kev Quirk]] writes on the [[https://100daystooffload.com/][project website]]:
 
 #+begin_quote
-  Someone will find it interesting.
+“Someone will find it interesting.”
 #+end_quote
 
 And I do agree with this statement. There are most probably even two or three people that found the posts I published during the last two months interesting. But is this worth the time I invested?
@@ -46,13 +46,13 @@ To put it in other words: the quality of my blog posts drastically decreased dur
 Regarding this, I stumbled upon two quite different opinion. On the one hand, Kev Quirk writes on the [[https://100daystooffload.com/][100 Days To Offload website]]
 
 #+begin_quote
-  Posts don't need to be long-form, deep, meaningful, or even that well written.
+“Posts don't need to be long-form, deep, meaningful, or even that well written.”
 #+end_quote
 
 On the other hand [[https://rusingh.com/][Ru Singh]] writes in her post [[https://rusingh.com/100-days-to-offload-end/]["An end to #100DaysToOfﬂoad"]]
 
 #+begin_quote
-  I want to start fo­cus­ing a lit­tle on qual­ity again.
+“I want to start fo­cus­ing a lit­tle on qual­ity again.”
 #+end_quote
 
 The key between these different statements is the personal /goal of the own blog/. If my blog would have the goal to offer a window into my life then the project would be easy since I would not expect the posts to have any meaning or be helpful for someone. But this is not what I want to achieve with this blog. Even though it was a bit different in the distant past since a few years I want to post articles that are:
@@ -65,7 +65,7 @@ The key between these different statements is the personal /goal of the own blog
 But why did the quality of my post drop? It was not time, regarding this not much changed during the last two months (well, at least not directly but I'll discuss this in the next section). While I'm not entirely sure I think it's the same thing that also Ru [[https://rusingh.com/100-days-to-offload-end/][experienced]]:
 
 #+begin_quote
-  And write when I /want/ to, in­stead of /feel­ing/ forced to do it every three days or once a week.
+“And write when I /want/ to, in­stead of /feel­ing/ forced to do it every three days or once a week.”
 #+end_quote
 
 But also the quality is not the number one reason why I decided to quit the project.
@@ -74,7 +74,7 @@ But also the quality is not the number one reason why I decided to quit the proj
 
 Well, probably not the focus you're thinking and it also is not a problem. I'm sorry, but I wanted to keep the headline style... :D
 
-However, *focus* /is/ the /primary reason for quitting/. If you're one of the few persons that found and read my [[https://mmk2410.org/2022/02/17/mirroring-my-gitea-repos-with-git-hooks-again/][What I Use page]] or you had some spare time and read my [[https://mmk2410.org/about/][about page]] then you know that I have some interest besides coding, self-hosting or configuring my system or Emacs.
+However, *focus* /is/ the /primary reason for quitting/. If you're one of the few persons that found and read my [[/uses][What I Use page]] or you had some spare time and read my [[https://mmk2410.org/about/][about page]] then you know that I have some interest besides coding, self-hosting or configuring my system or Emacs.
 
 As I wrote on many of my social projects: *I like doing creative things*. And while I also see developing software at least in some parts as a creative discipline (naming variables! Joke aside: e.g. problem solving requires being creative) I mainly mean the following areas: music composition, graphic design and photography. I've been interested in these things for a long time but during the last nearly seven years, I had not much time for it. But since I started working in November I have more time and the interest to invest time into these areas is rising steadily.
 
