@@ -2,6 +2,109 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Quitting 100 Days To Offload                       :@100DaysToOffload:
+CLOSED: [2022-03-07 Mon 16:08]
+:PROPERTIES:
+:EXPORT_FILE_NAME: quitting-100-days-to-offload
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2022-03-07 Mon 16:08]
+:END:
+
+I was thinking a long time about this step. To be precise, I had my first doubts back at the end of January, just two or three weeks after starting the project. Although, the /reasons/ for considering quitting were a bit different back then than now.
+
+When I decided to jump into the project on January 9th I had my doubts that I will be able to keep up the writing speed to produce 100 blog posts in one year. Therefore, I set myself a task to write a new post every three days and this worked surprisingly well. I only once missed the deadline last Friday. So, during the last two months, I wrote a total of 20 blog posts, which would mean that I would finish in about ten months total if nothing unexpected happens. And even if I needed to stop for some time I would have enough breathing room.
+
+So, unreachability is and was not a reason for quitting. But what then? Well, at the end of January my doubts came from the output of my statistics dashboard. While I was writing posts that I thought had a certain quality the visitor numbers were not that high. One or two of my Emacs-related posts were added to the [[https://www.reddit.com/r/planetemacs/][/r/planentemacs]] subreddit and I think one was even featured on [[https://sachachua.com/blog/category/emacs-news/][Sacha Chua's famous weekly Emacs news]]. But besides that, there were no other popular sources which was quite de-motivating. Although, I have to admit that this is for the most part my fault since I only posted links to the blog post on [[https://fosstodon.org/@mmk2410][my Fosstodon account]] but not on any other service: neither using my lurking Reddit account nor tweeting from my more-or-less dead Twitter profile.
+
+However, as you can tell, I didn't stop back then but I decided to write at least 20 posts to feel the workflow and reactions instead of quitting too soon. But nothing changed since then and the twentieth post is now indeed my "resignation letter".
+
+But what is the final reason now? Well, there is not /one/, but a total of /three with different priorities/.
+
+** The Outcome Problem
+
+The /outcome/ problem described above is still something that bugs me, even if it is not my primary reason. Except for the last few posts (I come to that later) I spend some hours each time to write them: about 2-3 hours /without/ preparation (but this cannot be part of the calculation since I would have done these things anyway). That is a total of four to nine hours a week.
+
+The "founder" of the 100 Day To Offload project, [[https://kevq.uk/][Kev Quirk]] writes on the [[https://100daystooffload.com/][project website]]:
+
+#+begin_quote
+  Someone will find it interesting.
+#+end_quote
+
+And I do agree with this statement. There are most probably even two or three people that found the posts I published during the last two months interesting. But is this worth the time I invested?
+
+For answering this question I decided to look in my Plausible analytics dashboard and if I subtract the incoming traffic related to r/planetemacs and Sacha Chua's Weekly Emacs News then the numbers are not that high anymore and the picture looks even a little bit darker if I also consider the bounce rate and visit duration. To be honest, there are of course much more visitors on my blog than I ever had and I'm also aware that there are even more since some blockers even block self-hosted Plausible instances. But the question is not resolved: Is it worth investing that much time?
+
+I don't think there is a clear answer. Of course, it is not possible to build a "highly popular" block in just two months, especially if the posts are only shared in one network. But it is also interesting, that there was nearly no engagement from the readers. I have to say, that I did expect more mails, boosts or messages on Fosstodon. Therefore, together with the other two reasons, I currently have my doubts that what I do at the moment is worth the time.
+
+** The Quality Problem
+
+I wrote earlier that I put about 2-3 hours into writing a blog post (without preparation). Well, it is more likely that this can be seen as an average over the last two months. Especially during the last week or two, my motivation to write was nearly at 0 and I didn't invest that much time in writing the posts.
+
+To put it in other words: the quality of my blog posts drastically decreased during the last two months. While I wouldn't say that my blog posts had a high quality at any point I think that during the first 1-1.5 months the readers of the articles could get some interesting or relevant information from most (if not all) posts. In my eyes, the outcome for the readers decreased continuously.
+
+Regarding this, I stumbled upon two quite different opinion. On the one hand, Kev Quirk writes on the [[https://100daystooffload.com/][100 Days To Offload website]]
+
+#+begin_quote
+  Posts don't need to be long-form, deep, meaningful, or even that well written.
+#+end_quote
+
+On the other hand [[https://rusingh.com/][Ru Singh]] writes in her post [[https://rusingh.com/100-days-to-offload-end/]["An end to #100DaysToOfﬂoad"]]
+
+#+begin_quote
+  I want to start fo­cus­ing a lit­tle on qual­ity again.
+#+end_quote
+
+The key between these different statements is the personal /goal of the own blog/. If my blog would have the goal to offer a window into my life then the project would be easy since I would not expect the posts to have any meaning or be helpful for someone. But this is not what I want to achieve with this blog. Even though it was a bit different in the distant past since a few years I want to post articles that are:
+
+- /Either/ *helpful* for someone and this includes a certain depth of the information; an example is [[https://mmk2410.org/2022/02/17/mirroring-my-gitea-repos-with-git-hooks-again/][my post on mirroring my Gitea repos using Git hooks]]
+
+- /Or/ state a *funded opinion* which would also require more text than just some "btw. I use Arch" (btw. I don't); an example /would/ be a post on why I don't use an ad blocker
+
+
+But why did the quality of my post drop? It was not time, regarding this not much changed during the last two months (well, at least not directly but I'll discuss this in the next section). While I'm not entirely sure I think it's the same thing that also Ru [[https://rusingh.com/100-days-to-offload-end/][experienced]]:
+
+#+begin_quote
+  And write when I /want/ to, in­stead of /feel­ing/ forced to do it every three days or once a week.
+#+end_quote
+
+But also the quality is not the number one reason why I decided to quit the project.
+
+** The Focus Problem
+
+Well, probably not the focus you're thinking and it also is not a problem. I'm sorry, but I wanted to keep the headline style... :D
+
+However, *focus* /is/ the /primary reason for quitting/. If you're one of the few persons that found and read my [[https://mmk2410.org/2022/02/17/mirroring-my-gitea-repos-with-git-hooks-again/][What I Use page]] or you had some spare time and read my [[https://mmk2410.org/about/][about page]] then you know that I have some interest besides coding, self-hosting or configuring my system or Emacs.
+
+As I wrote on many of my social projects: *I like doing creative things*. And while I also see developing software at least in some parts as a creative discipline (naming variables! Joke aside: e.g. problem solving requires being creative) I mainly mean the following areas: music composition, graphic design and photography. I've been interested in these things for a long time but during the last nearly seven years, I had not much time for it. But since I started working in November I have more time and the interest to invest time into these areas is rising steadily.
+
+The problem is just that I started many small "projects" (e.g. self-hosting, a few TYPO3 websites, an event, my unofficial IntelliJ Debian packages, playing around with Emacs, ...) during the last few years that while small constantly require some amount of time. But my urge to do more creative things is now that large that I want to invest a much larger amount of time in it than I currently have available. This is the /focus/ I want to switch: Away from coding, towards creative projects.
+
+This necessarily means that I will need to stop some things to have the time available that I want to invest. Together with the two reasons mentioned earlier (outcome and quality) it was clear to me that I will stop the #100DaysToOffload project.
+
+** Conclusion and Answers for Unasked Questions
+
+To summarize the last three sections: I quit the 100 Days to Offload project because the outcome for me is not what I wanted/hoped, the quality of the posts is decreasing (as well as the motivation) and mainly because I want to focus on other creative areas.
+
+What does this mean to the blog? Will it die? Of course, I won't write any further posts that are part of #100DaysToOffload. But this does not mean that it will die. Writing /is/ a creative discipline and I don't want to stop doing this entirely. There will be new blog posts: Maybe once a month, maybe once a quarter or maybe just once a year. But I won't write them so that I have something to publish. I will write them when I have a topic that I find is worthy of investing the time to write a meaningful and helpful blog post. It is also possible that I will extend the posts I've written during the last weeks so that these are also helpful for the readers.
+
+What does this mean for my other projects? I don't know at this point. Some will maybe die while others will persist, but perhaps with some changes. For example, the themes for the few TYPO3 websites I maintain won't go anywhere because I need them personally. The unofficial IntelliJ IDEA Ubuntu PPA / Debian packages will meet some drastic changes. Until the summer (perhaps even earlier) I want to automate the packaging and deployment process completely so that I don't need to do anything. If this does not work or the automation fails at some later point I cannot promise that I will maintain them any longer. But if this happens I will inform the users in advance. Regarding the Emacs rabbit hole, I'm not sure. Due to some graphical applications only being available on Microsoft Windows and macOS I'm nowadays more often using Windows than Linux. Always starting Emacs through WSL is slow and cumbersome and therefore always demotivates me a bit. Therefore I'm currently not entirely sure if I will switch back to Org-mode for task management at some point and I'm currently also trying Nextcloud Notes with MarkText for notes. But I still need Emacs for work (what else should I use for coding?!) and this won't change anytime soon.
+
+Why the hell did I spend time writing such a long blog post? After all, a single "I quite, want to do other things" would have been enough, wouldn't it? It probably would have but I felt that I needed to write this lengthy post. For me, it was a great way to sort my thoughts on this and also make my mind up regarding some parts. It may also be a good read for some people who are thinking about trying the #100DaysToOffload project to see the problems others had to deal with. If /you/'re currently thinking about doing this and you are certain about the kind of content you want to produce and the time you have I absolutely encourage you to do it! Although it was only two months it still was a great experiment for me and all in all I had some fun with it! The best part was the conversations I had with some readers who really provided some extremely helpful advice. In some way, I think that even though I didn't reach the goal of 100 blog posts (the goal is so far off it is not even visible) the project was a success. Not regarding the #100DaysToOffload idea, but personal growth.
+
+Will I try it again sometime in the future? This is something I don't want to rule out. It is indeed possible that I will again start a #100DaysToOffload journey but I won't be on this blog (or at least not while I have the same goals as I have now).
+
+At last, I want to finish this post with some final thoughts for my readers.
+
+- If you finished the #100DaysToOffload project yourself I have huge respect for you!
+
+- If you're currently in the middle of it I wish you the best of luck and a ton of fun as well as many nice experiences with your readers!
+
+- If you're thinking about starting or never even though about writing a blog I encourage you to do so! Even if you stop after just five or ten posts it is worth the experience in my opinion! And (although this comes from a quitter in this case) quitting something is not a bad thing! Quite the contrary: Not finishing things or dropping a project is something that /everyone/ goes through, forcing yourself to finish something against your will is a fight against yourself that you cannot win and that is certainly not worth some kind of "DONE" label.
+
+
+/Day 20 (and also my last day) of the [[https://100daystooffload.com/][#100DaysToOffload]] challenge./
+
 * DONE hledger for personal finances: two months in :@100DaysToOffload:finance:
 CLOSED: [2022-03-05 Sat 07:35]
 :PROPERTIES:
