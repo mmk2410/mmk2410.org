@@ -412,9 +412,9 @@ Yesterday I took some time to find a better solution for this problem and came u
 
 #+begin_src emacs-lisp
 (defun mmk2410/tab-bar-switch-or-create (name func)
-  (if (mmk2410/tab-exists name)
+  (if (mmk2410/tab-bar-tab-exists name)
       (tab-bar-switch-to-tab name)
-    (mmk2410/new-tab name func)))
+    (mmk2410/tab-bar-new-tab name func)))
 #+end_src
 
 In working through the problem I though that I essentially need some more or less abstract function that checks whether a tab with a given name already exists and, if not, creates one using a given function. =mmk2410/tab-bar-switch-or-create= does exactly this.
