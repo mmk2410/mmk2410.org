@@ -2117,7 +2117,7 @@ git push --mirror "$downstream_repo"
 
    Edit 25. March 2020: Reworked and updated this post again. Can't believe how old it already is.
 
-* The Ending Year                            :@composing:minimal_music:music:
+* Music recording "The Ending Year"          :@composing:minimal_music:music:
   :PROPERTIES:
   :EXPORT_DATE: 2016-01-04 19:35:20
   :EXPORT_FILE_NAME: the-ending-year.md
@@ -2129,7 +2129,7 @@ git push --mirror "$downstream_repo"
 
   https://www.youtube.com/nHugKFbqgMg
 
-* The Ending Year                                                :@composing:
+* Musikstück "The Ending Year"                                   :@composing:
   :PROPERTIES:
   :EXPORT_DATE: 2016-01-04 01:59:59
   :EXPORT_FILE_NAME: the-ending-year-3.md
@@ -3168,7 +3168,7 @@ git push --mirror "$downstream_repo"
 
   This is the version /0.1/.
 
-* The Ending Year                                                :@composing:
+* The Ending Year published                                      :@composing:
   :PROPERTIES:
   :EXPORT_DATE: 2015-02-05 13:51:50
   :EXPORT_FILE_NAME: the-ending-year-2.md
@@ -3371,15 +3371,7 @@ git push --mirror "$downstream_repo"
 
   [[https://github.com/mmk2410/morse-converter-android][GitHub]]
 
-* Morse Converter Android App Version 1.0 :@code:writtenmorse:
-  :PROPERTIES:
-  :EXPORT_DATE: 2014-12-11 02:00:00
-  :EXPORT_FILE_NAME: android-app-version-1-0.md
-  :END:
-
-  I'm proud to present you this android app. With this app you can now convert your code on the way. The application has all the functions that the desktop program has. It also includes a share button for directly sharing your output to different apps on your device. I don't plan any apps for other mobile os like iOS.
-
-* Morse Code Converter Android App Version 1.0 :@code:android:writtenmorse:
+* Morse Code Konverter Android App Version 1.0   :@code:android:writtenmorse:
   :PROPERTIES:
   :EXPORT_DATE: 2014-12-11 02:00:00
   :EXPORT_FILE_NAME: morse-code-converter-android-app-version-1-0.md
