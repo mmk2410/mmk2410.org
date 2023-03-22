@@ -237,14 +237,14 @@ If you would like to see some pictures or learn more about that, please visit my
   :EXPORT_HUGO_MENU: :menu main :weight 3
   :END:
 
-  From time to time I have something I want to write about. Seldom I
-  also have the time to do so. In these rare occasions you will find a
-  blog post at this place.
+  There are always some ideas floating around in my head of things that I want to write.
+  Some fade away, and others I capture in my GTD system.
+  And on some rare occasions, I invest the time to move my thoughts from my brain into a nice blog post.
 
-  If you're asking, about what I write: I really can't tell. The most
-  things you can find here in the moment are about Linux, coding, and
-  similar stuff. But I won't promise that this wont change. We'll
-  see...
+  If you're asking about what I write: I really can't tell.
+  Most things you can find here at the moment are about Linux, coding, and similar stuff.
+  But I won't promise that this won't change.
+  We'll see.
 
 * Projects
   :PROPERTIES:
