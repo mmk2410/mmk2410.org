@@ -30,7 +30,7 @@
 	<strong>Hi!</strong>
     </div>
     <div style="font-size: 25px">
-	My name is Marcel Kapfer and I do creative things.
+	My name is Marcel Kapfer and I'm a creative being.
     </div>
   </div>
   #+end_export
