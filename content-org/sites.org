@@ -46,7 +46,7 @@
    In 2015 I expanded my knowledge by learning Bash, PHP, Python and a little bit of C.
    I also released a few font apps for the Cyanogenmod Theme Engine and some bash scripts to make my (and maybe also your) life easier.
    Rangitaki is another project that I started in February 2015.
-   It was a blogging engine without any database dependencies, written in PHP, which tries to be lightweight and extremely fast to start with and easy to use.
+   It was a blogging engine without any database dependencies, written in PHP, which tried to be lightweight, extremely fast to start with and easy to use.
 
    Following this passion I joined the Ulm University in October 2015 to studying computer science to further improve my knowledge in this area.
    In April 2021 I earned a Bachelor of Science degree in the field of theoretical computer science.
@@ -57,6 +57,8 @@
 
    Due to other activities in the recent years (and also the coming ones) I don't have much time (and currently also not much interested) in developing software.
    I try to further maintain some relevant projects, but most of them have been archived.
+
+   At the moment, I work as a software developer at a small software agency in Ulm, Germany.
 
 ** Graphic Design
 
