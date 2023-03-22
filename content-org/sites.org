@@ -418,13 +418,15 @@ If you would like to see some pictures or learn more about that, please visit my
   If you want to contact me you can choose among the following options (though I prefer email):
 
   - Email: me(at)mmk2410(dot)org (PGP key ID: =CADE 6F0C 09F2 1B09=)
-  - XMPP/Jabber: mmk2410(at)xmpp(dot)mmk2410(dot)org
-  - Direct Message on either Mastodon or Twitter (accounts see below)
+  - Direct Message on Mastodon (account see below)
 
   You can also follow me on some social networks where I am more or less active:
 
   - Mastodon/Fosstodon: [[https://fosstodon.org/@mmk2410][@mmk2410@fosstodon.org]]
-  - Twitter: [[https://twitter.com/mmk2410][@mmk2410]]
+  - Pixelfed: [[https://pixelfed.social/mmk2410][@mmk2410@pixelfed.social]]
+  - Instagram: [[https://instagram.com/mmk2410][@mmk2410]]
+  - VERO: [[https://vero.co/mmk2410][@mmk2410]]
+  - Flickr: [[https://www.flickr.com/photos/marcelkapfer/][marcels.pictures]]
 
 * Impressum und Datenschutz
   :PROPERTIES:
