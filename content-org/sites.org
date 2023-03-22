@@ -60,9 +60,24 @@
 
    At the moment, I work as a software developer at a small software agency in Ulm, Germany.
 
+** Photography
+
+I got my first camera back in 2007 when I was ten years old, and this was when I picked up photography as a hobby.
+For some reason, taking pictures was always something that motivated me and so I brought my camera with me to many events, holidays and the like during the years.
+About 2015/2016, my interest faded a bit, and I focused more on other things, completely forgetting about photography.
+
+In late 2020 this drastically changed when someone gave me an old DLSR camera.
+From day one, my passion for photography was back again, and I invested more time than ever.
+A bit later, in January 2022, I started an online course to improve my skills further and bought a modern mirrorless camera.
+That was also the time when I discovered the more "artsy" side of photography and started sharing my work on social networks like [[https://pixelfed.social/mmk2410][Pixelfed]], [[https://instagram.com/mmk2410][Instagram]], and [[https://vero.co/mmk2410][VERO]].
+After a heavy focus on macro photography, I'm currently quite involved in street photography.
+
+If you would like to see some pictures or learn more about that, please visit my [[https://marcelkapfer.photography][portfolio]].
+
 ** Graphic Design
 
    I am a huge fan of eye pleasing works!
+
    Therefore I started designing a few years ago, but I hadn't jet time to do any major public work.
    As of now my experience narrows down to web design and a little bit of print design, but I currently expand my knowledge by taking online graphic design courses.
 
