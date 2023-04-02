@@ -21,11 +21,11 @@ I followed to [[https://blog.gitea.io/2023/03/hacking-on-gitea-actions/][Guide f
 
 Given a successful runner installation and configuration, it is necessary to activate the Gitea Actions for the =dot-emacs= repository.
 
-[[file:~/Code/mmk2410.org/static/2023/2023-04-02-activate-actions.png]]
+[[file:../static/2023/2023-04-02-activate-actions.png]]
 
 Then I needed to declare some secrets for the publish job to deploy the changes to my server using =rsync=. At the moment I keep using the =gitlab-ci= user I already created and configured it. So I copied the four secrets =SSH_PRIVATE_KEY=, =SSH_KNOWN_HOSTS=, =SSH_PORT= and =SSH_USER= from GitLab to Gitea. If you're following, along save the variables somewhere else (e.g. a password store) since contrary to GitLab you are not able to view or edit  Gitea Secrets after saving them.
 
-[[file:~/Code/mmk2410.org/static/2023/2023-04-02-set-secrets.png]]
+[[file:../static/2023/2023-04-02-set-secrets.png]]
 
 Now I can add and push my new Gitea workflow configuration, which I placed in the repository at =.gitea/workflows/publish.yaml=.
 
@@ -87,11 +87,11 @@ Although the Gitea Action file is more verbose and longer than its GitLab equiva
 
 Since the configuration is done and tested in a private repository with a modified upload path I removed the =.gitlab-ci.yml= file and push the changes to the Gitea repository. We can now see the running pipeline in the "Actions" tab.
 
-file:~/Code/mmk2410.org/static/2023/2023-04-02-running-action.png
+[[file:../static/2023/2023-04-02-running-action.png]]
 
 And with a click on the job title we can see the detailed execution and finally some nice green checkmarks.
 
-file:~/Code/mmk2410.org/static/2023/2023-04-02-running-action-details.png
+[[file:../static/2023/2023-04-02-running-action-details.png]]
 
 Interestingly, the whole run takes only 11s on Gitea compared to about 33s on GitLab.com. I don't know if the reason for this is the platform itself or the restriction of the public runners on GitLab.com.
 
