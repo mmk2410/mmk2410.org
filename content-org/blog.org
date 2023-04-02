@@ -2,6 +2,103 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE Publishing my Emacs Configuration using Gitea Actions :@code:emacs:orgmode:cicd:pipelines:gitea:emacs:
+CLOSED: [2023-04-02 Sun 13:05]
+:PROPERTIES:
+:EXPORT_FILE_NAME: publishing-my-emacs-configuration-using-gitea-actions
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2023-04-02 Sun 13:05]
+:END:
+
+About a year ago I already wrote [[*Publishing My Emacs Configuration][a few]] [[*Update on Publishing my Emacs Configuration][blog posts]] about publishing my Emacs configuration, lastly using a [[*Another Update on Publishing my Emacs Configuration][GitLab pipeline]]. This worked quite fine since back then and I had zero problems or issues with the pipeline. Although I'm using the GitLab CI feature for this I don't use GitLab for hosting the repository. My [[https://gitlab.com/mmk2410/dot-emacs][dot-emacs-repository over there]] is just a mirror, the main one is in my personal [[https://git.mmk2410.org/mmk2410/dot-emacs][Gitea instance]].
+
+So, a few days ago, [[https://blog.gitea.io/2023/03/gitea-1.19.0-is-released/][Gitea 1.90.0]] was released with an experimental feature called "[[https://blog.gitea.io/2023/03/hacking-on-gitea-actions/][Gitea Actions]]". This is a pipeline implementation like GitLab Pipelines or GitHub Actions. And since I didn't have anything better to do yesterday I decided to give this thing a try and publish my Emacs configuration using it.
+
+The [[https://gitea.com/gitea/act_runner][runner]] for Gitea Actions is an adjusted fork of [[https://github.com/nektos/act][nektos/act]] which is a tool for running GitHub Actions locally. This means that the Gitea Runner is largely compatible with the GitHub Actions Workflow format. If I understand it correctly, most GitHub Action definitions should "just" work without any adjustments.
+
+I followed to [[https://blog.gitea.io/2023/03/hacking-on-gitea-actions/][Guide from the Gitea Blog]] for enabling the feature in the Gitea configuration and installing the Gitea Act runner. Afterwards, I started migrating the pipeline script from the GitLab CI format to the GitHub/Gitea format. Since I never used GitHub Actions before I run into a few problems and misunderstandings before I had a successful configuration of the runner (as it turned out: the defaults work just fine, but my adjustments didn't) as well as the workflow action configuration.
+
+Given a successful runner installation and configuration, it is necessary to activate the Gitea Actions for the =dot-emacs= repository.
+
+[[file:~/Code/mmk2410.org/static/2023/2023-04-02-activate-actions.png]]
+
+Then I needed to declare some secrets for the publish job to deploy the changes to my server using =rsync=. At the moment I keep using the =gitlab-ci= user I already created and configured it. So I copied the four secrets =SSH_PRIVATE_KEY=, =SSH_KNOWN_HOSTS=, =SSH_PORT= and =SSH_USER= from GitLab to Gitea. If you're following, along save the variables somewhere else (e.g. a password store) since contrary to GitLab you are not able to view or edit  Gitea Secrets after saving them.
+
+[[file:~/Code/mmk2410.org/static/2023/2023-04-02-set-secrets.png]]
+
+Now I can add and push my new Gitea workflow configuration, which I placed in the repository at =.gitea/workflows/publish.yaml=.
+
+#+begin_src yaml
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container: silex/emacs:28.1-alpine-ci
+    steps:
+      - name: Install packages
+        run: apk add --no-cache rsync nodejs
+
+      - name: Add SSH key
+        run: |
+          mkdir ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "$SSH_KNOWN_HOSTS" | tr -d '\r' >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Build publish script
+        run: emacs -Q --script publish/publish.el
+
+      - name: Deploy build
+        run: |
+          rsync \
+            --archive \
+            --verbose \
+            --chown=gitlab-ci:www-data\
+            --delete\
+            --progress\
+            -e"ssh -p "$SSH_PORT""\
+            public/\
+            "$SSH_USER"@mmk2410.org:/var/www/config.mmk2410.org/
+        env:
+          SSH_USER: ${{secrets.SSH_USER}}
+          SSH_PORT: ${{secrets.SSH_PORT}}
+#+end_src
+
+Essentially, not much changed compared to the [[https://gitlab.com/mmk2410/dot-emacs/-/blob/1e51334059d0e91f51e795b1ff6973ca90dd2e77/.gitlab-ci.yml][GitLab CI version]]. As a base image, I decided to go with the [[https://hub.docker.com/r/silex/emacs][silex/emacs]] using Emacs 28.1 on top of Alpine Linux. I additionally restricted the job to only run when pushed to the main branch. While I didn't work with any other branches until now, this is a possibility I'd like to keep open without destroying the [[https://config.mmk2410.org][website]].
+
+The rest of the workflow itself is still quite the same. First, we install necessary packages. We need =rsync= for uploading the resulting website to my server and =nodejs= for the =actions/checkout@v3=.  Then I add the private key to the build job and this works a bit easier since a running =ssh-agent= is not needed (apparently for GitLab there was no way around this). After checking out the repository code I execute my [[https://git.mmk2410.org/mmk2410/dot-emacs/src/commit/d77f2c19f52964b44e13b5caa7f0483b74cf1b73/publish/publish.el][publish.el]] Emacs Lisp script that generates a nice HTML page from my [[https://git.mmk2410.org/mmk2410/dot-emacs/src/commit/d77f2c19f52964b44e13b5caa7f0483b74cf1b73/config.org][org-mode-based Emacs configuration]]. The last thing to do now just trigger the upload of the resulting files using =rsync=.
+
+Although the Gitea Action file is more verbose and longer than its GitLab equivalent I prefer it slightly due to the option to name the individual build steps. This is something I come to enjoy quite a bit from writing and using Ansible playbooks.
+
+Since the configuration is done and tested in a private repository with a modified upload path I removed the =.gitlab-ci.yml= file and push the changes to the Gitea repository. We can now see the running pipeline in the "Actions" tab.
+
+file:~/Code/mmk2410.org/static/2023/2023-04-02-running-action.png
+
+And with a click on the job title we can see the detailed execution and finally some nice green checkmarks.
+
+file:~/Code/mmk2410.org/static/2023/2023-04-02-running-action-details.png
+
+Interestingly, the whole run takes only 11s on Gitea compared to about 33s on GitLab.com. I don't know if the reason for this is the platform itself or the restriction of the public runners on GitLab.com.
+
+After running into a few problems initially due to my missing knowledge regarding GitHub Actions I enjoyed writing and optimizing the pipeline so well that I will not only keep this process but perhaps also migrate my other CI and CD jobs over.
+
+If you want to see the resulting page, head over to [[https://config.mmk2410.org][config.mmk2410.org]].
+
 * DONE Quitting 100 Days To Offload                       :@100DaysToOffload:
 CLOSED: [2022-03-07 Mon 16:08]
 :PROPERTIES:
