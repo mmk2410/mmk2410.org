@@ -53,6 +53,12 @@ name = "Composing"
 weight = 5
 url = "https://marcel-kapfer.de"
 
+[[menu.main]]
+identifier = "photography"
+name = "Photography"
+weight = 6
+url = "https://marcelkapfer.photography"
+
 ###############
 # Further paramters
 #
