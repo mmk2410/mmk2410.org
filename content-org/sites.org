@@ -373,7 +373,7 @@ A [[/quotes][collection of quotes]] (mostly without comment) that I largely gath
   :PROPERTIES:
   :EXPORT_FILE_NAME: _index
   :EXPORT_HUGO_SECTION: manuscripts
-  :EXPORT_HUGO_MENU: :menu main :weight 6
+  :EXPORT_HUGO_MENU: :menu main :weight 7
   :END:
 
   Here you can find some articles, concepts, manuscripts and similar
@@ -398,7 +398,6 @@ A [[/quotes][collection of quotes]] (mostly without comment) that I largely gath
   :PROPERTIES:
   :EXPORT_FILE_NAME: _index
   :EXPORT_HUGO_SECTION: quotes
-  :EXPORT_HUGO_MENU: :menu main :weight 7
   :END:
 
   /These pages are only in German./
