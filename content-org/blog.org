@@ -2,6 +2,33 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+* DONE On Finding a To-Do Setup That Works            :orgmode:gtd:tasks:pim:
+CLOSED: [2023-05-22 Mon 17:49]
+:PROPERTIES:
+:EXPORT_FILE_NAME: on-finding-a-to-do-setup-that-works
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2023-05-22 Mon 17:49]
+:END:
+
+How many to-do apps have you already tried? All of them? Did you find one that "works" for you? No? Well, you're certainly not alone.
+
+** The Endless Search
+
+I tried a fair share of apps and setups but all of them seemed to fail sooner or later. Whether it was a plain paper notebook I kept in my pockets, a [[*Why I failed using Org-mode for tasks][custom Emacs Org-Mode setup]] or some apps like Nextcloud Tasks, Trello or Todoist. I discard each one of them after a while. And it took me some years to realize why and how to resolve this dilemma.
+
+In search of managing my life a bit better and handling tasks more proficiently, I read and worked through David Allens' book "Getting Things Done (GTD)" starting in January 2022 and implemented his methodology in Todoist about a year ago. And only after some time I slowly realized that I didn't stop using the app. And I'm still following the GTD methodology as closely as possible even after switching back to Emacs Org-Mode in December 2022 for obvious privacy concerns.
+
+** A Different Problem
+
+Perhaps the  "problem" was not all the apps and setups out there, but myself! Don't get me wrong, there are certainly some applications that are just not good or don't provide the features I truly need. But that's beside the point. Successfully /maintaining/ a to-do system is not determined by finding the right app that just magically works for you. No, it is a *state of mind*. Whether an app fits you or utterly fails comes only down to how you use it.
+
+So, if you're in the same place as I was and cannot find an app that "functions reliably" even after trying almost everything out there and wasting countless hours searching for programs and migrating between different setups, then it may quite possibly be, that you should *find a system* that suits you *first* and then search for a solution (whether digital or on paper doesn't matter) that supports you the most for the system that works for you.
+
+I'm not saying that GTD is necessarily the right methodology for you. It works for me but you very likely have different requirements and a different life than I and perhaps another system is better suited for you. Take some time to learn about the different ideas that are available and try them out. In the long run investing time in finding, learning and implementing a methodology that fits your life and your tasks and supports you is certainly worth it.
+
+Finally, keep in mind that a system does not maintain itself! It is mandatory that *you* invest time *regularly* into maintaining the system and keeping it alive and running! If you don't do this then you have yet another system and app to put on your "doesn't work for me" list. If you established a system that works for you then every minute and every hour you spent keeping your system up is time saved.
+
 * DONE Publishing my Emacs Configuration using Gitea Actions :@code:emacs:orgmode:cicd:pipelines:gitea:emacs:
 CLOSED: [2023-04-02 Sun 13:05]
 :PROPERTIES:
