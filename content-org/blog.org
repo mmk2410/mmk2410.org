@@ -833,7 +833,11 @@ Therefore I decided to install the package and enable it for all =org-mode= buff
 
 If I open a new Org file now I see it (more or less) nicely formatted but I'm still able to edit my document effortlessly without any annoyances (or at least without any annoying hidden or shown emphasis markers).
 
+[[file:../static/2022/2022-02-05-org-appear-text.gif]]
+
 Though =org-apper= offers some more options than displaying  the emphasis markers on “hover”. It is also possible to toggle the full display of links (URL + description with the brackets instead of just the description) by setting ~org-appear-autolinks~ to ~t~. Other toggling possibilities include keywords (as defined in ~org-hidden-keywords~), entities and submarkes (i.e. subscripts and superscripts) toggling.
+
+[[file:../static/2022/2022-02-05-org-appear-link.gif]]
 
 The customization options don't stop there. It is also possible to customize a delay for the markers to appear after the cursor entered the emphasised part by defining ~org-appear-deplay~ and/or to only toggle in certain circumstances e.g. after a change was made. It is even possible to take the complete control over the “toggling” by setting ~org-appear-trigger~ to ~manual~ and using the ~org-appear-manual-start~ and ~org-appear-manual-stop~ functions (perhaps by binding them to some key(s)).
 
