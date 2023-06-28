@@ -115,7 +115,7 @@ If you would like to see some pictures or learn more about that, please visit my
   Since I find the lists of other people about what the use quite interesting and from time to time someone asks my about what software/hardware I use I decided to also set up one.
   After having a simple blog post listing software since around 2016 I now put it all together here and update it from time to time.
 
-  /Last updated: 21. January 2023/
+  /Last updated: 28. June 2023/
 
 ** Hardware
 
@@ -123,8 +123,8 @@ If you would like to see some pictures or learn more about that, please visit my
 
     - *Display*
       - *Primary:* BENQ GW2765 (27", 16:9, 1440p)
-      - *Secondary:* HP L1906 (19", 5:4, 1280x1024)
-    - *USB-Audiointerface:* Focusrite Scarlett 2i2 (3rd Generation)
+      - *Secondary:* HP L1906 (19", 5:4, 1280x1024 (although I mostly use only one display))
+    - *USB-Audio-Interface:* Focusrite Scarlett 2i2 (3rd Generation)
     - *Headphones:* Audio-Technica ATH-M50x
     - *Microphone:* Marantz Pro MPM-1000
     - *Earbuds*: Sennheiser CX True Wireless
@@ -137,7 +137,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *GPU:* NVIDIA GeForce RTX 3050 Laptop
     - *RAM:* 32GB
     - *Storage:* 1TB M.2 SSD
-    - *OS:* Microsoft Windows 11 Education (Latest Fedora using WSL2)
+    - *OS:* Fedora Silverblue 38
     - *Display*: 14.5", 3072x1920, 120Hz
 
 *** Work Laptop: Tuxedo InfinityBook Pro 14 Gen. 6
@@ -146,7 +146,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *GPU:* Intel Xe Graphics G7 (80EUs)
     - *RAM:* 32GB
     - *Storage:* 500GB NVMe-SSD
-    - *OS:* Fedora Workstation 37
+    - *OS:* Fedora Workstation 38
     - *Display*: 14", 1920x1080
 
 *** Other hardware
@@ -156,6 +156,8 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Smart-/Sportswatch:* Garmin vívoactive 3 (though nowadays I often wear a non-smart watch)
     - *Printer/Scanner*: Lexmark MC2425 (Duplex-Colour-Laser)
     - *E-piano:* Kawai CA-50
+    - *Amplifier*: Grundig V35
+    - *Turntable:* Perpetuum Ebner 2020 L
 
 ** Software
 
@@ -168,6 +170,7 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/][KeePassXC-Browser]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/link-cleaner/][Link Cleaner]]
     - *E-Mail client:* If possible [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]], otherwise [[https://wiki.gnome.org/Apps/Evolution][Evolution]]
+    - *Password Manager*: [[https://keepassxc.org/][KeePassXC]]
     - *Planner:* [[https://orgmode.org/][org-mode]]
     - *Read it later service*: Pocket
     - *Text editor/IDE:* [[https://www.gnu.org/software/emacs/][Emacs]] and sometimes PhpStorm at work
@@ -182,12 +185,12 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://github.com/minad/consult][Consult]], [[https://github.com/minad/vertico][Vertico]], [[https://github.com/oantolin/embark][Embark]], [[https://github.com/minad/marginalia][Marginalia]], [[https://github.com/oantolin/orderless][Orderless]] (completion system)
       - [[https://editorconfig.org/][editorconfig]] (defined and shared code styles)
       - [[https://github.com/akermu/emacs-libvterm][vterm]] (Emacs libvterm integration)
-    - *Photo management:* Adobe Lightroom Classic
-    - *Photo editing:* [[https://affinity.serif.com/en-gb/photo/][Affinity Photo]], Adobe Photoshop
-    - *Vector graphics:* [[https://affinity.serif.com/en-gb/designer/][Affinity Designer]], Adobe Illustrator
-    - *Desktop publishing*: [[https://affinity.serif.com/en-gb/publisher/][Affinity Publisher]] and [[https://www.latex-project.org/][LaTeX]]
+    - *Photo management:* [[https://www.digikam.org/][Digikam]] and [[https://www.darktable.org/][Darktable]]
+    - *Photo editing:* [[https://www.gimp.org/][GIMP]]
+    - *Vector graphics:* [[https://inkscape.org][Inkscape]]
+    - *Desktop publishing*:  [[https://www.scribus.net/][Scribus]] and [[https://www.latex-project.org/][LaTeX]] (perhaps in the future also [[https://wiki.contextgarden.net/Main_Page][ConTeXt]])
     - *Video editing:* DaVinci Resolve, [[https://kdenlive.org/en/][kdenlive]]
-    - *Digital audio workstation (DAW):* Adobe Audition, Ableton Live Lite, Audacity
+    - *Digital audio workstation (DAW):* Audacity
     - *Scorewriter:* [[https://musescore.org/][musescore]]
     - *Music listening:* Spotify
     - *Accounting software*: [[https://hledger.org/][hledger]]
