@@ -71,6 +71,7 @@ imprinttext = "Impressum und Datenschutz"
 giturl = "https://git.mmk2410.org/mmk2410/mmk2410.org"
 
 [params.social]
+scribbles = "https://scribbles.mmk2410.org"
 mastodon = "https://fosstodon.org/@mmk2410"
 gitlab = "https://gitlab.com/mmk2410"
 gitea = "https://git.mmk2410.org/mmk2410"
