@@ -115,22 +115,20 @@ If you would like to see some pictures or learn more about that, please visit my
   Since I find the lists of other people about what the use quite interesting and from time to time someone asks my about what software/hardware I use I decided to also set up one.
   After having a simple blog post listing software since around 2016 I now put it all together here and update it from time to time.
 
-  /Last updated: 24. September 2023/
+  /Last updated: 17. November 2023/
 
 ** Hardware
 
 *** General
 
-    - *Display*
-      - *Primary:* BENQ GW2765 (27", 16:9, 1440p)
-      - *Secondary:* HP L1906 (19", 5:4, 1280x1024 (although I mostly use only one display))
+    - *Display:* BENQ GW2765 (27", 16:9, 1440p)
     - *USB-Audio-Interface:* Focusrite Scarlett 2i2 (3rd Generation)
     - *Headphones (Over Ear):* Audio-Technica ATH-M50x
     - *Headphones (In Ear)*: Shure SE 215 Purple
     - *Earbuds*: Sennheiser CX True Wireless
     - *Microphone:* Marantz Pro MPM-1000
     - *Keyboard:* Ducky One2 Mini and Cherry MX-Board 3.0
-    - *Mouse:* +Cherry MW4500 (wireless, vertical mouse, currently broken)+, Logitech B110 (wired)
+    - *Mouse:* Logitech B110 (wired)
 
 *** Personal Laptop: Lenovo YOGA Slim 7 Pro X
 
@@ -139,6 +137,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *RAM:* 32GB
     - *Storage:* 1TB M.2 SSD
     - *OS:* Nix OS
+    - *Desktop Environment:* KDE Plasma
     - *Display*: 14.5", 3072x1920, 120Hz
 
 *** Work Laptop: Tuxedo InfinityBook Pro 14 Gen. 6
@@ -148,7 +147,13 @@ If you would like to see some pictures or learn more about that, please visit my
     - *RAM:* 32GB
     - *Storage:* 500GB NVMe-SSD
     - *OS:* Nix OS
+    - *Desktop Environment:* KDE Plasma
     - *Display*: 14", 1920x1080
+
+*** Cameras
+
+     - *Fujifilm X-S10*: a mirrorless camera with a few lenses for everything
+     - *Ricoh GRIIIx*: a point-and-shoot style camera with a fixed 40mm equivalent lens as a every day camera and for street photography
 
 *** Other hardware
 
@@ -156,7 +161,9 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Smartphone:* Apple iPhone 13
     - *Tablet*: Samsung Galaxy Tab S4
     - *Smart-/Sportswatch:* Garmin vívoactive 3 (though nowadays I often wear a non-smart watch)
+    - *Mobile Audio Player:* SanDisk Clip Sport
     - *Printer/Scanner*: Lexmark MC2425 (Duplex-Colour-Laser)
+    - *Photo-Printer:* Canan Selphy CP 1500
     - *E-piano:* Kawai CA-50
     - *Amplifier*: Grundig V35
     - *Turntable:* Perpetuum Ebner 2020 L
@@ -171,9 +178,11 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://addons.mozilla.org/en-US/firefox/addon/facebook-container/][Facebook Container]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/][KeePassXC-Browser]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/link-cleaner/][Link Cleaner]]
-    - *E-Mail client:* If possible [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]], otherwise [[https://wiki.gnome.org/Apps/Evolution][Evolution]] or [[https://www.thunderbird.net/][Thunderbird]]
+    - *Calendar:* Nextcloud web calendar app
+    - *E-Mail client:* [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]], rarely [[https://www.thunderbird.net/][Thunderbird]] ( using mailbox.org as a mail service provider)
+    - *Contacts:* Nextcloud web contacts app
     - *Password Manager*: [[https://keepassxc.org/][KeePassXC]]
-    - *Planner:* [[https://orgmode.org/][org-mode]]
+    - *Task Management:* [[https://orgmode.org/][org-mode]]
     - *Read it later service*: Pocket
     - *Text editor/IDE:* [[https://www.gnu.org/software/emacs/][Emacs]] and sometimes PhpStorm at work
     - *Notable Emacs extensions*:
@@ -183,6 +192,7 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] (Mail client)
       - [[https://joaotavora.github.io/eglot/][eglot]] (Language Server Protocol integration)
       - [[https://www.gnu.org/software/erc/][ERC]] (Emacs IRC cient)
+      - [[https://github.com/skeeto/elfeed][Elfeed]] with [[https://github.com/fasheng/elfeed-protocol][Elfeed Protocol]] (Emacs RSS Reader)
       - [[https://www.gnu.org/software/auctex/][AucTeX]] (LaTeX editing environment)
       - [[https://github.com/minad/consult][Consult]], [[https://github.com/minad/vertico][Vertico]], [[https://github.com/oantolin/embark][Embark]], [[https://github.com/minad/marginalia][Marginalia]], [[https://github.com/oantolin/orderless][Orderless]] (completion system)
       - [[https://editorconfig.org/][editorconfig]] (defined and shared code styles)
@@ -191,32 +201,46 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Photo editing:* [[https://www.gimp.org/][GIMP]]
     - *Vector graphics:* [[https://inkscape.org][Inkscape]]
     - *Desktop publishing*:  [[https://www.scribus.net/][Scribus]] and [[https://www.latex-project.org/][LaTeX]] (perhaps in the future also [[https://wiki.contextgarden.net/Main_Page][ConTeXt]])
-    - *Video editing:* DaVinci Resolve, [[https://kdenlive.org/en/][kdenlive]]
+    - *Word Processing, Spreadsheets, Presentations:* LibreOffice (I not possible within Emacs & org-mode)
+    - *Shopping List:* Shared Nextcloud notes entry
+    - *Video editing:* [[https://kdenlive.org/en/][kdenlive]]
     - *Digital audio workstation (DAW):* Audacity
     - *Scorewriter:* [[https://musescore.org/][musescore]]
-    - *Music listening:* Spotify
+    - *Music listening:* Spotify and [[https://apps.kde.org/elisa/][Elisa]] (for local files)
     - *Accounting software*: [[https://hledger.org/][hledger]]
 
 *** Android
 
 My Samsung Galaxy Tab S4 does not have a mobile network modem and I currently don't own a Android smartphone. Therefore, the list of apps may be not as complete as expected.
 
-    - *Browser:* Firefox
-    - *Organization:* [[https://acalendar.tapirapps.de/en/support/home][aCalendar+]] (calendar), [[https://k9mail.app/][K-9 Mail]] (email), [[http://www.orgzly.com/][Orgzly]] (planner)
+    - *Browser:* [[https://www.mozilla.org/firefox/][Firefox]]
+    - *Calendar:* [[https://acalendar.tapirapps.de/en/support/home][aCalendar+]] (synced with my Nextcloud)
+    - *Email:*  [[https://k9mail.app/][K-9 Mail]] (using mailbox.org as a mail service provider)
+    - *Contacts:* Samsung Contacts App (synced with my Nextcloud)
+    - *Task Management:* [[http://www.orgzly.com/][Orgzly]]
+    - *Read it later service*: Pocket
+    - *Shopping List:* Shared Nextcloud notes entry
     - *Music listening:* Spotify
     - *Social Networks:* [[https://tusky.app/][Tusky]] (Mastodon), Instagram, [[https://pixelfed.org/][Pixelfed]], Vero, Flickr
     - *Security:* [[https://github.com/PhilippC/keepass2android][Keepass2Android]]
     - *Software centres:* Google Play Store and [[https://f-droid.org/][F-Droid]]
-    - *Other notable apps:* [[https://osmand.net/][OsmAnd]], Pocket
+    - *Other notable apps:* [[https://osmand.net/][OsmAnd]]
 
 *** iOS
 
-    - *Browser*: Firefox (most of the time, rarely Safari)
+    - *Browser*: [[https://www.mozilla.org/firefox/][Firefox]]
+    - *Calendar:*  Apple Calendar (synced with my Nextcloud)
+    - *Email:*  Apple Mail (using mailbox.org as a mail service provider)
+    - *Contacts:* Apple Contacts App (synced with my Nextcloud)
+    - *Task Management:* [[https://beorgapp.com/][beorg]]
+    - *Read it later service*: Pocket
+    - *Shopping List:* Shared Nextcloud notes entry
     - *Messaging:* [[https://www.signal.org/][Signal]], Telegram, WhatsApp, Discord
-    - *Social Networks:* [[https://apps.apple.com/us/app/metatext/id1523996615?l=en][Metatext]] (Mastodon)
-    - *Organizaton and Planning:* [[https://beorgapp.com/][beorg]] (Tasks), [[https://1writerapp.com/][1Writer]] (Notes)
+    - *Social Networks:* [[https://apps.apple.com/us/app/metatext/id1523996615?l=en][Metatext]] (Mastodon), Instagram, [[https://pixelfed.org/][Pixelfed]], Vero, Flickr
+    - *Notes:* [[https://1writerapp.com/][1Writer]]
     - *Security:* [[https://apps.apple.com/us/app/freeotp-authenticator/id872559395][FreeOTP]], [[https://strongboxsafe.com/][Strongbox]] (KeePass-compatible password store)
-    - *Other notable apps:*  [[https://osmand.net/][OsmAnd]] (Maps), [[https://reederapp.com/][Reeder]] (RSS Reader)
+    - *RSS Reader:* [[https://reederapp.com/][Reeder]]
+    - *Other notable apps:*  [[https://osmand.net/][OsmAnd]] (Maps)
 
 ** Self-hosted
 
@@ -226,12 +250,16 @@ My Samsung Galaxy Tab S4 does not have a mobile network modem and I currently do
    - *Wiki:* [[https://moinmo.in/][MoinMoin]] (for [[https://uulmhack.dev][uulmhack]])
    - *RSS:* [[https://freshrss.github.io/FreshRSS/en/][FreshRSS]] with [[https://github.com/RSS-Bridge/rss-bridge/wiki][RSS-bridge]]
    - *Cloud:* Nextcloud
-   - *Git web interface:* [[https://gitea.io/][Gitea]]
+   - *Git web interface:* Gitea
    - *IRC Bouncer:* [[https://wiki.znc.in/ZNC][ZNC]]
    - *Web analytics*: [[https://plausible.io/][Plausible]]
    - *Recipe management*: [[https://tandoor.dev/][Tandoor]]
    - *Online file browser*: [[https://filebrowser.org/][File Browser]]
    - *Photo gallery*: [[https://bpatrik.github.io/pigallery2/][PiGallery 2]]
+
+** Other Services
+
+- *Mail Server:* Mailbox.org
 
 * Blog
   :PROPERTIES:
