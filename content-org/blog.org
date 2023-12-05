@@ -3,6 +3,27 @@
 #+startup: indent
 
 
+* DONE Discontinuing Scribbles                                        :@meta:
+CLOSED: [2023-12-05 Di 21:07]
+:PROPERTIES:
+:EXPORT_FILE_NAME: discontinuing-scribbles
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2023-12-05 Di 21:07]
+:END:
+
+Well, I already [[https://fosstodon.org/@mmk2410/111505636463994751][wrote a few days ago on Mastodon]] that I'm thinking of shutting down my "Scribbles" microblog and moving the articles I wrote there to this blog. And now I did it :D
+
+And not even three months after I started it and about two months after [[*Re: Having a Microblog on a Traditional Blog][I defended the content separation]]. So, what led to that decision?
+
+First of all, I think I got over my fear of not publishing articles of high enough quality. This is one of the main reasons that motivated me to write on Scribbles. But at least as of now, I am less concerned about publishing something which may not have the highest quality it could Perhaps this is the consequence of writing more freely on Scribbles during the past months. Perhaps this is also due to me currently [[https://pixelfed.social/i/web/profile/462215951050235638][publishing a new photograph]] on various social networks every day. Perhaps I just got older... However, I won't strive for the highest quality (that I can deliver) on this blog anymore. And I also will not just be about technological topics. This always was a generalist blog and it will continue to be. It is my main blog. Therefore, it will naturally feature articles about what I'm currently interested in. At the moment this is mostly photography. A few years from now on it might be something different.
+
+Discarding Scribbles also means that I /might/ be a bit more active on [[https://fosstodon.org/@mmk2410][Mastodon]] since I perhaps write short thoughts rather there than here. After all, I currently have no real opportunity to write blog posts on mobile devices. But this might change: The [[/tags/cms][CMS for my photography website I'm currently searching for]] might be first used here. I have enough content to test it and (more importantly) already a theme to see how easily I can theme the chosen software.
+
+Conclusively, I think that this (admittedly rather short) experiment of running my own microblog helped me to grow a bit. Therefore, it has done its job and hopefully, it helps me to write more regularly and especially freely here.
+
+P.S.: Regarding the scribbles.mmk2410.org domain and the URLs pointing towards there. Of course, I will redirect them for the foreseeable future. Regarding the Fediverse account: I have no idea what will happen. I think it will just vanish. But since it wasn't possible to reply to its posts anyway and it only had one follower it won't be a big problem, I guess.
+
 * DONE CMS Search Update: The Shortlist Problem                    :@web:cms:
 CLOSED: [2023-11-29 Mi 23:44]
 :PROPERTIES:
