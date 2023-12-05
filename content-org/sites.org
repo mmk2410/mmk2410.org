@@ -115,7 +115,7 @@ If you would like to see some pictures or learn more about that, please visit my
   Since I find the lists of other people about what the use quite interesting and from time to time someone asks my about what software/hardware I use I decided to also set up one.
   After having a simple blog post listing software since around 2016 I now put it all together here and update it from time to time.
 
-  /Last updated: 17. November 2023/
+  /Last updated: 05. December 2023/
 
 ** Hardware
 
@@ -128,7 +128,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Earbuds*: Sennheiser CX True Wireless
     - *Microphone:* Marantz Pro MPM-1000
     - *Keyboard:* Ducky One2 Mini and Cherry MX-Board 3.0
-    - *Mouse:* Logitech B110 (wired)
+    - *Mouse:* Cherry MW 3000 (wireless)
 
 *** Personal Laptop: Lenovo YOGA Slim 7 Pro X
 
@@ -163,7 +163,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Smart-/Sportswatch:* Garmin vívoactive 3 (though nowadays I often wear a non-smart watch)
     - *Mobile Audio Player:* SanDisk Clip Sport
     - *Printer/Scanner*: Lexmark MC2425 (Duplex-Colour-Laser)
-    - *Photo-Printer:* Canan Selphy CP 1500
+    - *Photo-Printer:* Canon Selphy CP 1500
     - *E-piano:* Kawai CA-50
     - *Amplifier*: Grundig V35
     - *Turntable:* Perpetuum Ebner 2020 L
@@ -201,7 +201,7 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Photo editing:* [[https://www.gimp.org/][GIMP]]
     - *Vector graphics:* [[https://inkscape.org][Inkscape]]
     - *Desktop publishing*:  [[https://www.scribus.net/][Scribus]] and [[https://www.latex-project.org/][LaTeX]] (perhaps in the future also [[https://wiki.contextgarden.net/Main_Page][ConTeXt]])
-    - *Word Processing, Spreadsheets, Presentations:* LibreOffice (I not possible within Emacs & org-mode)
+    - *Word Processing, Spreadsheets, Presentations:* LibreOffice (if not possible within Emacs & org-mode)
     - *Shopping List:* Shared Nextcloud notes entry
     - *Video editing:* [[https://kdenlive.org/en/][kdenlive]]
     - *Digital audio workstation (DAW):* Audacity
@@ -246,11 +246,10 @@ My Samsung Galaxy Tab S4 does not have a mobile network modem and I currently do
 
    Some services are publicly available and hosted on a Hetzner VPS others are running on my home server (see above in the hardware section).
 
-   - *Scribbles* (personal microblogging site): [[https://writefreely.org/][WriteFreely]]
    - *Wiki:* [[https://moinmo.in/][MoinMoin]] (for [[https://uulmhack.dev][uulmhack]])
    - *RSS:* [[https://freshrss.github.io/FreshRSS/en/][FreshRSS]] with [[https://github.com/RSS-Bridge/rss-bridge/wiki][RSS-bridge]]
    - *Cloud:* Nextcloud
-   - *Git web interface:* Gitea
+   - *Git web interface:* [[https://forgejo.org/][Forgejo]]
    - *IRC Bouncer:* [[https://wiki.znc.in/ZNC][ZNC]]
    - *Web analytics*: [[https://plausible.io/][Plausible]]
    - *Recipe management*: [[https://tandoor.dev/][Tandoor]]
@@ -259,7 +258,7 @@ My Samsung Galaxy Tab S4 does not have a mobile network modem and I currently do
 
 ** Other Services
 
-- *Mail Server:* Mailbox.org
+- *Mail Provider:* Mailbox.org
 
 * Blog
   :PROPERTIES:
