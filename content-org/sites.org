@@ -7,9 +7,9 @@
   :EXPORT_HUGO_MENU: :menu main :weight 1
   :END:
 
-  Hi, I'm Marcel Kapfer, also known as mmk2410. At the moment, I invest most of my free time in creative work. That consists mainly of photography, but I also compose music, train myself in graphic design, and write text as well as code.
+  Hi, I'm Marcel Kapfer (at some places also known as "mmk2410"). At the moment, I invest most of my free time in creative work. That consists mainly of photography, but I also compose music, train myself in graphic design, and write text as well as code.
 
-  While this website is (mostly) focused on tech-related stuff (like software development, operating systems and similar stuff) and writing in general, I also maintain a website dedicated to [[https://marcelkapfer.photography][photography]] as well one for [[https://marcel-kapfer.de][music composition]].
+  While this website is (mostly) focused on tech-related stuff (like software development, operating systems and similar stuff) and writing in general, I also maintain a website dedicated to [[https://marcelkapfer.photography][photography]] as well one for [[https://marcel-kapfer.de][music composition]]. The blog here, however, may contains posts about more or less everything.
 
   Since about 2011/2012 I am mainly using Linux (sometimes exclusively, although currently not) and in 2014 I started writing software. In late 2016 I began using Emacs and Org-Mode and now more or less live inside it. After getting my bachelor's degree in computer science from the University of Ulm in 2021 I started working at a small software agency in Ulm, Germany.
 
