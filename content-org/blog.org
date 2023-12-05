@@ -2,6 +2,449 @@
 #+HUGO_BASE_DIR: ../
 #+startup: indent
 
+
+* DONE CMS Search Update: The Shortlist Problem                    :@web:cms:
+CLOSED: [2023-11-29 Mi 23:44]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-cms-search-update-the-shortlist-problem
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I just published [[*CMS Search Update: The Shortlist][the shortlist]] of my search for a new CMS for [[https://marcelkapfer.photography][my photography website]]. There are five systems (in no particular order) that are on it: Kirby, WordPress, TYPO3, Contao, and Statmic (if you're curious about how I got there, you can [[/tags/cms][read my other articles on that topic]]).
+
+One might think "This is easy. Five is not so much. Spend a few hours with each and see which you like most". But, of course, it is not as easy. At least not for me since I have one problem with each one which I cannot resolve or ignore/accept (at least not now).
+
+** Kirby
+
+A really interesting solution and it has the potential (of course with some initial effort) to build a system that exactly reflects what I want to do and that I could precisely adjust to my workflow. But there is one thing that bugs me. And no, it's not the price or the license per se.
+
+*It is a proprietary project of a single company.*
+
+And I saw a few other CMS with the exact same story: great features, modern, good UX. But most of them got (practically) deprecated by the company behind them. I would like to avoid this fate.
+
+** WordPress
+
+As I wrote in the shortlist post: Using plugins, you can do /everything/ with WordPress. There is just one tiny catch:
+
+*I do not like plugins.*
+
+Not that that there is anything wrong with the concept of plugins nor with many of the plugins out there and there was not a single CMS that I could use without plugins. But the sheer amount of plugins possibly necessary for the website I intend to create scares me. I'm quite sure that some will get deprecated and that I would need to put in the time to migrate to another solution. Not a nice though. I would like to avoid that as well.
+
+** Contao
+
+This software has some really nice approaches and is very configurable from its backend (including layouting and theming). But....
+
+*Why not just use TYPO3?*
+
+Regarding the type of system and its features, it is very similar to TYPO3. In some circumstances, it is a bit easier to configure using the backend (but this could also be seen as more complex). But generally, the backend is way worse IMO and as far as I could see the template development is by far not as developer friendly. Additionally, I have some experience in creating TYPO3 templates and sites.
+
+** TYPO3
+
+A system I "often" opted for in the past and I have still a TYPO3 website running as of now. I need to update the self-created theme every one and a half years when a new major version comes out (due to the update period you could also always skip one major). The problem is just:
+
+*It's an enterprise CMS and undoubtedly too complex for my goal.*
+
+Creating an own theme takes a serious amount of work (at least for me, since I'm not doing it every day) and if I need some adjustments beyond what a plugin provides it gets quickly complex as well. This would not be an easy and minimal setup "just" fulfilling my requirements
+
+** Statamic
+
+Regarding the setup, it is quite similar to Kirby. You have to configure the backend yourself to create what you need from it. Thereby it could be more complex than Kirby but since it has some things already included it could turn out to be less work. However, my problem with it is exactly the same as with Kirby.
+
+*It is a proprietary project of a single company.*
+
+To continue copy-pasting: And I saw a few other CMS with the exact same story: great features, modern, good UX. But most of them got (practically) deprecated by the company behind them. I would like to avoid this fate.
+
+** Conclusion
+
+Yeah... I cannot be satisfied.... And perhaps I'm a bit too pessimistic here.
+
+I'll sleep on it a few nights and perhaps then the path will look a bit less foggy... :)
+
+* DONE CMS Search Update: The Shortlist                            :@web:cms:
+CLOSED: [2023-11-29 Mi 22:19]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-cms-search-update-the-shortlist
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+[[*CMS Search Update: The Requirements][I just published the requirements]] for the CMS that should manage [[https://marcelkapfer.photography][my photography website]] in the future. As announced over there that I already analysed the CMS [[*CMS-Search Update: The Longlist][on the longlist]] but I wanted to split all the information into two posts to avoid making one too long. Well.... the other one certainly got too long. Let's see what will happen here.
+
+** The process
+
+I went over the longlist and checked one CMS after another and examined each for every requirement before continuing with the next one. I wrote down all my findings on a digital piece of paper (using my tablet). This resulted in a document of about 22 DIN A4 pages. While I didn't track it, looking at the clock from time to time revealed that I spend at least 30 minutes for each CMS (the maximum was about 4 hours, I think. The mode should be between 30 and 60 minutes). With the exception of TYPO3 and WordPress (I know both well enough) and some, where it was clear at first sight that they would not meet the requirements, I installed all and played around in the backend to test the requirements thoroughly. In case something was not answerable I put in a considerable (but not indefinitely) amount of time to understand enough to answer all my questions. In two cases even after I already finished the complete review.
+
+Although I tried to be as objective as possible the choices are of course also based on my personal goal, my prior knowledge and my general attitude. Therefore, I try to be as precise as reasonable on why I excluded and included the systems so that someone else can perhaps more easily deduce a shortlist for themself.
+
+** The losers
+
+It would be a bit too easy to just write a few names and click on "publish". Therefore, I first write a list of all the systems that didn't make it to the shortlist and give a short reason why.
+
+- *Craft CMS:* It seems to be more a framework for building a custom CMS than a CMS itself. And by what I read and understood the setup could turn out to be too complex for the job. The features offered in other areas (besides the more or less included shop functionality) also were not that outstanding.
+
+- *Joomla!:* Feature-wise it would be an ideal product. Everything I need is included and the requirements are very well fulfilled. But that templating language... HORRIBLE! I really don't want to work with that. (This is one of the two which I read a bunch of documentation afterwards to find out if it is really that bad and I even consulted with a colleague today. Both validated my findings.)
+
+- *Roadiz:* The project didn't make a very good impression at first sight and I could not get it running using the provided Docker compose setup as the only documented installation procedure. At that point, I continued with the next one.
+
+- *Strapi:* An interesting product for sure. But since it is a headless CMS framework offering "only" an API I would need to write a frontend either using JavaScript technologies (and for a normal website this is bullshit) or write a server-side backend that produces a frontend. Way too much work. Oh, and the company behind is VC-funded. Big no.
+
+- *Exponent:* Although it had a release earlier this year I checked the activity of the project more thoroughly and found out that there is no much active development anymore and evidently no community anymore (at least no one uses the forum).
+
+- *BigTree:* I'm a bit sad that I had to throw it out. But after very carefully checking the source code activity, the releases (really not regular and not following the release schedule), the announcement of a major release in 2017 (with a planned release in the same year which didn't happen yet at all) and finally the website of the company behind the product I had to conclude that this is most likely abandoned and will perhaps not see any further development or even maintenance.
+
+- *Concrete CMS:* One with a really good file manager! But evidently (the docs say so) it tracks you unless you modify the source code. Also, it is not editable from mobile, the theming seems to be very complex and apparently, there is no shop plugin available.
+
+- *Neos:* This one has some very interesting concepts and if I would need to develop a site for a company or organisation I would at least put it on the shortlist. However, the lack of a responsive backend, the complex theme process and the unavailability of a shop plugin make it uninteresting for this project.
+
+- *Django CMS:* The lack of built-in blogging utilities that would need to be added using plugins as well as the potentially(!) cumbersome integration of django-shop made this not very interesting. Given that I do not have any prior knowledge of Django (and as of now also no interest in learning) led to the exclusion of this one.
+
+- *Tina:* Although with a different tech stack and principles, it seems to have the same problems for me as Strapi. I would need to write my own complete frontend (either client- or server-side) and it seems to be more a framework for building a CMS.
+
+** First in, but still out
+
+Two systems that meet all the requirements but I have the same bad feeling about them: *Textpattern* and *dotclear*. While they both are currently actively developed and have perhaps even a community using them I have the feeling after checking the repositories, forums and issues that both my still no longer be around (meaning maintained) in a few years. This sadly contradicts my goal of using the system I'm currently searching for for at least five years.
+
+Nevertheless, if you are searching for a simple, yet customisable, CMS for your blog where you can quickly get started but are not limited by its options, then I can recommend both to you (at least after these tests).
+
+** The shortlist
+
+Finally, here it is.
+
+- *Kirby:* This one is only in after a second look and reading lots of documentation. The first time I stopped quite soon reviewing it due to the lack of a dedicated file/asset manager. Only later I realised that it could provide something similar that would exactly fulfil my needs -- perhaps even more than some file manager module. All other requirements can be sufficiently fulfilled.
+
+- *WordPress:* Using plugins, everything is possible in Wordpress...
+
+- *TYPO3:* To be honest, if you do not have any prior experience do not put this on your short list. The templating is too complex for what I'm doing but I created a few TYPO3 pages during the last years already and know my way around (at least a bit).
+
+- *Contao:* It plays in a similar league as TYPO3: Enterprise CMS. But it has more features built-in and this means fewer plugins. However, the templating could turn out to be tricky.
+
+- *Statamic:* Although it is quite similar to Craft CMS it seems to be much easier to configure and set up. Additionally, I have some experience in Laravel, the PHP web framework that is used by Statamic under the hood.
+
+If you don't have any prior web development experience I would perhaps not recommend TYPO3, Contao or Statamic. Excluding those would mean that you have the choice between Kirby and WordPress if your requirements equal mine.
+
+** What's next
+
+Five systems. And each one has a problem. I'll write about that in the next post.
+
+* DONE CMS Search Update: The Requirements                         :@web:cms:
+CLOSED: [2023-11-29 Mi 21:21]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-cms-search-update-the-requirements
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Back when I started searching for a content management system for [[https://marcelkapfer.photography][my photography website]] a few weeks ago I first wrote a list of requirements that should be fulfilled. Categorised as "Nice to have", "Important", and "Deal Breaker".
+
+Using four deal breakers as basic criteria I culled through a total of 40 relevant finds and created [[*CMS-Search Update: The Longlist][a longlist including 18 different systems]].
+
+After being occupied during the last weeks with other tasks I got back to the "hunt" at the end of last week and wrote myself a more detailed requirements list. To not bore you to death I summarize each one as short as possible.
+
+** Feasible Theming (Important)
+
+With a relatively low effort it should be possible to create my theme or customize an existing one to fit my needs (I like to design my websites myself, more often than not entirely from scratch (yes, Scribbles is an exception)). The templating language should either be already known to me or very easy to learn and easy to apply to a previously created "raw" HTML design. Adjustments (in the best case: only a few) should only be necessary for major upgrades and a higher initial effort is prepared to constant effort to keep the template working.
+
+** Self-hosted (Deal Breaker)
+
+Well... Of course, this is a deal breaker. And although it won't, it should be even possible to run the software on the cheapest VPS. The initial installation should not take more than an hour.
+
+** Responsive (Important)
+
+Or -- to be more precise -- editable on mobile. Basic changes like publishing new pictures or writing/updating text should be possible on a smartphone from everywhere. Spoiler: Hard to believe, but some quite new system failed here...
+
+** Open-Source / No VC Funding / Community-Driven (Nice to have)
+
+To make it short: A VC-funded product is an unreliable product IMO. And I want to choose a system which runs without major issues for at least five years. Also: community-driven does not necessarily exclude projects where the community mostly consists of companies.
+
+All three together would be perfect, of course. However, I would choose a proprietary project of a reputable company over an open-source product backed by VC funding.
+
+** Potentially usable for other sites (Nice to have)
+
+The CMS should not be so specific to my use case that I cannot use it anywhere else. It would be nice to run all my pages using the same software and potentially even the same theme (or at least the same theme basis).
+
+** Shop System (Important)
+
+It could be possible that I may offer some digital assets for purchase at some point in the future. Nothing is planned as of yet but I'm quite sure that this could happen at some point. The system should therefore be capable of handling a shop of digital assets (or provide a plugin for doing so).
+
+** Blog (Deal Breaker)
+
+Although the primary goal of the page is to have a portfolio I also would like to start a photography blog (and potentially write an article a bit more often than on [[https://mmk2410.org][my main blog]] :D). Of course, a blog isn't a blog if it doesn't have a RSS or Atom feed. Oh, and why not choose something that has a (built-in or plugin-based) newsletter functionality?
+
+** Digital Asset Manager (Deal Breaker)
+
+OK, less slang: a module (or whatever you may call it) to upload and manage upload files. It must be possible to sort them into folders (a folder hierarchy would be preferred) and it would be nice if I could tag uploaded pictures.
+
+Additionally, I would like to see in the asset information on which pages it is currently linked. Spoiler: Not many solutions have this. And I don't get why. The asset has most likely a database entry and the page where it is used will reference it in its DB entry. So why not write a little query and show me where the asset I'm thinking of deleting is currently used?
+
+** Actively Developed (Deal Breaker)
+
+This is very difficult to define. I'm not one of these people who say "What? No commit today???" or "The latest release is older than a week?" followed by "This must be a dead project".
+
+In most cases, it was quite clear that the project is actively developed. Recent activity in the source code repository, regular releases and in some cases even a clear release schedule. Nevertheless, there were a few cases that were not so clear and during the analysis of those CMS, I spent a considerable amount of time checking this. Those included (but were not limited to): response activity on issues, forum and chat activity, blog activity, blog announcements about upcoming releases (that never happened), in case of company-owned products even a check of the company's website if they still promote or use the product themselves.
+
+** Conclusion
+
+OK. Sorry... This got WAY longer than I would like to have...
+
+The CMS on the long list are also already analysed and I post the results as soon as possible (meaning most likely this evening).
+
+* DONE Getting back on track
+CLOSED: [2023-11-17 Fr 18:45]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-getting-back-on-track
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+After some very busy weeks, I slowly have more time to focus on some projects I started before then. The last two days I had some fun continuing a small web scraping project written in Clojure (more on that another day) and I just had enough time to submit my [[https://mmk2410.org/uses/][uses]] page to [[https://defaults.rknight.me/][Robb Knight's App Defaults list]]. Yeah, I know... I'm a bit late to the party...
+
+I also finally started reading (or working) through some photography (e-)zines I bought a quarter to half a year ago! And related to photography: I intend to put some time in the [[*CMS-Search Update: The Longlist][search for a CMS]] for my photography site.
+
+* DONE A bit of useless knowledge
+CLOSED: [2023-11-01 Mi 14:54]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-a-bit-of-useless-knowledge
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Are you, like me, interested in learning or reading about something you quite likely never need? And are you also a fan of RSS feeds?
+
+Then you may be happy to learn that there are RSS feeds for Wikipedia's "Today's feature article" and "On this day" (both found on the [[https://en.wikipedia.org/wiki/Main_Page][main page]])!
+
+- For "Today's featured article": https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured&feedformat=atom
+- For "On this day": https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=onthisday&feedformat=atom
+
+If you change the subdomain from 'en' to your locale you may also have feeds in your preferred languages (at least for German (de) it works).
+
+Have fun!
+
+P.S.: If you currently have nothing else to do I can recommend reading through the [[https://en.wikipedia.org/wiki/List_of_common_misconceptions][list of common misconceptions]]
+
+* DONE Re: Having a Microblog on a Traditional Blog :@meta:mastodon:microblogging:
+CLOSED: [2023-10-11 Mi 17:32]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-re-having-a-microblog-on-a-traditional-blog
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I read Kev Quirk's newest blog post [[https://kevquirk.com/having-a-microblog-on-a-traditional-blog]["Having a Microblog on a Traditional Blog"]] earlier today, and since I (more or less) "microblog" here, I have a few thoughts I'd like to share.
+
+Contrary to Kev, I prefer this platform separated from my [[https://fosstodon.org/@mmk2410][Mastodon account on Fosstodon]] for some freedoms.
+
+Fosstodon is not a generalistic instance; it is a tech-related one. And although it seems as if non-tec-related content is handled in a quite relaxed way I don't want to exploit this friendliness.
+
+Nowadays, I'm less interested in the newest software or technology, but I'm more focused on my creative projects. Sometimes software plays a role in this (and in those rare cases, I post to Fosstodon every once in a while). However, more often than not, I think about other things. Of course, I could move to another instance. Though, I'm extremely satisfied with the maintenance and administration of the Fosstodon team, and I don't want to search for something similar elsewhere. Yeah, I'm getting old :)
+
+But this is not the only reason. This (micro)blog gives me a few options:
+
+- I can write about whatever I want
+- I can write longer articles than the regular limit on Mastodon (and I loathe long posts or threads on Mastodon or any other social network for that matter)
+- I can use the full Markdown formatting features that WriteFreely has to offer (e.g. code blocks).
+
+Perhaps some articles I publish here would fit better on [[https://mmk2410.org][my main blog]], but over there, I strive for a high level of quality, which requires more time than I'm currently willing to invest.
+
+Nevertheless, this does not mean that I never thought about moving a post from here over to my blog. As a matter of fact, I'm considering it for some articles.
+
+So far, these are my reasons and thoughts about this topic. And I realised over the last few days that I published more (written) content here than anywhere else in years (combined!).
+
+I think there are two main reasons:
+
+1. I don't care about quality as much as on my blog; I just write down what currently floats in my head.
+2. I can write from anywhere: from a laptop to a smartphone. At the moment, I'm writing this on my tablet using an external Bluetooth keyboard. But I also wrote a shorter post on my smartphone while cooking!
+
+Therefore, I will keep posting here and boost the posts that are more or less tech-related on my Mastodon account.
+
+* DONE CMS-Search Update: The Longlist                             :@web:cms:
+CLOSED: [2023-10-11 Mi 17:29]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-cms-search-update-the-longlist
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+A few days ago [[*Searching for a CMS][I wrote]] that I'm currently search for a different content management solution for [[https://marcelkapfer.photography][my photography website]].
+
+I initially browsed through some list of CMS I found online (e.g. [[https://github.com/awesome-selfhosted/awesome-selfhosted#content-management-systems-cms][awesome-selfhosted]] and [[https://en.wikipedia.org/wiki/List_of_content_management_systems][Wikipedia]]) and got a list of 40 different solutions that sounded interesting on first sight.
+
+Since then I culled through them to get a shorter list of systems which are worth a closer look. For this, I defined four "deal-breakers":
+
+- The CMS must be self-hostable
+- It must feature a blogging solution with an RSS feed (either integrated or using a well-known plugin)
+- It must have a least a very basic asset manager (uploading files to in an own module (not just as part of an page/article), creating folders to organise the content)
+- The CMS must be under active development (either a release during the last year or some activity in the source code repository; this is a difficult metric, but all projects where either clearly dead or alive)
+
+Whats now left is a long list (or is it a mid list?) of the following CMS (in no particular order):
+
+- Kirby
+- Wordpress
+- TYPO3
+- Craft CMS
+- Statamic
+- Contao
+- Joomla!
+- Roadiz
+- Strapi
+- Exponent
+- BigTree
+- Concrete CMS
+- Neos
+- Textpattern
+- dotclear
+- django CMS
+- Tina
+
+Amoung those are some which absolutely cannot see using. But up to this point I'm trying to be as objective as possible to find a solutions that fits my needs perfectly. Perhaps, I even surprise myself.
+
+The next steps - I'm trying to follow Karl Voit's [[https://karl-voit.at/2021/01/18/tool-choices/]["How to Choose a Tool"]] articles as close a possible) - is creating a complete list of requirements and determining a methodology of how I intent to use the software.
+
+* DONE Searching for a CMS                            :@photography:@web:cms:
+CLOSED: [2023-10-09 Mo 19:30]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-searching-for-a-cms
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Currently, [[https://marcelkapfer.photography][my photography website]] is generated using WordPress. Back in March when I created it I needed something to finish the first version as soon as possible (I created some business cards for a trip and wanted to put a URL there). WordPress was the best and first solution that came to mind.
+
+Originally, I intended to create my own TYPO3 site package (theme) and also wanted to follow through with this project after the launch of the WordPress side. But I didn't have any spare time for this during the last few months. Up to now, at least. Since I didn't put any time into the theme development for TYPO3 and as I'm still not sure whether this is the right platform I'm currently looking around at what's out there.
+
+Well... Now I'm sitting in front of a big list with 40 different CMS and slowly working through them using [[https://karl-voit.at/2021/01/18/tool-choices/][Karl Voit's "How to Choose a Tool"]] system.
+
+* DONE Getting some stats from WriteFreely :@selfhosting:writefreely:plausible:
+CLOSED: [2023-10-06 Fr 23:35]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-getting-some-stats-from-writefreely
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Out of pure curiosity I want to get a few stats from this WriteFreely instance using my self-hosted [[https://plausible.io/][Plausible]] instance. But at the current point it does not seem to be too easy to add custom JavaScript or arbitrary HTML to WriteFreely.
+
+But there is a =templates= folder in the installation directory which contains some more or less well named =.tmpl= files. Sadly there is not documentation available at this point. But after a bit of playing around, I found out that it seems to be enough, to adjust the following template files:
+
+- =collection.tmpl= (the post list/home page)
+- =collection-tags.tmpl= (the tags list, I guess)
+- =collection-post.tmpl= (evidently a single post view)
+
+To not collect views from myself I looked a bit around and found promising boolean name =.isOnwer=. This, combined with the script tag as generated by Plausible, resulted in the following three lines which I added to the three above mentioned files:
+
+#+begin_src html
+{{ if not .IsOwner }}
+    <script defer data-domain="scribbles.mmk2410.org" src="https://stats.mmk2410.org/js/script.js"></script>
+{{ end }}
+#+end_src
+
+A few tests show that this apparently works.
+
+I should mention that it requires a self-hosted WriteFreely instance (in single user mode) and a good memory to not override/adjust the template files after the next WriteFreely update...
+
+* DONE A little change of wallpaper                  :@linux:kdeplasma:nixos:
+CLOSED: [2023-10-06 Fr 21:40]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-a-little-change-of-wallpaper
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Well, actually the wallpaper stayed the same. But about two hours ago I had an urge to play around with KDE Plasma on my private laptop after installing Tuxedo OS (which comes with Plasma) for some debugging reasons on my work device.
+
+Thankfully, Nix OS made it unbelievable easy to switch from Gnome. Changing two configuration values in the system configuration and the preferred GPG pinentry program in my Home Manager setup.
+
+* DONE Outside: Success depends on measurement            :@photography:life:
+CLOSED: [2023-10-06 Fr 19:54]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-outside-success-depends-on-measurement
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+As you may know, I started doing some [[https://pixelfed.social/i/web/profile/462215951050235638][street photography]] regularly since early this year. For a few months, I started to walk through Ulm more regularly (2-3 times a week) for about an hour or more taking pictures.
+
+After a bit of forced hiatus during the last weeks, I finally got out again today. Normally, I come home with about 40-80 pictures per walk (in total, not sorted out). But today I took only about five...
+
+So you might say that this day was quite unsuccessful. But quite the contrary! The amount of pictures I take is not a good measurement, neither is their quality. Street photography needs (next to other things) a bit of luck and obviously this will not always be by your side.
+
+I measure the success more on the personal outcome: I had fun, and the walk calmed me down and gave my mind a bit of time to rest. All in all: I enjoyed today, I'm much more relaxed than before and I'm looking forward to next time.
+
+If that isn't success, then I don't know what is :)
+
+* DONE Tagging                                                 :@photography:
+CLOSED: [2023-10-02 Mo 22:49]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-tagging
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I'm currently re-organizing the tags on my photographs since it grew kind of wild over the last years. But to be honest I have no idea if the work I put into it will be worth at some point...
+
+* DONE Struggling with colour labels, Darktable and Digikam :@photography:darktable:digikam:
+CLOSED: [2023-09-24 So 18:52]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-struggling-colour-darktable-digikam
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I currently use Darktable for developing my RAW files and Digikam for organizing all my pictures. As I've written earlier, using only star ratings is not enough and I need to integrate something else into my organising workflow. Colours labels would be perfect for this.
+
+The problem is just, that there is evidently no way for "syncing" colour labels from Darktable to Digikam. Only Digikam to Darktable works. With the process that I'm trying to establish, it is necessary that I assign colour labels to /edited/ photographs (meaning: while viewing the edited version). But, of course, Digikam cannot display the edits done with Darktable.
+
+Why not just use Darktable only and drop Digikam? I would if:
+
+1. I would have some possibility in Darktable to label the processing status of a folder (not yet processed, culled, processed) (that is the more important point)
+2. It would be possible to show video files in Darktable (just show; but I could work around that)
+
+Do you have any idea? If yes, please reach out to me!
+
+* DONE Struggling with ratings and colour labels :@photography:digikam:darktable:
+CLOSED: [2023-09-24 So 10:36]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-struggling-ratings-colour-labels
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+Rating my picture is an important part of my editing workflow using [[https://www.darktable.org/][Darktable]] and [[https://www.digikam.org/][Digikam]]. In some rare occasions I also add a colour label.
+
+The problem is, that my concept of almost exclusively working with ratings slowly makes more and more problems. Perhaps I should use colour labels more extensively.
+
+* DONE Too narrow                                       :@photography:
+CLOSED: [2023-09-23 Sa 23:07]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-too-narrow
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I probably will get haunted for this...
+
+But personally, I think that the 2:3 image format is too narrow for portrait orientation photographs. I almost always crop to a 4:3 and don't seem to loose any information.
+
+* DONE The Start
+CLOSED: [2023-09-23 Sa 22:28]
+:PROPERTIES:
+:EXPORT_FILE_NAME: scribbles-the-start
+:END:
+
+/Note: This was initially published on Scribbles, my previous "micro blog". I discontinued it and moved the contents into this blog on 2023-12-05./
+
+I [[https://fosstodon.org/@mmk2410/111115250909631975][posted early on Fosstodon]]:
+
+#+begin_quote
+Somehow I have the sudden urge to start a "brainfart" blog, similar to what [[https://social.lol/@jbaty][@jbaty@social.lol]] has on [[https://daily.baty.net/][daily.baty.net]] I really enjoy the (type of) content over there. But if history is any indication, then it is most likely that the project would die faster than I could start it.... :D
+#+end_quote
+
+Well, as you may guess: I couldn't withstand the urge and set up an own [[https://writefreely.org][WriteFreely]] instance. It seems to be the right tool for the job: minimal, federated, editable on mobile and providing an [[https://scribbles.mmk2410.org/feed/][RSS feed]] (/Note: This won't work anymore. But you can subscribe to [[/index.xml][my main RSS feed]]/).
+
+Let's see, how long this project will survive :)
+
+You should be able to follow my scribbles using @mmk2410@scribbles.mmk2410.org (/Note: This won't work anymore. But you can still [[https://fosstodon.org/@mmk2410][follow me on the fediverse]]/) in case you're in search for some really disturbing news from me :D
+
 * DONE On Finding a To-Do Setup That Works            :orgmode:gtd:tasks:pim:
 CLOSED: [2023-05-22 Mon 17:49]
 :PROPERTIES:
