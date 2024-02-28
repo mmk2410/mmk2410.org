@@ -115,7 +115,7 @@ If you would like to see some pictures or learn more about that, please visit my
   Since I find the lists of other people about what the use quite interesting and from time to time someone asks my about what software/hardware I use I decided to also set up one.
   After having a simple blog post listing software since around 2016 I now put it all together here and update it from time to time.
 
-  /Last updated: 05. December 2023/
+  /Last updated: 28. February 2024/
 
 ** Hardware
 
@@ -130,25 +130,33 @@ If you would like to see some pictures or learn more about that, please visit my
     - *Keyboard:* Ducky One2 Mini and Cherry MX-Board 3.0
     - *Mouse:* Cherry MW 3000 (wireless)
 
-*** Personal Laptop: Lenovo YOGA Slim 7 Pro X
+*** Main Personal Laptop: Apple MacBook Air M2 13"
+
+    - *CPU:* Apple M2, 8 Core CPU, 10 Core CPU, 16 Core Neural Engine
+    - *RAM:* 24GB
+    - *Storage:* 1TB
+    - *OS:* MacOS Sonoma
+    - *Display*: 13.6", 2560x1664
+
+*** Spare Personal Laptop: Lenovo YOGA Slim 7 Pro X
 
     - *CPU:* AMD Ryzen 9 6900HS Creator Edition
     - *GPU:* NVIDIA GeForce RTX 3050 Laptop
     - *RAM:* 32GB
     - *Storage:* 1TB M.2 SSD
-    - *OS:* Nix OS
-    - *Desktop Environment:* KDE Plasma
+    - *OS:* Fedora Workstation 39
+    - *Desktop Environment:* GNOME
     - *Display*: 14.5", 3072x1920, 120Hz
 
-*** Work Laptop: Tuxedo InfinityBook Pro 14 Gen. 6
+*** Work Laptop: Schenker Vision 14 (E22)
 
-    - *CPU:* Intel Core i5-1135G7 @ 2.4GHz
-    - *GPU:* Intel Xe Graphics G7 (80EUs)
+    - *CPU:* Intel Core i7-12700H
+    - *GPU:* NVIDIA GeForce RTX 3050 Ti Laptop
     - *RAM:* 32GB
-    - *Storage:* 500GB NVMe-SSD
-    - *OS:* Nix OS
+    - *Storage:* 1GB NVMe-SSD
+    - *OS:* Tuxedo OS 2
     - *Desktop Environment:* KDE Plasma
-    - *Display*: 14", 1920x1080
+    - *Display*: 14", 2880x1800, 90Hz
 
 *** Cameras
 
@@ -179,7 +187,7 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/][KeePassXC-Browser]]
       - [[https://addons.mozilla.org/en-US/firefox/addon/link-cleaner/][Link Cleaner]]
     - *Calendar:* Nextcloud web calendar app
-    - *E-Mail client:* [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]], rarely [[https://www.thunderbird.net/][Thunderbird]] ( using mailbox.org as a mail service provider)
+    - *E-Mail client:* [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]], [[https://www.thunderbird.net/][Thunderbird]] ( using mailbox.org as a mail service provider)
     - *Contacts:* Nextcloud web contacts app
     - *Password Manager*: [[https://keepassxc.org/][KeePassXC]]
     - *Task Management:* [[https://orgmode.org/][org-mode]]
@@ -197,16 +205,16 @@ If you would like to see some pictures or learn more about that, please visit my
       - [[https://github.com/minad/consult][Consult]], [[https://github.com/minad/vertico][Vertico]], [[https://github.com/oantolin/embark][Embark]], [[https://github.com/minad/marginalia][Marginalia]], [[https://github.com/oantolin/orderless][Orderless]] (completion system)
       - [[https://editorconfig.org/][editorconfig]] (defined and shared code styles)
       - [[https://github.com/akermu/emacs-libvterm][vterm]] (Emacs libvterm integration)
-    - *Photo management and development:* [[https://www.digikam.org/][Digikam]] and [[https://www.darktable.org/][Darktable]]
-    - *Photo editing:* [[https://www.gimp.org/][GIMP]]
-    - *Vector graphics:* [[https://inkscape.org][Inkscape]]
-    - *Desktop publishing*:  [[https://www.scribus.net/][Scribus]] and [[https://www.latex-project.org/][LaTeX]] (perhaps in the future also [[https://wiki.contextgarden.net/Main_Page][ConTeXt]])
+    - *Photo management and development:* [[https://www.digikam.org/][Digikam]], Adobe Lightroom Classic, [[https://www.darktable.org/][Darktable]]
+    - *Photo editing:* Affinity Photo, [[https://www.gimp.org/][GIMP]]
+    - *Vector graphics:* Affinity Designer, [[https://inkscape.org][Inkscape]]
+    - *Desktop publishing*:  Affinity Publisher, [[https://www.scribus.net/][Scribus]] and [[https://www.latex-project.org/][LaTeX]] (perhaps in the future also [[https://wiki.contextgarden.net/Main_Page][ConTeXt]])
     - *Word Processing, Spreadsheets, Presentations:* LibreOffice (if not possible within Emacs & org-mode)
     - *Shopping List:* Shared Nextcloud notes entry
     - *Video editing:* [[https://kdenlive.org/en/][kdenlive]]
     - *Digital audio workstation (DAW):* Audacity
     - *Scorewriter:* [[https://musescore.org/][musescore]]
-    - *Music listening:* Spotify and [[https://apps.kde.org/elisa/][Elisa]] (for local files)
+    - *Music listening:* Spotify, Emacs
     - *Accounting software*: [[https://hledger.org/][hledger]]
 
 *** Android
@@ -251,7 +259,7 @@ My Samsung Galaxy Tab S4 does not have a mobile network modem and I currently do
    - *Cloud:* Nextcloud
    - *Git web interface:* [[https://forgejo.org/][Forgejo]]
    - *IRC Bouncer:* [[https://wiki.znc.in/ZNC][ZNC]]
-   - *Web analytics*: [[https://plausible.io/][Plausible]]
+   - *Web analytics*: [[https://www.goatcounter.com/][GoatCounter]]
    - *Recipe management*: [[https://tandoor.dev/][Tandoor]]
    - *Online file browser*: [[https://filebrowser.org/][File Browser]]
    - *Photo gallery*: [[https://bpatrik.github.io/pigallery2/][PiGallery 2]]
