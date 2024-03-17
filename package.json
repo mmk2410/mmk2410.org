@@ -1,0 +1,16 @@
+{
+  "name": "mmk2410.org",
+  "description": "Website running at mmk2410.org",
+  "scripts": {
+    "build": "esbuild assets/src/main.css --bundle --minify --loader:.woff2=dataurl --outdir=assets/build/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.mmk2410.org/mmk2410/mmk2410.org"
+  },
+  "author": "Marcel Kapfer",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.20.1"
+  }
+}

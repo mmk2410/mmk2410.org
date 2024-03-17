@@ -1,0 +1,46 @@
+title: Home Page
+
+columns:
+  main:
+    width: 2/3
+    sections:
+      fields:
+        type: fields
+        fields:
+          subtitle:
+            type: text
+          text:
+            type: textarea
+            size: medium
+          internal_menu:
+            type: structure
+            label: Internal Links
+            fields:
+              title:
+                type: text
+                label: Title
+              link:
+                type: link
+                label: Link
+                options:
+                  - page
+          external_menu:
+            type: structure
+            label: External Links
+            fields:
+              title:
+                type: text
+                label: Title
+              link:
+                type: link
+                label: Link
+                options:
+                  - url
+  sidebar:
+    width: 1/3
+    sections:
+      pages:
+        type: pages
+        template: default
+      files:
+        type: files

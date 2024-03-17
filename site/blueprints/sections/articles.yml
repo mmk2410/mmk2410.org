@@ -1,0 +1,17 @@
+type: pages
+search: true
+image: false
+template: article
+sortBy: date desc
+empty: No articles yet
+layout: table
+columns:
+  date:
+    label: Published on
+    width: 1/6
+  categories:
+    label: Categories
+    width: 1/6
+  tags:
+    label: Tags
+    width: 1/6

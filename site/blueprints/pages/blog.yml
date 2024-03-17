@@ -1,0 +1,21 @@
+title: Blog Page
+
+sections:
+  fields:
+    type: fields
+    fields:
+      text:
+        type: textarea
+        size: small
+  drafts:
+    extends: sections/articles
+    label: Drafts
+    status: draft
+  unlisted:
+    extends: sections/articles
+    label: In Review
+    status: unlisted
+  listed:
+    extends: sections/articles
+    label: Published
+    status: listed

@@ -1,0 +1,21 @@
+title: Quotes Page
+
+sections:
+  fields:
+    type: fields
+    fields:
+      text:
+        type: textarea
+        size: small
+  quotes:
+    type: pages
+    search: true
+    image: false
+    template: quote
+    sortBy: date desc
+    empty: No quotes yet
+    layout: table
+    columns:
+      date:
+        label: Published on
+        width: 1/6
