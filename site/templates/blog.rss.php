@@ -1,31 +1,61 @@
 <?php
 
-$feed = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"></rss>');
-
-$feed->channel->title = $site->title()->toString();
-$feed->channel->description = $site->description()->toString();
-$feed->channel->link = url();
-$feed->channel->language = 'en-us';
-$feed->channel->lastBuildDate = date(DATE_RSS);
-$feed->channel->generator = 'Kirby';
-
-$atomLink = $feed->channel->addChild('atom:link', null, 'atom');
-$atomLink->addAttribute('href', url('/feed'));
-$atomLink->addAttribute('rel', 'self');
-$atomLink->addAttribute('type', 'application/rss+xml');
+$kirby->response()->type('application/rss+xml');
 
 $articles = $page->children()->template('article')->sortBy('date', 'desc')->limit(10);
 
+$writer = new XMLWriter();
+$writer->openMemory();
+$writer->setIndent(true);
+$writer->setIndentString('  ');
+
+$writer->startDocument('1.0', 'UTF-8', 'yes');
+
+$writer->startElement('rss');
+$writer->writeAttribute('version', '2.0');
+$writer->writeAttributeNs('xmlns', 'atom', null, 'http://www.w3.org/2005/Atom');
+
+$writer->startElement('channel');
+$writer->writeElement('title', $site->title()->toString());
+$writer->writeElement('link', url());
+$writer->writeElement('description', $site->description()->toString());
+$writer->writeElement('language', 'en-GB');
+$writer->writeElement(
+  'lastBuildDate',
+  $articles->first()->date()->toDate(DATE_RSS)
+);
+$writer->writeElement('generator', 'Kirby CMS');
+$writer->writeElement('docs', 'https://www.rssboard.org/rss-specification');
+
+$writer->startElementNs('atom', 'link', null);
+$writer->writeAttribute('href', url('/feed'));
+$writer->writeAttribute('rel', 'self');
+$writer->writeAttribute('type', 'application/rss+xml');
+$writer->endElement(); // atom:link
+
+$writer->startElement('image');
+$writer->writeElement('url', url('/assets/img/favicon/favicon.png'));
+$writer->writeElement('title', $site->title()->toString());
+$writer->writeElement('link', url());
+$writer->endElement(); // image
+
 foreach ($articles as $article) {
-  $xmlArticle = $feed->channel->addChild('item');
-  $xmlArticle->title = $article->title()->toString();
-  $xmlArticle->link = url($article->url());
-  $xmlArticle->description = Escape::xml($article->text()->kirbytext());
-  $xmlArticle->pubDate = $article->date()->toDate(DATE_RSS);
-  $xmlArticle->guid = url($article->url());
+  $writer->startElement('item');
+
+  $writer->writeElement('title', $article->title()->toString());
+  $writer->writeElement('link', url($article->url()));
+  $writer->writeElement('guid', url($article->url()));
+  $writer->writeElement('pubDate', $article->date()->toDate(DATE_RSS));
+
+  $writer->startElement('description');
+  $writer->writeCdata($article->text()->kirbytext()->toString());
+  $writer->endElement(); // description
+
+  $writer->endElement(); // item
 }
 
-$kirby->response()->type('application/rss+xml');
+$writer->endElement(); // channel
+$writer->endElement(); // rss
 
-echo $feed->asXML();
+$writer->endDocument();
+echo $writer->outputMemory();
