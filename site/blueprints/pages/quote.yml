@@ -28,3 +28,5 @@ columns:
             label: Published on
             time: true
             required: true
+      seo:
+        extends: sections/seo

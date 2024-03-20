@@ -19,3 +19,5 @@ columns:
         template: default
       files:
         type: files
+      seo:
+        extends: sections/seo

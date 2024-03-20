@@ -34,5 +34,7 @@ columns:
           tags:
             type: tags
             labe: Tags
+      seo:
+        extends: sections/seo
       files:
         type: files

@@ -20,3 +20,5 @@ sections:
       date:
         label: Published on
         width: 1/6
+      seo:
+        extends: sections/seo

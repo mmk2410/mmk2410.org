@@ -20,3 +20,5 @@ sections:
     extends: sections/articles
     label: Published
     status: listed
+  seo:
+    extends: sections/seo
