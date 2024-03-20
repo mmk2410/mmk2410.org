@@ -29,7 +29,7 @@ jobs:
       - name: Run deploy script on server
         run: |
           ssh -p "$SSH_PORT" "$SSH_USER"@"$SSH_HOST" \
-          "cd /var/www/dev.mmk2410.org && ./deploy.sh $BRANCH"
+          "cd /var/www/mmk2410.org && ./deploy.sh $BRANCH"
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}
