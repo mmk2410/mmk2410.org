@@ -2,7 +2,12 @@
 
 $kirby->response()->type('application/rss+xml');
 
-$articles = $page->children()->template('article')->sortBy('date', 'desc')->limit(10);
+$articles = $page
+  ->children()
+  ->template('article')
+  ->listed()
+  ->sortBy('date', 'desc')
+  ->limit(10);
 
 $writer = new XMLWriter();
 $writer->openMemory();
