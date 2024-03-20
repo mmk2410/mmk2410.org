@@ -6,6 +6,7 @@ sections:
     fields:
       text:
         type: textarea
+        font: monospace
         size: small
   quotes:
     type: pages

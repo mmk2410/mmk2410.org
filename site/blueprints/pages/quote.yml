@@ -15,6 +15,7 @@ columns:
         fields:
           text:
             type: textarea
+            font: monospace
             size: medium
   sidebar:
     width: 1/3
