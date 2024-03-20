@@ -22,7 +22,7 @@
 <h2>Latest Posts</h2>
 
 <?php foreach(page('blog')->children()->listed()->flip()->limit(3) as $article): ?>
-  <?php snippet('article', ['article' => $article]) ?>
+  <?php snippet('article', ['article' => $article, 'main' => false]) ?>
 <?php endforeach ?>
 
 <a class="btn" href="<?= page('blog')->url() ?>">Read more posts</a>

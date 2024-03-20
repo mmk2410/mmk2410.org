@@ -5,7 +5,7 @@
 <?= $page->text()->kirbytext() ?>
 
 <?php foreach($articles as $article): ?>
-  <?php snippet('article', ['article' => $article]) ?>
+  <?php snippet('article', ['article' => $article, 'main' => true]) ?>
 <?php endforeach ?>
 
 <?php if ($articles->pagination()->hasPages()): ?>

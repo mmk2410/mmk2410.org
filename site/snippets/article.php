@@ -1,5 +1,10 @@
 <article>
+  <?php if ($main): ?>
   <h2><a href="<?= $article->url() ?>"><?= $article->title() ?></a></h2>
+  <?php else: ?>
+  <h3><a href="<?= $article->url() ?>"><?= $article->title() ?></a></h3>
+  <?php endif ?>
+
   <p id="date"><?= $article->date()->toDate('Y-m-d') ?></p>
   <p>
     <div class="tagories">
