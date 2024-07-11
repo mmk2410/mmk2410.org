@@ -2,7 +2,7 @@
   "name": "mmk2410.org",
   "description": "Website running at mmk2410.org",
   "scripts": {
-    "build": "esbuild assets/src/main.css --bundle --minify --loader:.woff2=dataurl --outdir=assets/build/"
+    "build": "esbuild assets/src/main.css --target=chrome125,firefox115,safari16 --bundle --minify --loader:.woff2=dataurl --outdir=assets/build/"
   },
   "repository": {
     "type": "git",
