@@ -13,4 +13,4 @@ log "Pulling latest changes from Git repository..."
 git pull origin "$1"
 
 log "Installing new composer dependencies and update autoloader..."
-composer install --no-interaction --prefer-dist --optimize-autoloader
+composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
