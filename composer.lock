@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "204970cc6ac724b02a71c7c43253f93c",
+    "content-hash": "d4243947a3c5575166aa281bd9c67b06",
     "packages": [
         {
             "name": "christian-riesen/base32",
@@ -422,16 +422,16 @@
         },
         {
             "name": "johannschopplich/kirby-highlighter",
-            "version": "3.1.0",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johannschopplich/kirby-highlighter.git",
-                "reference": "93bf41f7850ee8c6eaf4cbc0be4ee1f228ae2e98"
+                "reference": "223962f389dce0920048a46fe6806f95ce3fe828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johannschopplich/kirby-highlighter/zipball/93bf41f7850ee8c6eaf4cbc0be4ee1f228ae2e98",
-                "reference": "93bf41f7850ee8c6eaf4cbc0be4ee1f228ae2e98",
+                "url": "https://api.github.com/repos/johannschopplich/kirby-highlighter/zipball/223962f389dce0920048a46fe6806f95ce3fe828",
+                "reference": "223962f389dce0920048a46fe6806f95ce3fe828",
                 "shasum": ""
             },
             "require": {
@@ -441,16 +441,11 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "@stable",
                 "getkirby/cms": "^4",
-                "phpunit/phpunit": "^9.0"
+                "phpunit/phpunit": "^11.1"
             },
             "type": "kirby-plugin",
             "extra": {
                 "kirby-cms-path": "tests/fixtures/kirby"
-            },
-            "autoload": {
-                "psr-4": {
-                    "JohannSchopplich\\": "classes/JohannSchopplich/"
-                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -459,7 +454,7 @@
             "authors": [
                 {
                     "name": "Johann Schopplich",
-                    "email": "pkg@johannschopplich.com",
+                    "email": "hello@johannschopplich.com",
                     "homepage": "https://johannschopplich.com"
                 }
             ],
@@ -473,9 +468,9 @@
             ],
             "support": {
                 "issues": "https://github.com/johannschopplich/kirby-highlighter/issues",
-                "source": "https://github.com/johannschopplich/kirby-highlighter/tree/v3.1.0"
+                "source": "https://github.com/johannschopplich/kirby-highlighter/tree/v3.2.0"
             },
-            "time": "2024-02-14T06:53:45+00:00"
+            "time": "2024-07-19T08:41:49+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
