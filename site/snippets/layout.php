@@ -62,7 +62,9 @@
     <footer>
       <p><?= date('Y') ?> © <?= $site->author() ?></p>
       <p>
-        <a href="<?= page('imprint')->url() ?>">Impressum und Datenschutz</a>
+        <?php foreach ($site->footerMenu()->toPages() as $item): ?>
+          <a href="<?= $item->url() ?>"><?= $item->title() ?></a>
+        <?php endforeach ?>
       </p>
     </footer>
   </body>

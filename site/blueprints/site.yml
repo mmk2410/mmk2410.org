@@ -21,6 +21,10 @@ columns:
                 options:
                   - page
                   - url
+          footerMenu:
+            type: pages
+            label: Footer Menu
+
   sidebar:
     width: 1/3
     sections:
