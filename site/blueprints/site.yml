@@ -58,3 +58,6 @@ columns:
             type: text
           keywords:
             type: tags
+          fediverseHandle:
+            label: Fediverse Handle
+            type: text

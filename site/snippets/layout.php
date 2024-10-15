@@ -39,6 +39,8 @@
       <meta property="og:article:tag" content="<?= $page->tags() ?>" />
     <?php endif ?>
 
+    <meta name="fediverse:creator" content="<?= $site->fediverseHandle() ?>" />
+
     <script data-goatcounter="https://<?= option('analytics.goatcounter') ?>/count" async src="https://<?= option('analytics.goatcounter') ?>/count.js"></script>
   </head>
   <body>
