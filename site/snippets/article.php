@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var bool $main
+ * @var ArticlePage $article
+ */
+?>
+
 <article>
   <?php if ($main): ?>
   <h2><a href="<?= $article->url() ?>"><?= $article->title() ?></a></h2>

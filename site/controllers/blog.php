@@ -1,6 +1,8 @@
 <?php
 
-return function ($page, $tag, $category) {
+use Kirby\Cms\Page;
+
+return function (Page $page, ?string $tag, ?string $category): array {
     $articles = $page->children()->listed();
 
     if ($tag) {

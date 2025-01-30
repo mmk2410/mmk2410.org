@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var Kirby\Cms\Page $page
+ */
+?>
+
 <?php snippet('layout', slots: true) ?>
 <?php slot() ?>
 <h1><?= $page->title() ?></h1>

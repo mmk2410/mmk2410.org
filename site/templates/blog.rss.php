@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var Kirby\Cms\Kirby $kirby
+ * @var Kirby\Cms\Site $site
+ * @var Kirby\Cms\Page $page
+ */
 
 $kirby->response()->type('application/rss+xml');
 
@@ -45,6 +50,7 @@ $writer->writeElement('link', url());
 $writer->endElement(); // image
 
 foreach ($articles as $article) {
+  /** @var Kirby\Cms\Page $article */
   $writer->startElement('item');
 
   $writer->writeElement('title', $article->title()->toString());
