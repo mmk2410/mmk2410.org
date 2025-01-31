@@ -7,11 +7,11 @@
 
 $kirby->response()->type('application/rss+xml');
 
-$articles = $page
+$scribbles = $page
   ->children()
-  ->template('article')
+  ->template('scribble')
   ->listed()
   ->sortBy('date', 'desc')
-  ->limit(10);
+  ->limit(25);
 
-echo (new Mmk2410\KirbyHelpers\RssFeed($site, $articles, '/feed'))->generate();
+echo (new Mmk2410\KirbyHelpers\RssFeed($site, $scribbles, '/feed/scribbles'))->generate();

@@ -414,6 +414,45 @@ main {
             line-height: 35px;
         }
     }
+
+    .scribble {
+      &::after {
+        border-bottom: 1px solid var(--c-primary);
+        content: "";
+        display: block;
+        margin: 40px auto 0;
+        width: 80%;
+
+        @media (prefers-color-scheme: dark) {
+          border-bottom-color: var(--c-primary-inv);
+        }
+      }
+
+      &:last-of-type::after {
+        display: none;
+		  }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      h1, h2 {
+        font-size: 0.86rem;
+        font-weight: 300;
+        font-style: italic;
+        text-decoration: none;
+
+        a {
+          text-decoration: none;
+        }
+      }
+
+      @media screen and (max-width: 1100px) {
+        h1 {
+          padding-top: 20px;
+        }
+      }
+    }
 }
 
 footer {

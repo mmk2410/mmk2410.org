@@ -10,6 +10,10 @@ return [
             'action' => fn () => go('/blog.rss')
         ],
         [
+            'pattern' => 'feed/scribbles',
+            'action' => fn () => go('/scribbles.rss')
+        ],
+        [
             'pattern' => 'index.xml',
             'action' => fn () => go('/blog.rss')
         ],
@@ -32,6 +36,15 @@ return [
             'action' => function($tag) {
                 return page('blog')->render(['tag' => $tag]);
             }
-        ]
+        ],
+        [
+            'pattern' => 'scribbles/(:num)/(:num)/(:num)-(:num)',
+            'action' => function ($year, $month, $day, $time) {
+                $path = $year . $month . $day . '-' . $time;
+                $page = page('scribbles/' . $path);
+                if (!$page) return site()->errorPage();
+                return site()->visit($page);
+            }
+        ],
     ]
 ];

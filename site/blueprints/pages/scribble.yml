@@ -1,0 +1,28 @@
+title: Scribble
+
+num: '{{ page.date.toDate("YmdHis") }}'
+
+create:
+  title: "{{ page.date.toDate('Y-m-d H:i') }}"
+  slug: "{{ page.date.toDate('Ymd-Hi') }}"
+  fields:
+    - date
+
+sections:
+  meta:
+    type: fields
+    fields:
+      date:
+        type: date
+        label: Date
+        required: true
+        time:
+          step: 1
+        default: now
+      text:
+        type: textarea
+        label: Scribble
+        font: monospace
+        size: small
+  files:
+    type: files

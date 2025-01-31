@@ -1,0 +1,24 @@
+title: Scribbles Page
+
+sections:
+  fields:
+    type: fields
+    fields:
+      text:
+        type: textarea
+        font: monospace
+        size: small
+  drafts:
+    extends: sections/scribbles
+    label: Drafts
+    status: draft
+  unlisted:
+    extends: sections/scribbles
+    label: Unlisted
+    status: unlisted
+  listed:
+    extends: sections/scribbles
+    label: Published
+    status: listed
+  seo:
+    extends: sections/seo

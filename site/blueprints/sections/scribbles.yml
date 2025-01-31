@@ -1,0 +1,11 @@
+type: pages
+search: true
+image: false
+template: scribble
+sortBy: date desc
+empty: No scribbles yet
+layout: table
+columns:
+  date:
+    label: Published on
+    width: 1/4
