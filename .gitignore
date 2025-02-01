@@ -68,4 +68,5 @@ Icon
 # ---------------
 
 /kirby
-/site/plugins
+/site/plugins/*
+!/site/plugins/kirby-helpers
