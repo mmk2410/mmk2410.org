@@ -1,6 +1,6 @@
 title: Scribble
 
-num: '{{ page.date.toDate("YmdHis") }}'
+num: '{{ page.date.toDate("YmdHi") }}'
 
 create:
   title: "{{ page.date.toDate('Y-m-d H:i') }}"
@@ -17,7 +17,9 @@ sections:
         label: Date
         required: true
         time:
-          step: 1
+          step:
+            unit: second
+            size: 1
         default: now
       text:
         type: textarea
