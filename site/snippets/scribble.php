@@ -5,7 +5,7 @@
  */
 
 $headlineLevel = $singlePage ? 1 : 2;
-$title = $scribble->date()->toDate('j. F Y @ h:i');
+$title = $scribble->date()->toDate('j. F Y @ H:i');
 ?>
 
 <article class="scribble">
