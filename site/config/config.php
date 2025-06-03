@@ -46,5 +46,8 @@ return [
                 return site()->visit($page);
             }
         ],
-    ]
+    ],
+    'bogdancondorachi.code-highlighter' => [
+        'theme' => 'monokai',
+    ],
 ];

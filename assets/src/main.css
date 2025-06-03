@@ -1,6 +1,5 @@
 @import "normalize.css";
 @import "fonts.css";
-@import "highlight-monokai.css";
 
 /* nextDESIGN v9
  *
@@ -327,10 +326,10 @@ main {
       overflow-y: auto;
     }
 
-    pre.hljs {
-	    border-radius: 20px;
-	    overflow-y: auto;
-	    padding: 20px;
+    pre.phiki {
+      border-radius: 20px;
+      overflow-y: auto;
+      padding: 20px;
     }
 
     .pagination {
