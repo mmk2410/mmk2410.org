@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'panel.vue.compiler' => false,
     'analytics' => [
         'goatcounter' => 'stats.mmk2410.org'
     ],
