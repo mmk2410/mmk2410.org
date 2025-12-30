@@ -30,7 +30,10 @@
     "allow-plugins": {
       "getkirby/composer-installer": true
     },
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "audit": {
+      "block-insecure": false
+    }
   },
   "scripts": {
     "start": [
