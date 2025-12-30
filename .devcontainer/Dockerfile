@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # Add composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
