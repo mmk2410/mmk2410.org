@@ -62,8 +62,18 @@ class RssFeed
         $this->writer->writeElement('generator', 'Kirby CMS');
         $this->writer->writeElement('docs', 'https://www.rssboard.org/rss-specification');
 
+        $this->writeMetadataAuthor();
         $this->writeMetadataAtomLink();
         $this->writeMetadataImage();
+    }
+
+    private function writeMetadataAuthor(): void
+    {
+        $this->openElement('author');
+        $this->writer->writeElement('name', $this->site->author()->toString());
+        $this->writer->writeElement('uri', url('about'));
+        $this->writer->writeElement('email', $this->site->authorEmail()->toString());
+        $this->closeElement();
     }
 
     private function writeMetadataAtomLink(): void
