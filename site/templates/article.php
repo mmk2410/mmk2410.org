@@ -1,6 +1,7 @@
 <?php
 /**
  * @var Kirby\Cms\Page $page
+ * @var Kirby\Cms\Site $site
  */
 ?>
 
@@ -34,6 +35,6 @@
 
 <div class="comment">
   <p>I would like to hear what you think about this post. Feel free to write me a mail!</p>
-  <a class="btn" href="mailto:comment@mmk2410.org?subject=Reply to: <?= $page->title()?>">Reply by mail</a>
+  <a class="btn" href="mailto:<?= $site->authorEmail() ?>?subject=Reply to: <?= $page->title()?>">Reply by mail</a>
 </div>
 <?php endslot() ?>
