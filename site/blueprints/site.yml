@@ -54,6 +54,8 @@ columns:
         fields:
           author:
             type: text
+          authorEmail:
+            type: email
           description:
             type: text
           keywords:
