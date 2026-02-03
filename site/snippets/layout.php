@@ -49,7 +49,13 @@
     <meta name="fediverse:creator" content="<?= $site->fediverseHandle() ?>" />
     <link rel="me" href="<?= $site->fediverseUrl() ?>">
 
-    <script data-goatcounter="https://<?= option('analytics.goatcounter') ?>/count" async src="https://<?= option('analytics.goatcounter') ?>/count.js"></script>
+    <?php
+      if (!$kirby->user()) {
+        $goatcounterCountUrl = 'https://' . option('analytics.goatcounter') . '/count';
+        echo js($goatcounterCountUrl . '.js', ['async' => true, 'data-goatcounter' => $goatcounterCountUrl]);
+      }
+    ?>
+
   </head>
   <body>
     <header>
