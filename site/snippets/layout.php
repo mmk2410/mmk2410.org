@@ -5,7 +5,6 @@
  * @var string $slot
  */
 ?>
-
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -48,6 +47,7 @@
     <?php endif ?>
 
     <meta name="fediverse:creator" content="<?= $site->fediverseHandle() ?>" />
+    <link rel="me" href="<?= $site->fediverseUrl() ?>">
 
     <script data-goatcounter="https://<?= option('analytics.goatcounter') ?>/count" async src="https://<?= option('analytics.goatcounter') ?>/count.js"></script>
   </head>

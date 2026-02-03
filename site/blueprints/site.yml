@@ -63,3 +63,6 @@ columns:
           fediverseHandle:
             label: Fediverse Handle
             type: text
+          fediverseUrl:
+            label: Fediverse URL
+            type: url
