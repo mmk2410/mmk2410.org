@@ -23,8 +23,8 @@
   },
   "require": {
     "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-    "getkirby/cms": "^5.0",
-    "bogdancondorachi/kirby-code-highlighter": "^1.1"
+    "getkirby/cms": "^5.2.3",
+    "bogdancondorachi/kirby-code-highlighter": "^1.1.1"
   },
   "config": {
     "allow-plugins": {
